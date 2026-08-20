@@ -63,7 +63,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -80,6 +87,9 @@
                 ctaText: 'تريد تحويل الوقت تلقائياً لبلد جمهورك؟',
                 ctaBtn: 'جرب حاسبة المناطق الزمنية',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
                 body: `
                     <p>
                         إن إنشاء محتوى رائع وتفاعلي هو نصف المعركة فقط في عالم التسويق الرقمي؛ أما النصف الآخر فهو ضمان وصول هذا المحتوى إلى شاشات متابعيك في الوقت الذي يكونون فيه مستعدين للتفاعل. وهنا يأتي دور <strong>المناطق الزمنية (Time Zones)</strong> كعامل حاسم قد يرفع من نسب مشاهدتك أو يدفن محتواك في أسفل التلقيمات.
@@ -121,6 +131,9 @@
                 ctaText: 'Need to calculate posting times across different time zones?',
                 ctaBtn: 'Try Timezone Calculator',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
                 body: `
                     <p>
                         Creating engaging content is only half the battle in digital marketing; the other half is ensuring your content hits your followers' screens when they are actively browsing. This is where <strong>Time Zones</strong> play a critical role in either boosting your visibility or sinking your posts under newer content.
@@ -169,6 +182,10 @@
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
 
             const articleBody = document.getElementById('articleBody');
             articleBody.innerHTML = data.body;
