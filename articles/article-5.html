@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="docTitle">قياس أداء المنشورات وتحليل التفاعل | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="كيف تقيس نجاح أوقات النشر عبر تحليل المقاييس الرئيسية مثل الوصول والتفاعل والتحويل لضبط استراتيجيتك.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="../index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    العودة للحاسبة 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">تحليل البيانات</span>
+                <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية
+                </h1>
+                <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
+            </header>
+
+            <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
+                <!-- المحتوى يتم تحميله عبر السكربت -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-8 pt-6 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+                <span id="ctaText" class="text-xs font-bold text-indigo-900">تريد جدولة منشوراتك بناءً على أدق الأوقات؟</span>
+                <a href="../index.html" id="ctaBtn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg transition">
+                    جرب الحاسبة التفاعلية الان
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
+        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        const content = {
+            ar: {
+                docTitle: 'قياس أداء المنشورات وتحليل التفاعل | PostTime Atlas',
+                docDesc: 'كيف تقيس نجاح أوقات النشر عبر تحليل المقاييس الرئيسية مثل الوصول والتفاعل والتحويل لضبط استراتيجيتك.',
+                btnBack: 'العودة للحاسبة 🚀',
+                badgeCategory: 'تحليل البيانات',
+                articleTitle: 'كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية',
+                articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                ctaText: 'تريد جدولة منشوراتك بناءً على أدق الأوقات؟',
+                ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                body: `
+                    <p>
+                        لا ينبغي أن تعتمد استراتيجية النشر على التخمين. بعد اختيار أوقات النشر بناءً على المتوسطات وتحويلات المناطق الزمنية، يأتي الدور على **تحليل الأداء الفلي** لمعرفة ما إذا كانت هذه الأوقات تحقق النتائج المرجوة لجمهورك تحديداً.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. المقاييس الأساسية لتقييم توقيت النشر</h2>
+                    <p>
+                        عند مراجعة تحليلات المنشورات، ركّز على المؤشرات التالية لتأكيد صحة التوقيت:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>التفاعل المبكر (Initial Engagement Rate):</strong> عدد التفاعلات خلال أول 30 إلى 60 دقيقة من النشر.</li>
+                        <li><strong>معدل الوصول (Reach & Impressions):</strong> هل وصل المنشور لعدد أكبر من المتابعين مقارنة بالمنشورات الأخرى؟</li>
+                        <li><strong>معدل الحفظ والمشاركة (Saves & Shares):</strong> مؤشر قوي على أن الوقت والمحتوى كانا مناسبين جداً للجمهور.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. كيفية إجراء اختبارات A/B لأوقات النشر</h2>
+                    <p>
+                        لمعرفة الوقت الأفضل بدقة، قم بنشر نوعين متماثلين من المحتوى (مثلاً فيديو تعليمي قصير) في وقتين مختلفين من اليوم على مدار أسبوعين، ثم قارن بين أداء المنشورين من حيث التفاعل المبكر.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. تعديل الاستراتيجية بناءً على النتائج</h2>
+                    <p>
+                        إذا لاحظت أن المنشورات في وقت معين تحقق وصولاً أعلى بنسبة 30%، اعتمد هذا الوقت كـ "نافذة ذهبية" لك. واستخدم حاسبة <strong>PostTime Atlas</strong> لمواءمة هذا الوقت المثالي مع باقي المناطق الزمنية إذا كنت تتوسع لأسواق جديدة.
+                    </p>
+                `
+            },
+            en: {
+                docTitle: 'Measuring Post Performance & Analytics | PostTime Atlas',
+                docDesc: 'Learn how to measure posting time success using key performance metrics like reach, engagement, and conversion data.',
+                btnBack: 'Back to Calculator 🚀',
+                badgeCategory: 'Data Analytics',
+                articleTitle: 'Measuring Post Performance: How to Analyze Posting Time Success',
+                articleMeta: 'Updated: 2026 | Read Time: 5 mins',
+                ctaText: 'Ready to align your publishing schedule with accurate data?',
+                ctaBtn: 'Try Interactive Calculator Now',
+                footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                body: `
+                    <p>
+                        A successful posting strategy should never rely on guesswork. After selecting initial target hours and accounting for timezone differences, performance analytics allow you to validate and refine your exact engagement windows.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. Key Metrics for Timing Validation</h2>
+                    <p>
+                        Focus on these metrics when auditing your analytics to measure the effectiveness of your posting times:
+                    </p>
+
+                    <ul class="list-disc pl-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>Initial Engagement Rate:</strong> Interaction velocity within the first 30 to 60 minutes after publishing.</li>
+                        <li><strong>Organic Reach & Impressions:</strong> Total unique accounts reached compared to off-peak posts.</li>
+                        <li><strong>Saves and Shares:</strong> Key indicators showing that content reached users when they had time to consume and react.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. Running A/B Time Tests</h2>
+                    <p>
+                        To isolate timing as a variable, publish similar content formats (such as educational Reels or carousels) at two different time slots across a two-week period, then compare initial reach and velocity metrics.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. Iterating Your Publishing Strategy</h2>
+                    <p>
+                        When data highlights a time slot delivering consistently higher reach, establish it as your primary publishing window. Use the <strong>PostTime Atlas</strong> calculator to effortlessly adjust and scale these peak hours across new geographic markets.
+                    </p>
+                `
+            }
+        };
+
+        function renderLanguage() {
+            const data = content[currentLang];
+            
+            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
+            
+            document.getElementById('docTitle').innerText = data.docTitle;
+            document.getElementById('docDesc').setAttribute('content', data.docDesc);
+            document.getElementById('btnBack').innerText = data.btnBack;
+            document.getElementById('badgeCategory').innerText = data.badgeCategory;
+            document.getElementById('articleTitle').innerText = data.articleTitle;
+            document.getElementById('articleMeta').innerText = data.articleMeta;
+            document.getElementById('ctaText').innerText = data.ctaText;
+            document.getElementById('ctaBtn').innerText = data.ctaBtn;
+            document.getElementById('footerText').innerText = data.footerText;
+
+            const articleBody = document.getElementById('articleBody');
+            articleBody.innerHTML = data.body;
+
+            const lists = articleBody.querySelectorAll('ul');
+            lists.forEach(ul => {
+                if (currentLang === 'ar') {
+                    ul.classList.remove('pl-5');
+                    ul.classList.add('pr-5');
+                } else {
+                    ul.classList.remove('pr-5');
+                    ul.classList.add('pl-5');
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            renderLanguage();
+        }
+
+        window.addEventListener('DOMContentLoaded', renderLanguage);
+    </script>
+</body>
+</html>
