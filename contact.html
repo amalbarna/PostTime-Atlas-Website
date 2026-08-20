@@ -91,7 +91,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -113,7 +120,10 @@
                 lblFormMsg: 'الرسالة',
                 btnSubmit: 'إرسال الرسالة ✉️',
                 successMsg: 'تم إرسال رسالتك بنجاح! سنرد عليك في أسرع وقت ممكن.',
-                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.'
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا'
             },
             en: {
                 docTitle: 'Contact Us | PostTime Atlas',
@@ -130,7 +140,10 @@
                 lblFormMsg: 'Message',
                 btnSubmit: 'Send Message ✉️',
                 successMsg: 'Your message has been sent successfully! We will get back to you shortly.',
-                footerText: '© 2026 PostTime Atlas. All rights reserved.'
+                footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us'
             }
         };
 
@@ -153,6 +166,10 @@
             document.getElementById('btnSubmit').innerText = data.btnSubmit;
             document.getElementById('successMsg').innerText = data.successMsg;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
         }
 
         function toggleLanguage() {
