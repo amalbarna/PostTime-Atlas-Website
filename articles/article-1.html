@@ -63,7 +63,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -80,6 +87,9 @@
                 ctaText: 'هل ترغب بحساب أوقات النشر لدول متعددة؟',
                 ctaBtn: 'جرب الحاسبة التفاعلية الان',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
                 body: `
                     <p>
                         تعتبر مسألة توقيت النشر على منصات التواصل الاجتماعي مثل إنستغرام (Instagram) وتيك توك (TikTok) من أهم العوامل التي تحدد مدى وصول منشوراتك والتفاعل معها. بالرغم من أن الخوارزميات تعتمد بشكل كبير على جودة المحتوى واهتمامات المستخدمين، إلا أن عنصر الوقت يعمل كمحفز أولي يمنح المنشور دفعة سريعة فور إطلاقه.
@@ -125,6 +135,9 @@
                 ctaText: 'Want to calculate peak times for multi-country audiences?',
                 ctaBtn: 'Try Interactive Calculator Now',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
                 body: `
                     <p>
                         Determining the right posting timing on social media platforms like Instagram and TikTok is a key factor in maximizing reach and engagement. While algorithms rely heavily on content quality and user preferences, timing acts as an initial catalyst that gives your post an early boost right after publishing.
@@ -177,6 +190,10 @@
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
 
             const articleBody = document.getElementById('articleBody');
             articleBody.innerHTML = data.body;
