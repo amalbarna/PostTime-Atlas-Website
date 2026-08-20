@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="docTitle">أنواع المحتوى وجدول النشر المثالي | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="../index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    العودة للحاسبة 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">تخطيط المحتوى</span>
+                <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار
+                </h1>
+                <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
+            </header>
+
+            <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
+                <!-- المحتوى يتم تحميله عبر السكربت -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-8 pt-6 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+                <span id="ctaText" class="text-xs font-bold text-indigo-900">جاهز لجدولة جدولك ومزامنة أوقات النشر؟</span>
+                <a href="../index.html" id="ctaBtn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg transition">
+                    جرب الحاسبة التفاعلية الان
+                </a>
+            </div>
+
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
+        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        const content = {
+            ar: {
+                docTitle: 'أنواع المحتوى وجدول النشر المثالي | PostTime Atlas',
+                docDesc: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.',
+                btnBack: 'العودة للحاسبة 🚀',
+                badgeCategory: 'تخطيط المحتوى',
+                articleTitle: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
+                articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
+                ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                body: `
+                    <p>
+                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد **نوع المحتوى** الذي تنشره في ذلك الوقت و**كم مرة** تنشره. تختلف استجابة الخوارزميات والمتابعين بحسب نسق المحتوى، سواء كان فيديوهات قصيرة (Reels / TikTok)، أو منشورات تفاعلية، أو قصصاً يومية (Stories).
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. معدل التكرار الموصى به لكل منصة (Posting Frequency)</h2>
+                    <p>
+                        للحفاظ على نمو الحساب دون إرهاق المتابعين أو الاستنزاف الإبداعي:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>تيك توك (TikTok):</strong> من 1 إلى 3 فيديوهات يومياً لبناء زخم سريع.</li>
+                        <li><strong>إنستغرام (Instagram):</strong> من 3 إلى 5 منشورات أو Reels أسبوعياً، مع نشر قصص (Stories) يومية.</li>
+                        <li><strong>لينكد إن (LinkedIn):</strong> من 3 إلى 5 منشورات أسبوعياً خلال أيام العمل الرسمية.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. ربط نوع المحتوى بأوقات اليوم</h2>
+                    <p>
+                        تختلف الذهنية النفسية للزائر بمرور ساعات اليوم:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>الصباح الباكر:</strong> المحتوى السريع الملهم، الأخبار المختصرة، والجرعات التحفيزية.</li>
+                        <li><strong>فترة الظهيرة:</strong> المحتوى التعليمي القصير، النصائح السريعة، أو العروض المباشرة.</li>
+                        <li><strong>المساء:</strong> الفيديوهات الترفيهية الطويلة، القصص الشخصية، والمحتوى القائم على النقاش والتعليقات.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. قاعدة التنوع (80/20 Rule)</h2>
+                    <p>
+                        لضمان عدم تحول حسابك لإنقاص المتابعين، اجعل 80% من محتواك يقدم قيمة حقيقية (تعليم، ترفيه، حلول مشكلات) و20% فقط مخصصاً للترويج المباشر لخدماتك أو منتجاتك. ثم نسق هذا الجدول عبر حاسبة <strong>PostTime Atlas</strong> لمراعاة أوقات الذروة.
+                    </p>
+                `
+            },
+            en: {
+                docTitle: 'Content Types & Optimal Posting Schedules | PostTime Atlas',
+                docDesc: 'A guide on aligning content formats with daily and weekly posting frequencies for maximum consistency and reach.',
+                btnBack: 'Back to Calculator 🚀',
+                badgeCategory: 'Content Planning',
+                articleTitle: 'Aligning Content Types with Posting Schedules: Frequency & Strategy',
+                articleMeta: 'Updated: 2026 | Read Time: 5 mins',
+                ctaText: 'Ready to build your publishing schedule across timezones?',
+                ctaBtn: 'Try Interactive Calculator Now',
+                footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                body: `
+                    <p>
+                        Finding the best time to post is only half the equation; the other half is matching the **type of content** with the right time window and **posting frequency**. Algorithm responses vary based on whether you publish short-form video (Reels / TikTok), educational carousels, or daily Stories.
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. Recommended Posting Frequency per Platform</h2>
+                    <p>
+                        Maintain steady account growth without triggering audience fatigue or creator burnout:
+                    </p>
+
+                    <ul class="list-disc pl-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>TikTok:</strong> 1 to 3 videos daily for rapid algorithmic discovery.</li>
+                        <li><strong>Instagram:</strong> 3 to 5 main feed posts or Reels per week, paired with daily Stories.</li>
+                        <li><strong>LinkedIn:</strong> 3 to 5 text/carousel posts per week on business days.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. Matching Content Formats to Times of Day</h2>
+                    <p>
+                        User mindsets shift as the day progresses:
+                    </p>
+
+                    <ul class="list-disc pl-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>Early Morning:</strong> Quick motivational takes, industry news, and concise updates.</li>
+                        <li><strong>Mid-day / Lunch:</strong> Educational carousels, quick tips, and actionable insights.</li>
+                        <li><strong>Evening:</strong> Entertaining short-form videos, storytelling, and conversation-starting posts.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. The 80/20 Rule for Content Mix</h2>
+                    <p>
+                        To retain followers, dedicate 80% of your content strategy to delivering value (education, entertainment, problem-solving) and keep direct promotional pitches to 20%. Align this mix with target timezone peaks using the <strong>PostTime Atlas</strong> calculator.
+                    </p>
+                `
+            }
+        };
+
+        function renderLanguage() {
+            const data = content[currentLang];
+            
+            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
+            
+            document.getElementById('docTitle').innerText = data.docTitle;
+            document.getElementById('docDesc').setAttribute('content', data.docDesc);
+            document.getElementById('btnBack').innerText = data.btnBack;
+            document.getElementById('badgeCategory').innerText = data.badgeCategory;
+            document.getElementById('articleTitle').innerText = data.articleTitle;
+            document.getElementById('articleMeta').innerText = data.articleMeta;
+            document.getElementById('ctaText').innerText = data.ctaText;
+            document.getElementById('ctaBtn').innerText = data.ctaBtn;
+            document.getElementById('footerText').innerText = data.footerText;
+
+            const articleBody = document.getElementById('articleBody');
+            articleBody.innerHTML = data.body;
+
+            const lists = articleBody.querySelectorAll('ul');
+            lists.forEach(ul => {
+                if (currentLang === 'ar') {
+                    ul.classList.remove('pl-5');
+                    ul.classList.add('pr-5');
+                } else {
+                    ul.classList.remove('pr-5');
+                    ul.classList.add('pl-5');
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            renderLanguage();
+        }
+
+        window.addEventListener('DOMContentLoaded', renderLanguage);
+    </script>
+</body>
+</html>
