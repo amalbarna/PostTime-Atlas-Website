@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="docTitle">اتصل بنا | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="تواصل مع فريق PostTime Atlas للاستفسارات، الدعم الفني، أو المقترحات الخاصة بحاسبة أوقات النشر والمناطق الزمنية.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    الرئيسية 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <h1 id="pageTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    تواصل معنا
+                </h1>
+                <p id="pageSubtitle" class="text-xs text-slate-500 mt-2">نحن هنا لمساعدتك والإجابة على أي استفسارات أو مقترحات.</p>
+            </header>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- معلومات التواصل -->
+                <div class="bg-indigo-50/60 border border-indigo-100 rounded-xl p-5 space-y-4">
+                    <h2 id="infoTitle" class="font-bold text-slate-900 text-sm">طرق التواصل المباشر</h2>
+                    <div class="space-y-3 text-xs text-slate-600">
+                        <div>
+                            <span id="lblEmail" class="block text-slate-400 font-semibold mb-1">البريد الإلكتروني:</span>
+                            <a href="mailto:halfabrain24@gmail.com" class="text-indigo-600 font-bold hover:underline break-all">halfabrain24@gmail.com</a>
+                        </div>
+                        <div>
+                            <span id="lblResponse" class="block text-slate-400 font-semibold mb-1">وقت الاستجابة:</span>
+                            <span id="valResponse" class="text-slate-700 font-medium">خلال 24 إلى 48 ساعة</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- نموذج الرسالة -->
+                <div class="md:col-span-2 space-y-4">
+                    <form onsubmit="handleSubmit(event)" class="space-y-4">
+                        <div>
+                            <label id="lblFormName" class="block text-xs font-bold text-slate-700 mb-1">الاسم الكامل</label>
+                            <input type="text" required class="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-none focus:border-indigo-500" placeholder="أدخل اسمك هنا">
+                        </div>
+                        <div>
+                            <label id="lblFormEmail" class="block text-xs font-bold text-slate-700 mb-1">البريد الإلكتروني</label>
+                            <input type="email" required class="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-none focus:border-indigo-500" placeholder="name@example.com">
+                        </div>
+                        <div>
+                            <label id="lblFormMsg" class="block text-xs font-bold text-slate-700 mb-1">الرسالة</label>
+                            <textarea rows="4" required class="w-full text-xs p-3 rounded-lg border border-slate-200 focus:outline-none focus:border-indigo-500" placeholder="كيف يمكننا مساعدتك؟"></textarea>
+                        </div>
+                        <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs py-3 rounded-lg transition">
+                            إرسال الرسالة ✉️
+                        </button>
+                    </form>
+                    <div id="successMsg" class="hidden text-xs bg-emerald-50 text-emerald-700 border border-emerald-200 p-3 rounded-lg text-center font-bold">
+                        تم إرسال رسالتك بنجاح! سنرد عليك في أسرع وقت.
+                    </div>
+                </div>
+            </div>
+
+        </article>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
+        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        let currentLang = 'ar';
+
+        const content = {
+            ar: {
+                docTitle: 'اتصل بنا | PostTime Atlas',
+                docDesc: 'تواصل مع فريق PostTime Atlas للاستفسارات، الدعم الفني، أو المقترحات.',
+                btnBack: 'الرئيسية 🚀',
+                pageTitle: 'تواصل معنا',
+                pageSubtitle: 'نحن هنا لمساعدتك والإجابة على أي استفسارات أو مقترحات.',
+                infoTitle: 'طرق التواصل المباشر',
+                lblEmail: 'البريد الإلكتروني:',
+                lblResponse: 'وقت الاستجابة:',
+                valResponse: 'خلال 24 إلى 48 ساعة',
+                lblFormName: 'الاسم الكامل',
+                lblFormEmail: 'البريد الإلكتروني',
+                lblFormMsg: 'الرسالة',
+                btnSubmit: 'إرسال الرسالة ✉️',
+                successMsg: 'تم إرسال رسالتك بنجاح! سنرد عليك في أسرع وقت ممكن.',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.'
+            },
+            en: {
+                docTitle: 'Contact Us | PostTime Atlas',
+                docDesc: 'Get in touch with the PostTime Atlas team for inquiries, support, or feedback.',
+                btnBack: 'Home 🚀',
+                pageTitle: 'Contact Us',
+                pageSubtitle: 'We are here to help and answer any questions or suggestions you may have.',
+                infoTitle: 'Direct Contact Info',
+                lblEmail: 'Email Address:',
+                lblResponse: 'Response Time:',
+                valResponse: 'Within 24 to 48 hours',
+                lblFormName: 'Full Name',
+                lblFormEmail: 'Email Address',
+                lblFormMsg: 'Message',
+                btnSubmit: 'Send Message ✉️',
+                successMsg: 'Your message has been sent successfully! We will get back to you shortly.',
+                footerText: '© 2026 PostTime Atlas. All rights reserved.'
+            }
+        };
+
+        function renderLanguage() {
+            const data = content[currentLang];
+            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
+            document.getElementById('docTitle').innerText = data.docTitle;
+            document.getElementById('docDesc').setAttribute('content', data.docDesc);
+            document.getElementById('btnBack').innerText = data.btnBack;
+            document.getElementById('pageTitle').innerText = data.pageTitle;
+            document.getElementById('pageSubtitle').innerText = data.pageSubtitle;
+            document.getElementById('infoTitle').innerText = data.infoTitle;
+            document.getElementById('lblEmail').innerText = data.lblEmail;
+            document.getElementById('lblResponse').innerText = data.lblResponse;
+            document.getElementById('valResponse').innerText = data.valResponse;
+            document.getElementById('lblFormName').innerText = data.lblFormName;
+            document.getElementById('lblFormEmail').innerText = data.lblFormEmail;
+            document.getElementById('lblFormMsg').innerText = data.lblFormMsg;
+            document.getElementById('btnSubmit').innerText = data.btnSubmit;
+            document.getElementById('successMsg').innerText = data.successMsg;
+            document.getElementById('footerText').innerText = data.footerText;
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            renderLanguage();
+        }
+
+        function handleSubmit(e) {
+            e.preventDefault();
+            const successBox = document.getElementById('successMsg');
+            successBox.classList.remove('hidden');
+            e.target.reset();
+        }
+
+        window.addEventListener('DOMContentLoaded', renderLanguage);
+    </script>
+</body>
+</html>
