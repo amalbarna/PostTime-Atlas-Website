@@ -54,7 +54,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -68,6 +75,9 @@
                 pageTitle: 'شروط الخدمة (Terms of Service)',
                 pageMeta: 'تاريخ التحديث: 2026',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
                 body: `
                     <p>مرحباً بك في <strong>PostTime Atlas</strong>. باستخدامك لموقعنا وأدواتنا، فإنك توافق على الالتزام بشروط الخدمة التالية:</p>
 
@@ -91,6 +101,9 @@
                 pageTitle: 'Terms of Service',
                 pageMeta: 'Updated: 2026',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
                 body: `
                     <p>Welcome to <strong>PostTime Atlas</strong>. By accessing and using our website and tools, you agree to comply with the following Terms of Service:</p>
 
@@ -119,6 +132,10 @@
             document.getElementById('pageTitle').innerText = data.pageTitle;
             document.getElementById('pageMeta').innerText = data.pageMeta;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
 
             const pageBody = document.getElementById('pageBody');
             pageBody.innerHTML = data.body;
