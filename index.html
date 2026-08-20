@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="docTitle">PostTime Atlas | أفضل وقت للنشر على منصات التواصل</title>
+    <meta name="description" content="أداة مجانية لحساب أفضل أوقات للنشر والتفاعل على منصات التواصل الاجتماعي حسب الجمهور والدول المستهدفة مع تحديد الأولوية.">
+    <!-- غيّر example.com إلى رابط موقعك لاحقاً -->
+    <link rel="canonical" href="https://example.com/" id="canonicalUrl">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- أدخل كود AdSense الخاص بك هنا -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PostTime Atlas",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
+    <style>
+        body { font-family: 'Cairo', 'Inter', sans-serif; }
+        .ad-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 8px; text-align: center; color: #94a3b8; font-size: 0.75rem; margin: 16px 0; min-height: 90px; overflow: hidden; }
+        .platform-btn { background-color: #ffffff; border: 2px solid #e2e8f0; color: #334155; }
+        .platform-btn.active { border-color: #4f46e5; background-color: #e0e7ff; color: #312e81; }
+        .platform-icon { width: 18px; height: 18px; fill: currentColor; flex-shrink: 0; }
+        .country-option { cursor: pointer; transition: background 0.15s ease; }
+        .country-option:hover { background-color: #f1f5f9; }
+        .country-option.selected { background-color: #e0e7ff; color: #312e81; font-weight: 700; }
+        .priority-item { cursor: grab; transition: all 0.2s ease; }
+        .priority-item:active { cursor: grabbing; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <span id="txtBadgeFree" class="text-xs bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1.5 rounded-full font-bold">مجاني 100%</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Top Ad Placement -->
+    <div class="max-w-3xl mx-auto w-full px-4">
+        <div id="adTop" class="ad-box">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="1111111111"
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <!-- Main Section -->
+    <main class="max-w-2xl mx-auto w-full px-4 my-2 flex-grow">
+        <div class="text-center mb-6">
+            <h1 id="mainTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2">
+                احصل على أفضل وقت للنشر لجمهورك العالمي 🚀
+            </h1>
+            <p id="mainDesc" class="text-slate-600 text-sm">
+                حاسبة تفاعلية لحساب التوقيت المشترك بناءً على أولويات جمهورك في مختلف الدول
+            </p>
+        </div>
+
+        <!-- Calculator Form -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xl mb-6">
+            <form id="calcForm" onsubmit="calculate(event)" class="space-y-5">
+                
+                <!-- 1. Platforms -->
+                <div>
+                    <label id="lblPlatform" class="block text-sm font-bold text-slate-900 mb-2.5">1. اختر منصة التواصل الاجتماعي:</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                        <button type="button" onclick="setPlatform('instagram')" id="p-instagram" class="platform-btn active p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            Instagram
+                        </button>
+                        <button type="button" onclick="setPlatform('tiktok')" id="p-tiktok" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.82.56-1.36 1.51-1.37 2.51-.01 1.05.52 2.08 1.41 2.61.95.58 2.18.57 3.12.01.89-.53 1.47-1.52 1.5-2.56.02-4.19.01-8.38.01-12.57z"/></svg>
+                            TikTok
+                        </button>
+                        <button type="button" onclick="setPlatform('youtube')" id="p-youtube" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                            YouTube
+                        </button>
+                        <button type="button" onclick="setPlatform('twitter')" id="p-twitter" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                            X / Twitter
+                        </button>
+                        <button type="button" onclick="setPlatform('facebook')" id="p-facebook" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            Facebook
+                        </button>
+                        <button type="button" onclick="setPlatform('linkedin')" id="p-linkedin" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                            LinkedIn
+                        </button>
+                        <button type="button" onclick="setPlatform('snapchat')" id="p-snapchat" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M12.203 1.998c-3.832 0-5.834 2.898-5.834 5.342 0 1.05.353 2.28 1.111 3.01.218.21.312.391.203.71-.082.238-.358.852-.511 1.207-.123.284-.339.387-.639.293-.728-.228-1.516-.279-2.222.253-.591.445-.632 1.096-.282 1.637.382.592 1.096.96 1.785 1.189.176.059.324.167.338.361.037.525.688 3.513 4.298 3.931.258.031.424.148.496.398.197.689 1.05 1.672 1.252 1.672.202 0 1.055-.983 1.252-1.672.072-.25.238-.367.496-.398 3.61-.418 4.261-3.406 4.298-3.931.014-.194.162-.302.338-.361.689-.229 1.403-.597 1.785-1.189.35-.541.309-1.192-.282-1.637-.706-.532-1.494-.481-2.222-.253-.3.094-.516-.009-.639-.293-.153-.355-.429-.969-.511-1.207-.109-.319-.015-.5.203-.71.758-.73 1.111-1.96 1.111-3.01 0-2.444-2.002-5.342-5.834-5.342z"/></svg>
+                            Snapchat
+                        </button>
+                        <button type="button" onclick="setPlatform('pinterest')" id="p-pinterest" class="platform-btn p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <svg class="platform-icon" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+                            Pinterest
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Days -->
+                <div>
+                    <label id="lblDay" class="block text-sm font-bold text-slate-900 mb-1">2. اختر اليوم:</label>
+                    <select id="dayOfWeek" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-bold text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option value="sunday">الأحد</option>
+                        <option value="monday">الإثنين</option>
+                        <option value="tuesday">الثلاثاء</option>
+                        <option value="wednesday">الأربعاء</option>
+                        <option value="thursday">الخميس</option>
+                        <option value="friday">الجمعة</option>
+                        <option value="saturday">السبت</option>
+                    </select>
+                </div>
+
+                <!-- 3. Country Dropdown & Priority List -->
+                <div class="relative">
+                    <label id="lblCountries" class="block text-sm font-bold text-slate-900 mb-1">
+                        3. اختر الدول المستهدفة:
+                    </label>
+                    
+                    <button type="button" onclick="toggleDropdown()" id="dropdownBtn" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-bold text-slate-800 flex justify-between items-center hover:bg-slate-100 transition mb-3">
+                        <span id="dropdownPlaceholder">اضغط لاختيار الدول...</span>
+                        <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+
+                    <div id="dropdownMenu" class="hidden absolute z-30 w-full mt-1 bg-white border border-slate-200 rounded-xl shadow-2xl max-h-64 overflow-y-auto p-2">
+                        <div id="dropdownContent"></div>
+                    </div>
+
+                    <div id="priorityContainer" class="hidden bg-slate-50 border border-slate-200 rounded-xl p-3">
+                        <div class="flex justify-between items-center mb-2">
+                            <span id="lblPriorityHeader" class="text-xs font-bold text-indigo-900 flex items-center gap-1">
+                                👑 رتب أهمية الجمهور (الدولة الأولى هي الأساسية):
+                            </span>
+                        </div>
+                        <div id="priorityList" class="space-y-2"></div>
+                    </div>
+                </div>
+
+                <!-- 4. Content Niche -->
+                <div>
+                    <label class="block text-sm font-bold text-slate-900 mb-1 flex justify-between">
+                        <span id="lblNiche">4. مجال المحتوى:</span>
+                        <span id="lblOptional" class="text-xs text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded font-normal">اختياري</span>
+                    </label>
+                    <select id="niche" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <option value="general" id="nicheGeneral">عام / صنع محتوى</option>
+                        <option value="ecommerce" id="nicheEcom">🛒 تجارة إلكترونية ومبيعات</option>
+                        <option value="business" id="nicheBiz">💼 B2B وأعمال</option>
+                        <option value="entertainment" id="nicheEnt">🎭 ترفيه وصناع محتوى</option>
+                        <option value="gaming" id="nicheGaming">🎮 ألعاب وتكنولوجيا</option>
+                    </select>
+                </div>
+
+                <!-- Mid Ad Placement -->
+                <div id="adMid" class="ad-box">
+                    <ins class="adsbygoogle"
+                         style="display:block; text-align:center;"
+                         data-ad-layout="in-article"
+                         data-ad-format="fluid"
+                         data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                         data-ad-slot="2222222222"></ins>
+                </div>
+
+                <button type="submit" id="btnSubmit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-xl shadow-lg shadow-indigo-600/20 transition active:scale-[0.99] cursor-pointer">
+                    احسب التوقيت المشترك المثالي
+                </button>
+            </form>
+
+            <!-- Result Box -->
+            <div id="resultBox" class="hidden mt-6 pt-6 border-t border-slate-200">
+                <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-5">
+                    <span id="badge" class="text-xs bg-indigo-200 text-indigo-800 px-3 py-1 rounded-md font-bold inline-block mb-2"></span>
+                    <div id="timeResult" class="text-2xl font-black text-indigo-950 my-1"></div>
+                    <p id="timeDescText" class="text-xs text-slate-700 font-medium leading-relaxed mt-2"></p>
+                    <div id="countryDetails" class="mt-3 pt-3 border-t border-indigo-100 text-xs text-slate-600 space-y-1"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Section -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm mb-6 space-y-3">
+            <h3 id="aboutTitle" class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                <span>📌</span> عن الأداة وطريقة الاستخدام
+            </h3>
+            <p id="aboutDesc" class="text-xs text-slate-600 leading-relaxed">
+                صُمّمت هذه الحاسبة لمساعدة صناع المحتوى والمسوقين على استهداف أوقات الذروة المشتركة عند النشر لجمهور يتواجد في أكثر من دولة. تقوم الأداة بحساب فرق التوقيت (Timezones) وتحليل سلوك المستخدمين على مختلف المنصات لإيجاد النافذة الزمنية الأنسب للوصول لأكبر عدد ممكن من المتابعين في نفس الوقت مع مراعاة الدولة الأكثر أهمية بالنسبة لك.
+            </p>
+            <ol id="aboutSteps" class="text-xs text-slate-600 list-decimal pl-4 pr-4 space-y-1 font-medium">
+                <li>اختر المنصة واليوم الذي ترغب بالنشر فيه.</li>
+                <li>حدد جميع الدول التي يتواجد فيها جمهورك المستهدف.</li>
+                <li>رتب الدول حسب أولوية وأهمية الجمهور (الدولة الأولى لها الثقل الأكبر في الحسابات).</li>
+                <li>اضغط على زر الحساب ليظهر لك التوقيت المثالي بالنسبة للدولة الرئيسية والتوقيت المقابل في باقي الدول.</li>
+            </ol>
+        </div>
+
+        <!-- Disclaimer Section -->
+        <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 leading-relaxed mb-4">
+            <div id="disclaimerTitle" class="font-bold mb-1 flex items-center gap-1.5">
+                <span>⚠️</span> إخلاء مسؤولية وتنبيه هام
+            </div>
+            <p id="disclaimerText">
+                الحسابات والنتائج الظاهرة في هذه الأداة مبنية على متوسطات سلوك المستخدمين والبيانات العامة لنشاط المنصات، وهي تقدم توجيهات استرشادية فقط ولا تعتبر ضماناً مؤكداً لزيادة المشاهدات أو تفاعل الحسابات. يتأثر تفاعل منشوراتك بجودة المحتوى، خوارزميات المنصة، واهتمامات المتابعين الفعليين.
+            </p>
+        </div>
+
+        <!-- Bottom Ad Placement -->
+        <div id="adBottom" class="ad-box">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                 data-ad-slot="3333333333"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <!-- تم التعديل لربط صفحات الـ HTML المستقلة بدلاً من النوافذ المنبثقة -->
+                <a href="privacy.html" id="btnPrivacy" class="hover:underline">سياسة الخصوصية</a>
+                <a href="terms.html" id="btnTerms" class="hover:underline">شروط الخدمة</a>
+                <a href="contact.html" id="btnContact" class="hover:underline">اتصل بنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let currentP = 'instagram';
+        let currentLang = 'ar';
+        let selectedCountries = ['SA', 'AE'];
+
+        const countryGroups = {
+            mena: ['SA', 'EG', 'AE', 'KW', 'QA', 'IQ', 'JO', 'MA', 'DZ', 'OM', 'BH', 'TN', 'LY', 'SD', 'LB', 'PS', 'YEM'],
+            other: ['US_EST', 'US_PST', 'UK', 'DE', 'FR', 'TR', 'CA', 'IN', 'AU', 'MY']
+        };
+
+        const countryOffsets = {
+            'SA': 3, 'EG': 2, 'AE': 4, 'KW': 3, 'QA': 3, 'IQ': 3, 'JO': 3, 'MA': 1, 'DZ': 1, 'OM': 4,
+            'BH': 3, 'TN': 1, 'LY': 2, 'SD': 2, 'LB': 2, 'PS': 2, 'YEM': 3,
+            'US_EST': -5, 'US_PST': -8, 'UK': 0, 'DE': 1, 'FR': 1, 'TR': 3, 'CA': -5, 'IN': 5.5, 'AU': 10, 'MY': 8
+        };
+
+        const i18n = {
+            ar: {
+                docTitle: 'PostTime Atlas | أفضل وقت للنشر',
+                badgeFree: 'مجاني 100%',
+                mainTitle: 'احصل على أفضل وقت للنشر لجمهورك العالمي 🚀',
+                mainDesc: 'حاسبة تفاعلية لحساب التوقيت المشترك بناءً على أولويات جمهورك في مختلف الدول',
+                lblPlatform: '1. اختر منصة التواصل الاجتماعي:',
+                lblDay: '2. اختر اليوم:',
+                lblCountries: '3. اختر الدول المستهدفة:',
+                lblPriorityHeader: '👑 رتب أهمية الجمهور (الدولة الأولى هي الأساسية):',
+                lblNiche: '4. مجال المحتوى:',
+                lblOptional: 'اختياري',
+                btnSubmit: 'احسب التوقيت المشترك المثالي',
+                dropdownPlaceholder: 'اضغط لاختيار الدول...',
+                primaryTag: 'الرئيسية (الأهم)',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
+                grpMena: 'الشرق الأوسط وشمال أفريقيا',
+                grpOther: 'دول أخرى',
+                aboutTitle: 'عن الأداة وطريقة الاستخدام',
+                aboutDesc: 'صُمّمت هذه الحاسبة لمساعدة صناع المحتوى والمسوقين على استهداف أوقات الذروة المشتركة عند النشر لجمهور يتواجد في أكثر من دولة. تقوم الأداة بحساب فرق التوقيت (Timezones) وتحليل سلوك المستخدمين على مختلف المنصات لإيجاد النافذة الزمنية الأنسب للوصول لأكبر عدد ممكن من المتابعين في نفس الوقت مع مراعاة الدولة الأكثر أهمية بالنسبة لك.',
+                aboutStep1: 'اختر المنصة واليوم الذي ترغب بالنشر فيه.',
+                aboutStep2: 'حدد جميع الدول التي يتواجد فيها جمهورك المستهدف.',
+                aboutStep3: 'رتب الدول حسب أولوية وأهمية الجمهور (الدولة الأولى لها الثقل الأكبر في الحسابات).',
+                aboutStep4: 'اضغط على زر الحساب ليظهر لك التوقيت المثالي بالنسبة للدولة الرئيسية والتوقيت المقابل في باقي الدول.',
+                disclaimerTitle: 'إخلاء مسؤولية وتنبيه هام',
+                disclaimerText: 'الحسابات والنتائج الظاهرة في هذه الأداة مبنية على متوسطات سلوك المستخدمين والبيانات العامة لنشاط المنصات، وهي تقدم توجيهات استرشادية فقط ولا تعتبر ضماناً مؤكداً لزيادة المشاهدات أو تفاعل الحسابات. يتأثر تفاعل منشوراتك بجودة المحتوى، خوارزميات المنصة، واهتمامات المتابعين الفعليين.',
+                days: {
+                    sunday: 'الأحد', monday: 'الإثنين', tuesday: 'الثلاثاء',
+                    wednesday: 'الأربعاء', thursday: 'الخميس', friday: 'الجمعة', saturday: 'السبت'
+                },
+                niches: {
+                    general: 'عام / صنع محتوى', ecommerce: '🛒 تجارة إلكترونية ومبيعات',
+                    business: '💼 B2B وأعمال', entertainment: '🎭 ترفيه وصناع محتوى', gaming: '🎮 ألعاب وتكنولوجيا'
+                },
+                countries: {
+                    SA: '🇸🇦 السعودية (GMT+3)', EG: '🇪🇬 مصر (GMT+2)', AE: '🇦🇪 الإمارات (GMT+4)',
+                    KW: '🇰🇼 الكويت (GMT+3)', QA: '🇶🇦 قطر (GMT+3)', IQ: '🇮🇶 العراق (GMT+3)',
+                    JO: '🇯🇴 الأردن (GMT+3)', MA: '🇲🇦 المغرب (GMT+1)', DZ: '🇩🇿 الجزائر (GMT+1)',
+                    OM: '🇴🇲 عمان (GMT+4)', BH: '🇧🇭 البحرين (GMT+3)', TN: '🇹🇳 تونس (GMT+1)',
+                    LY: '🇱🇾 ليبيا (GMT+2)', SD: '🇸🇩 السودان (GMT+2)', LB: '🇱🇧 لبنان (GMT+2)',
+                    PS: '🇵🇸 فلسطين (GMT+2)', YEM: '🇾🇪 اليمن (GMT+3)',
+                    US_EST: '🇺🇸 أمريكا - شرق (GMT-5)', US_PST: '🇺🇸 أمريكا - غرب (GMT-8)',
+                    UK: '🇬🇧 بريطانيا (GMT+0)', DE: '🇩🇪 ألمانيا (GMT+1)', FR: '🇫🇷 فرنسا (GMT+1)',
+                    TR: '🇹🇷 تركيا (GMT+3)', CA: '🇨🇦 كندا (GMT-5)', IN: '🇮🇳 الهند (GMT+5:30)',
+                    AU: '🇦🇺 أستراليا (GMT+10)', MY: '🇲🇾 ماليزيا (GMT+8)'
+                },
+                countryNamesOnly: {
+                    SA: 'السعودية', EG: 'مصر', AE: 'الإمارات', KW: 'الكويت', QA: 'قطر',
+                    IQ: 'العراق', JO: 'الأردن', MA: 'المغرب', DZ: 'الجزائر', OM: 'عمان',
+                    BH: 'البحرين', TN: 'تونس', LY: 'ليبيا', SD: 'السودان', LB: 'لبنان',
+                    PS: 'فلسطين', YEM: 'اليمن', US_EST: 'أمريكا (شرق)', US_PST: 'أمريكا (غرب)',
+                    UK: 'بريطانيا', DE: 'ألمانيا', FR: 'فرنسا', TR: 'تركيا', CA: 'كندا',
+                    IN: 'الهند', AU: 'أستراليا', MY: 'ماليزيا'
+                },
+                am: 'صباحاً', pm: 'مساءً',
+                alertSelect: 'يرجى اختيار دولة واحدة على الأقل',
+                descTemplate: (day, p) => `التوقيت الأنسب للنشر يوم (${day}) عبر منصة ${p} مراعاةً للأولوية المختارة.`,
+                detailsTitle: 'التوقيت المقابل في باقي الدول المستهدفة:',
+                badgeText: (count) => `حساب بالأولويات | ${count} دول`
+            },
+            en: {
+                docTitle: 'PostTime Atlas | Best Time to Post',
+                badgeFree: '100% Free',
+                mainTitle: 'Find the Best Posting Time for Your Global Audience 🚀',
+                mainDesc: 'Interactive calculator based on your audience priority across target countries',
+                lblPlatform: '1. Select Social Media Platform:',
+                lblDay: '2. Select Day of the Week:',
+                lblCountries: '3. Select Target Countries:',
+                lblPriorityHeader: '👑 Rank Audience Importance (Top country is Primary):',
+                lblNiche: '4. Content Niche:',
+                lblOptional: 'Optional',
+                btnSubmit: 'Calculate Best Overlap Time',
+                dropdownPlaceholder: 'Click to select countries...',
+                primaryTag: 'Primary',
+                footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
+                grpMena: 'Middle East & North Africa',
+                grpOther: 'Other Countries',
+                aboutTitle: 'About & How to Use',
+                aboutDesc: 'This calculator is built to help creators and marketers pinpoint overlapping peak engagement hours when reaching audiences across multiple countries. The tool factors in timezone offsets and country priorities to ensure the main focus remains on your most valuable audience.',
+                aboutStep1: 'Select the platform and day you plan to post.',
+                aboutStep2: 'Select all countries where your target audience resides.',
+                aboutStep3: 'Reorder countries by priority (the first country receives the highest calculation weight).',
+                aboutStep4: 'Click Calculate to view the ideal window tailored to your primary market and corresponding times elsewhere.',
+                disclaimerTitle: 'Disclaimer Notice',
+                disclaimerText: 'All calculations and time recommendations are based on statistical averages and platform engagement trends. They serve as strategic guidelines and do not guarantee specific reach, engagement, or virality.',
+                days: {
+                    sunday: 'Sunday', monday: 'Monday', tuesday: 'Tuesday',
+                    wednesday: 'Wednesday', thursday: 'Thursday', friday: 'Friday', saturday: 'Saturday'
+                },
+                niches: {
+                    general: 'General / Content Creator', ecommerce: '🛒 E-commerce & Sales',
+                    business: '💼 B2B & Business', entertainment: '🎭 Entertainment & Creators', gaming: '🎮 Gaming & Tech'
+                },
+                countries: {
+                    SA: '🇸🇦 Saudi Arabia (GMT+3)', EG: '🇪🇬 Egypt (GMT+2)', AE: '🇦🇪 UAE (GMT+4)',
+                    KW: '🇰🇼 Kuwait (GMT+3)', QA: '🇶🇦 Qatar (GMT+3)', IQ: '🇮🇶 Iraq (GMT+3)',
+                    JO: '🇯🇴 Jordan (GMT+3)', MA: '🇲🇦 Morocco (GMT+1)', DZ: '🇩🇿 Algeria (GMT+1)',
+                    OM: '🇴🇲 Oman (GMT+4)', BH: '🇧🇭 Bahrain (GMT+3)', TN: '🇹🇳 Tunisia (GMT+1)',
+                    LY: '🇱🇾 Libya (GMT+2)', SD: '🇸🇩 Sudan (GMT+2)', LB: '🇱🇧 Lebanon (GMT+2)',
+                    PS: '🇵🇸 Palestine (GMT+2)', YEM: '🇾🇪 Yemen (GMT+3)',
+                    US_EST: '🇺🇸 USA - East (GMT-5)', US_PST: '🇺🇸 USA - West (GMT-8)',
+                    UK: '🇬🇧 UK (GMT+0)', DE: '🇩🇪 Germany (GMT+1)', FR: '🇫🇷 France (GMT+1)',
+                    TR: '🇹🇷 Turkey (GMT+3)', CA: '🇨🇦 Canada (GMT-5)', IN: '🇮🇳 India (GMT+5:30)',
+                    AU: '🇦🇺 Australia (GMT+10)', MY: '🇲🇾 Malaysia (GMT+8)'
+                },
+                countryNamesOnly: {
+                    SA: 'Saudi Arabia', EG: 'Egypt', AE: 'UAE', KW: 'Kuwait', QA: 'Qatar',
+                    IQ: 'Iraq', JO: 'Jordan', MA: 'Morocco', DZ: 'Algeria', OM: 'Oman',
+                    BH: 'Bahrain', TN: 'Tunisia', LY: 'Libya', SD: 'Sudan', LB: 'Lebanon',
+                    PS: 'Palestine', YEM: 'Yemen', US_EST: 'USA (East)', US_PST: 'USA (West)',
+                    UK: 'UK', DE: 'Germany', FR: 'France', TR: 'Turkey', CA: 'Canada',
+                    IN: 'India', AU: 'Australia', MY: 'Malaysia'
+                },
+                am: 'AM', pm: 'PM',
+                alertSelect: 'Please select at least one country',
+                descTemplate: (day, p) => `Optimal posting time on (${day}) for ${p} adjusted for audience priority.`,
+                detailsTitle: 'Corresponding time in other target countries:',
+                badgeText: (count) => `Priority Based | ${count} Countries`
+            }
+        };
+
+        function renderCustomDropdown() {
+            const langData = i18n[currentLang];
+            const content = document.getElementById('dropdownContent');
+            content.innerHTML = '';
+
+            const menaHeader = document.createElement('div');
+            menaHeader.className = 'text-[11px] font-extrabold text-slate-400 uppercase tracking-wider px-3 py-1 mt-1';
+            menaHeader.innerText = langData.grpMena;
+            content.appendChild(menaHeader);
+
+            countryGroups.mena.forEach(code => {
+                content.appendChild(createOptionElement(code, langData.countries[code]));
+            });
+
+            const otherHeader = document.createElement('div');
+            otherHeader.className = 'text-[11px] font-extrabold text-slate-400 uppercase tracking-wider px-3 py-1 mt-2 border-t border-slate-100 pt-2';
+            otherHeader.innerText = langData.grpOther;
+            content.appendChild(otherHeader);
+
+            countryGroups.other.forEach(code => {
+                content.appendChild(createOptionElement(code, langData.countries[code]));
+            });
+
+            renderPriorityList();
+        }
+
+        function createOptionElement(code, label) {
+            const div = document.createElement('div');
+            const isSelected = selectedCountries.includes(code);
+            div.className = `country-option text-xs p-2.5 rounded-lg flex items-center justify-between ${isSelected ? 'selected' : 'text-slate-700'}`;
+            div.innerHTML = `
+                <span>${label}</span>
+                ${isSelected ? '<svg class="w-4 h-4 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>' : ''}
+            `;
+            div.onclick = (e) => {
+                e.stopPropagation();
+                toggleCountry(code);
+            };
+            return div;
+        }
+
+        function renderPriorityList() {
+            const langData = i18n[currentLang];
+            const container = document.getElementById('priorityContainer');
+            const list = document.getElementById('priorityList');
+            list.innerHTML = '';
+
+            if (selectedCountries.length === 0) {
+                container.classList.add('hidden');
+                return;
+            }
+
+            container.classList.remove('hidden');
+
+            selectedCountries.forEach((code, index) => {
+                const item = document.createElement('div');
+                item.className = 'priority-item bg-white border border-slate-200 rounded-lg p-2.5 flex items-center justify-between shadow-sm';
+                
+                const isPrimary = index === 0;
+
+                item.innerHTML = `
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-black ${isPrimary ? 'text-indigo-600' : 'text-slate-400'}">${index + 1}.</span>
+                        <span class="text-xs font-bold text-slate-800">${langData.countries[code]}</span>
+                        ${isPrimary ? `<span class="text-[10px] bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded-full font-extrabold">${langData.primaryTag}</span>` : ''}
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button type="button" onclick="movePriority(${index}, -1)" ${index === 0 ? 'disabled class="opacity-20 cursor-not-allowed"' : 'class="p-1 hover:bg-slate-100 rounded text-slate-600 font-bold text-xs"'}>▲</button>
+                        <button type="button" onclick="movePriority(${index}, 1)" ${index === selectedCountries.length - 1 ? 'disabled class="opacity-20 cursor-not-allowed"' : 'class="p-1 hover:bg-slate-100 rounded text-slate-600 font-bold text-xs"'}>▼</button>
+                        <button type="button" onclick="removeCountry('${code}', event)" class="p-1 hover:bg-red-50 hover:text-red-600 rounded text-slate-400 font-black text-xs leading-none mr-1">&times;</button>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        function movePriority(index, direction) {
+            const targetIndex = index + direction;
+            if (targetIndex < 0 || targetIndex >= selectedCountries.length) return;
+            const temp = selectedCountries[index];
+            selectedCountries[index] = selectedCountries[targetIndex];
+            selectedCountries[targetIndex] = temp;
+            renderPriorityList();
+        }
+
+        function toggleDropdown() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleCountry(code) {
+            if (selectedCountries.includes(code)) {
+                selectedCountries = selectedCountries.filter(c => c !== code);
+            } else {
+                selectedCountries.push(code);
+            }
+            renderCustomDropdown();
+        }
+
+        function removeCountry(code, e) {
+            if (e) e.stopPropagation();
+            selectedCountries = selectedCountries.filter(c => c !== code);
+            renderCustomDropdown();
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('dropdownMenu');
+            const btn = document.getElementById('dropdownBtn');
+            if (dropdown && !dropdown.contains(e.target) && !btn.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function setPlatform(p) {
+            currentP = p;
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('p-' + p).classList.add('active');
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const langData = i18n[currentLang];
+
+            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
+
+            document.getElementById('docTitle').innerText = langData.docTitle;
+            document.getElementById('txtBadgeFree').innerText = langData.badgeFree;
+            document.getElementById('mainTitle').innerText = langData.mainTitle;
+            document.getElementById('mainDesc').innerText = langData.mainDesc;
+            document.getElementById('lblPlatform').innerText = langData.lblPlatform;
+            document.getElementById('lblDay').innerText = langData.lblDay;
+            document.getElementById('lblCountries').innerText = langData.lblCountries;
+            document.getElementById('lblPriorityHeader').innerText = langData.lblPriorityHeader;
+            document.getElementById('lblNiche').innerText = langData.lblNiche;
+            document.getElementById('lblOptional').innerText = langData.lblOptional;
+            document.getElementById('btnSubmit').innerText = langData.btnSubmit;
+            document.getElementById('dropdownPlaceholder').innerText = langData.dropdownPlaceholder;
+            
+            document.getElementById('footerText').innerText = langData.footerText;
+            document.getElementById('btnPrivacy').innerText = langData.btnPrivacy;
+            document.getElementById('btnTerms').innerText = langData.btnTerms;
+            document.getElementById('btnContact').innerText = langData.btnContact;
+
+            document.getElementById('aboutTitle').innerHTML = `<span>📌</span> ${langData.aboutTitle}`;
+            document.getElementById('aboutDesc').innerText = langData.aboutDesc;
+            
+            const stepsList = document.getElementById('aboutSteps');
+            stepsList.innerHTML = `
+                <li>${langData.aboutStep1}</li>
+                <li>${langData.aboutStep2}</li>
+                <li>${langData.aboutStep3}</li>
+                <li>${langData.aboutStep4}</li>
+            `;
+
+            document.getElementById('disclaimerTitle').innerHTML = `<span>⚠️</span> ${langData.disclaimerTitle}`;
+            document.getElementById('disclaimerText').innerText = langData.disclaimerText;
+
+            const daySelect = document.getElementById('dayOfWeek');
+            Object.keys(langData.days).forEach(key => {
+                const opt = daySelect.querySelector(`option[value="${key}"]`);
+                if(opt) opt.innerText = langData.days[key];
+            });
+
+            document.getElementById('nicheGeneral').innerText = langData.niches.general;
+            document.getElementById('nicheEcom').innerText = langData.niches.ecommerce;
+            document.getElementById('nicheBiz').innerText = langData.niches.business;
+            document.getElementById('nicheEnt').innerText = langData.niches.entertainment;
+            document.getElementById('nicheGaming').innerText = langData.niches.gaming;
+
+            renderCustomDropdown();
+
+            if (!document.getElementById('resultBox').classList.contains('hidden')) {
+                renderResults();
+            }
+        }
+
+        function calculate(e) {
+            if(e) e.preventDefault();
+            renderResults();
+        }
+
+        function renderResults() {
+            const langData = i18n[currentLang];
+            const dayKey = document.getElementById('dayOfWeek').value;
+            const niche = document.getElementById('niche').value;
+
+            if (selectedCountries.length === 0) {
+                alert(langData.alertSelect);
+                return;
+            }
+
+            let localPeakStart = 17; 
+            let localPeakEnd = 22;   
+
+            const isWeekend = (dayKey === 'friday' || dayKey === 'saturday');
+
+            if (currentP === 'linkedin' || niche === 'business') {
+                localPeakStart = isWeekend ? 10 : 8;
+                localPeakEnd = isWeekend ? 13 : 14;
+            } else if (niche === 'ecommerce') {
+                localPeakStart = 12;
+                localPeakEnd = 16;
+            } else if (currentP === 'tiktok' || currentP === 'snapchat') {
+                localPeakStart = isWeekend ? 19 : 18;
+                localPeakEnd = isWeekend ? 23 : 22;
+            } else if (currentP === 'pinterest') {
+                localPeakStart = 20;
+                localPeakEnd = 23;
+            }
+
+            const primaryCode = selectedCountries[0];
+            const primaryOffset = countryOffsets[primaryCode];
+
+            const primaryUtcStart = localPeakStart - primaryOffset;
+            const primaryUtcEnd = localPeakEnd - primaryOffset;
+
+            const formatHour = (h) => {
+                let normalized = (h % 24 + 24) % 24;
+                let hour = Math.floor(normalized);
+                let minutes = Math.round((normalized - hour) * 60);
+                
+                if (minutes === 60) {
+                    hour = (hour + 1) % 24;
+                    minutes = 0;
+                }
+
+                const period = hour >= 12 ? langData.pm : langData.am;
+                const displayH = hour % 12 === 0 ? 12 : hour % 12;
+                const minStr = minutes > 0 ? `:${minutes < 10 ? '0' : ''}${minutes}` : ':00';
+
+                return `${displayH}${minStr} ${period}`;
+            };
+
+            const resultList = selectedCountries.map(code => {
+                const offset = countryOffsets[code];
+                const localS = primaryUtcStart + offset;
+                const localE = primaryUtcEnd + offset;
+                return {
+                    code: code,
+                    name: langData.countryNamesOnly[code],
+                    timeRange: `${formatHour(localS)} - ${formatHour(localE)}`
+                };
+            });
+
+            document.getElementById('timeResult').innerText = `${resultList[0].timeRange} (${resultList[0].name})`;
+            document.getElementById('timeDescText').innerText = langData.descTemplate(langData.days[dayKey], currentP.toUpperCase());
+
+            let detailsHtml = '';
+            if (resultList.length > 1) {
+                detailsHtml = `<strong>${langData.detailsTitle}</strong><ul class="list-disc ${currentLang === 'ar' ? 'pr-4' : 'pl-4'} mt-1 space-y-0.5">`;
+                resultList.forEach((item, index) => {
+                    if (index > 0) {
+                        detailsHtml += `<li><strong>${item.name}:</strong> ${item.timeRange}</li>`;
+                    }
+                });
+                detailsHtml += '</ul>';
+            }
+            document.getElementById('countryDetails').innerHTML = detailsHtml;
+
+            document.getElementById('badge').innerText = langData.badgeText(selectedCountries.length);
+            document.getElementById('resultBox').classList.remove('hidden');
+            document.getElementById('dropdownMenu').classList.add('hidden');
+
+            document.getElementById('resultBox').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // التهيئة الأولية
+        window.addEventListener('DOMContentLoaded', () => {
+            renderCustomDropdown();
+            
+            // تحميل إعلانات AdSense بأمان بعد جهوزية الصفحة
+            if (window.adsbygoogle) {
+                document.querySelectorAll('.adsbygoogle').forEach(() => {
+                    try {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) {}
+                });
+            }
+        });
+    </script>
+</body>
+</html>
