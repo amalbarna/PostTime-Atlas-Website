@@ -63,7 +63,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -80,9 +87,12 @@
                 ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
                 ctaBtn: 'جرب الحاسبة التفاعلية الان',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
                 body: `
                     <p>
-                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد **نوع المحتوى** الذي تنشره في ذلك الوقت و**كم مرة** تنشره. تختلف استجابة الخوارزميات والمتابعين بحسب نسق المحتوى، سواء كان فيديوهات قصيرة (Reels / TikTok)، أو منشورات تفاعلية، أو قصصاً يومية (Stories).
+                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد <strong>نوع المحتوى</strong> الذي تنشره في ذلك الوقت و<strong>كم مرة</strong> تنشره. تختلف استجابة الخوارزميات والمتابعين بحسب نسق المحتوى، سواء كان فيديوهات قصيرة (Reels / TikTok)، أو منشورات تفاعلية، أو قصصاً يومية (Stories).
                     </p>
 
                     <h2 class="text-lg font-bold text-slate-900 pt-2">1. معدل التكرار الموصى به لكل منصة (Posting Frequency)</h2>
@@ -123,9 +133,12 @@
                 ctaText: 'Ready to build your publishing schedule across timezones?',
                 ctaBtn: 'Try Interactive Calculator Now',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
                 body: `
                     <p>
-                        Finding the best time to post is only half the equation; the other half is matching the **type of content** with the right time window and **posting frequency**. Algorithm responses vary based on whether you publish short-form video (Reels / TikTok), educational carousels, or daily Stories.
+                        Finding the best time to post is only half the equation; the other half is matching the <strong>type of content</strong> with the right time window and <strong>posting frequency</strong>. Algorithm responses vary based on whether you publish short-form video (Reels / TikTok), educational carousels, or daily Stories.
                     </p>
 
                     <h2 class="text-lg font-bold text-slate-900 pt-2">1. Recommended Posting Frequency per Platform</h2>
@@ -173,6 +186,10 @@
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
 
             const articleBody = document.getElementById('articleBody');
             articleBody.innerHTML = data.body;
