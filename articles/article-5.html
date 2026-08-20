@@ -63,7 +63,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -80,9 +87,12 @@
                 ctaText: 'تريد جدولة منشوراتك بناءً على أدق الأوقات؟',
                 ctaBtn: 'جرب الحاسبة التفاعلية الان',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
                 body: `
                     <p>
-                        لا ينبغي أن تعتمد استراتيجية النشر على التخمين. بعد اختيار أوقات النشر بناءً على المتوسطات وتحويلات المناطق الزمنية، يأتي الدور على **تحليل الأداء الفلي** لمعرفة ما إذا كانت هذه الأوقات تحقق النتائج المرجوة لجمهورك تحديداً.
+                        لا ينبغي أن تعتمد استراتيجية النشر على التخمين. بعد اختيار أوقات النشر بناءً على المتوسطات وتحويلات المناطق الزمنية، يأتي الدور على <strong>تحليل الأداء الفعلي</strong> لمعرفة ما إذا كانت هذه الأوقات تحقق النتائج المرجوة لجمهورك تحديداً.
                     </p>
 
                     <h2 class="text-lg font-bold text-slate-900 pt-2">1. المقاييس الأساسية لتقييم توقيت النشر</h2>
@@ -117,6 +127,9 @@
                 ctaText: 'Ready to align your publishing schedule with accurate data?',
                 ctaBtn: 'Try Interactive Calculator Now',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
                 body: `
                     <p>
                         A successful posting strategy should never rely on guesswork. After selecting initial target hours and accounting for timezone differences, performance analytics allow you to validate and refine your exact engagement windows.
@@ -161,6 +174,10 @@
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
 
             const articleBody = document.getElementById('articleBody');
             articleBody.innerHTML = data.body;
