@@ -63,7 +63,14 @@
 
     <!-- Footer -->
     <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
-        <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
     </footer>
 
     <script>
@@ -80,6 +87,9 @@
                 ctaText: 'تريد تحديد الوقت المناسب لنشاطك التجاري؟',
                 ctaBtn: 'جرب الحاسبة التفاعلية الان',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
                 body: `
                     <p>
                         يعد فهم طبيعة العميل المستهدف الفارق الرئيسي بين حملة تسويقية ناجحة وأخرى لا تحقق نتائج. لا تتشابه سلوكيات المشترين؛ فالجمهور الذي يشتري منتجات تجارية شخصية (B2C/E-commerce) يتصفح الإنترنت في أوقات مختلفة تماماً عن صناع القرار في الشركات الذين يبحثون عن خدمات للشركات (B2B).
@@ -121,6 +131,9 @@
                 ctaText: 'Looking to optimize posting times for your business model?',
                 ctaBtn: 'Try Interactive Calculator Now',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
+                btnPrivacy: 'Privacy Policy',
+                btnTerms: 'Terms of Service',
+                btnContact: 'Contact Us',
                 body: `
                     <p>
                         Understanding your target customer persona is the foundation of high-converting social media strategy. Buyer behaviors vary drastically: individual retail shoppers (B2C/E-commerce) browse during leisure hours, while corporate decision-makers (B2B) consume content during working hours.
@@ -169,6 +182,10 @@
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('footerText').innerText = data.footerText;
+
+            document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnContact').innerText = data.btnContact;
 
             const articleBody = document.getElementById('articleBody');
             articleBody.innerHTML = data.body;
