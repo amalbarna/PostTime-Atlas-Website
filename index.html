@@ -52,11 +52,14 @@
                 </svg>
                 <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
             </a>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2.5 sm:gap-3">
+                <a href="blog.html" id="btnBlog" class="bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs px-3 py-1.5 rounded-lg font-bold transition flex items-center gap-1">
+                    📖 المقالات
+                </a>
                 <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
                     English 🌐
                 </button>
-                <span id="txtBadgeFree" class="text-xs bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1.5 rounded-full font-bold">مجاني 100%</span>
+                <span id="txtBadgeFree" class="hidden sm:inline-block text-xs bg-emerald-100 text-emerald-800 border border-emerald-300 px-3 py-1.5 rounded-full font-bold">مجاني 100%</span>
             </div>
         </div>
     </header>
@@ -235,24 +238,27 @@
 
         <!-- Articles Section -->
         <section class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm mb-6">
-            <h3 id="articlesTitle" class="font-bold text-slate-900 text-sm mb-3 flex items-center gap-2">
-                <span>📚</span> أحدث المقالات والدلائل
-            </h3>
+            <div class="flex justify-between items-center mb-3">
+                <h3 id="articlesTitle" class="font-bold text-slate-900 text-sm flex items-center gap-2">
+                    <span>📚</span> أحدث المقالات والدلائل
+                </h3>
+                <a href="blog.html" id="linkMoreArticles" class="text-xs text-indigo-600 font-bold hover:underline">عرض الكل ←</a>
+            </div>
             <ul class="space-y-2.5 text-xs">
                 <li class="border-b border-slate-100 pb-2">
-                    <a href="articles/article-1.html" id="art1" class="text-indigo-600 font-bold hover:underline block">استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك</a>
+                    <a href="article-1.html" id="art1" class="text-indigo-600 font-bold hover:underline block">استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك</a>
                 </li>
                 <li class="border-b border-slate-100 pb-2">
-                    <a href="articles/article-2.html" id="art2" class="text-indigo-600 font-bold hover:underline block">كيف تؤثر المناطق الزمنية (Timezones) على وصول المحتوى؟</a>
+                    <a href="article-2.html" id="art2" class="text-indigo-600 font-bold hover:underline block">كيف تؤثر المناطق الزمنية (Timezones) على وصول المحتوى؟</a>
                 </li>
                 <li class="border-b border-slate-100 pb-2">
-                    <a href="articles/article-3.html" id="art3" class="text-indigo-600 font-bold hover:underline block">أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)</a>
+                    <a href="article-3.html" id="art3" class="text-indigo-600 font-bold hover:underline block">أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)</a>
                 </li>
                 <li class="border-b border-slate-100 pb-2">
-                    <a href="articles/article-4.html" id="art4" class="text-indigo-600 font-bold hover:underline block">تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار</a>
+                    <a href="article-4.html" id="art4" class="text-indigo-600 font-bold hover:underline block">تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار</a>
                 </li>
                 <li>
-                    <a href="articles/article-5.html" id="art5" class="text-indigo-600 font-bold hover:underline block">كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية</a>
+                    <a href="article-5.html" id="art5" class="text-indigo-600 font-bold hover:underline block">كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية</a>
                 </li>
             </ul>
         </section>
@@ -300,6 +306,8 @@
             ar: {
                 docTitle: 'PostTime Atlas | أفضل وقت للنشر',
                 badgeFree: 'مجاني 100%',
+                btnBlog: '📖 المقالات',
+                linkMoreArticles: 'عرض الكل ←',
                 mainTitle: 'احصل على أفضل وقت للنشر لجمهورك العالمي 🚀',
                 mainDesc: 'حاسبة تفاعلية لحساب التوقيت المشترك بناءً على أولويات جمهورك في مختلف الدول',
                 lblPlatform: '1. اختر منصة التواصل الاجتماعي:',
@@ -368,6 +376,8 @@
             en: {
                 docTitle: 'PostTime Atlas | Best Time to Post',
                 badgeFree: '100% Free',
+                btnBlog: '📖 Articles',
+                linkMoreArticles: 'View All →',
                 mainTitle: 'Find the Best Posting Time for Your Global Audience 🚀',
                 mainDesc: 'Interactive calculator based on your audience priority across target countries',
                 lblPlatform: '1. Select Social Media Platform:',
@@ -563,6 +573,8 @@
 
             document.getElementById('docTitle').innerText = langData.docTitle;
             document.getElementById('txtBadgeFree').innerText = langData.badgeFree;
+            document.getElementById('btnBlog').innerText = langData.btnBlog;
+            document.getElementById('linkMoreArticles').innerText = langData.linkMoreArticles;
             document.getElementById('mainTitle').innerText = langData.mainTitle;
             document.getElementById('mainDesc').innerText = langData.mainDesc;
             document.getElementById('lblPlatform').innerText = langData.lblPlatform;
