@@ -76,9 +76,9 @@
     <!-- Main Section -->
     <main class="max-w-2xl mx-auto w-full px-4 my-2 flex-grow">
 
-        <!-- زر المقالات الجديد (تحت الإعلان وفوق العنوان) -->
+        <!-- زر المقالات الجديد (تم التعديل ليوجه إلى blog.html) -->
         <div class="flex justify-center mb-4">
-            <a href="#articlesSection" id="btnArticlesNav" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs px-4 py-2 rounded-xl font-bold transition shadow-sm hover:shadow">
+            <a href="blog.html" id="btnArticlesNav" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs px-4 py-2 rounded-xl font-bold transition shadow-sm hover:shadow">
                 <span>✒️</span> <span id="btnArticlesNavText">المقالات والمدونة</span>
             </a>
         </div>
@@ -574,6 +574,7 @@
             document.getElementById('docTitle').innerText = langData.docTitle;
             document.getElementById('txtBadgeFree').innerText = langData.badgeFree;
             document.getElementById('btnArticlesNavText').innerText = langData.btnArticlesNavText;
+            document.getElementById('btnArticlesNav').href = "blog.html";
             document.getElementById('mainTitle').innerText = langData.mainTitle;
             document.getElementById('mainDesc').innerText = langData.mainDesc;
             document.getElementById('lblPlatform').innerText = langData.lblPlatform;
