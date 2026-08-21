@@ -7,13 +7,23 @@
     <!-- Anti-flicker Script & Language/Direction Initialization -->
     <script>
         (function() {
-            var savedLang = localStorage.getItem('siteLang');
-            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
-            var lang = savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
-            var dir = lang === 'ar' ? 'rtl' : 'ltr';
-            document.documentElement.lang = lang;
+            var urlParams = new URLSearchParams(window.location.search);
+            var langParam = urlParams.get('lang');
+            var savedLang = langParam || localStorage.getItem('siteLang');
+            
+            if (!savedLang) {
+                var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+                savedLang = systemLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            
+            if (langParam) {
+                localStorage.setItem('siteLang', langParam);
+            }
+
+            var dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = savedLang;
             document.documentElement.dir = dir;
-            window.__initialLang = lang;
+            window.__initialLang = savedLang;
         })();
     </script>
 
@@ -21,9 +31,10 @@
     <meta id="docDesc" name="description" content="دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.">
     
     <!-- SEO Canonical & Hreflang Tags -->
-    <link rel="canonical" href="https://amalbarna.github.io/articles/article-2.html" id="canonicalUrl">
-    <link rel="alternate" hreflang="ar" href="https://amalbarna.github.io/articles/article-2.html" />
-    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/articles/article-2.html?lang=en" />
+    <link rel="canonical" href="https://amalbarna.github.io/articles/article-4.html" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="https://amalbarna.github.io/articles/article-4.html" />
+    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/articles/article-4.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://amalbarna.github.io/articles/article-4.html" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
@@ -34,7 +45,7 @@
     <!-- Header -->
     <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <a href="../index.html" class="flex items-center gap-2.5">
+            <a href="../index.html" id="logoLink" class="flex items-center gap-2.5">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
                     <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
@@ -108,10 +119,13 @@
     <script>
         function getInitialLanguage() {
             if (window.__initialLang) return window.__initialLang;
-            const savedLang = localStorage.getItem('siteLang');
-            if (savedLang) return savedLang;
-            const systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
-            return systemLang.startsWith('ar') ? 'ar' : 'en';
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = urlLang || savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            localStorage.setItem('siteLang', lang);
+            return lang;
         }
 
         let currentLang = getInitialLanguage();
@@ -225,18 +239,30 @@
             document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
+
+            // تحديث الروابط للحفاظ على معلمة اللغة
+            document.getElementById('logoLink').href = `../index.html?lang=${currentLang}`;
             document.getElementById('btnBack').innerText = data.btnBack;
+            document.getElementById('btnBack').href = `../index.html?lang=${currentLang}`;
+
             document.getElementById('badgeCategory').innerText = data.badgeCategory;
             document.getElementById('articleTitle').innerText = data.articleTitle;
             document.getElementById('articleMeta').innerText = data.articleMeta;
             document.getElementById('articleImg').alt = data.imgAlt;
+
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
-            document.getElementById('footerText').innerText = data.footerText;
+            document.getElementById('ctaBtn').href = `../index.html?lang=${currentLang}`;
 
+            document.getElementById('footerText').innerText = data.footerText;
             document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
+            document.getElementById('btnPrivacy').href = `../privacy.html?lang=${currentLang}`;
+
             document.getElementById('btnTerms').innerText = data.btnTerms;
+            document.getElementById('btnTerms').href = `../terms.html?lang=${currentLang}`;
+
             document.getElementById('btnContact').innerText = data.btnContact;
+            document.getElementById('btnContact').href = `../contact.html?lang=${currentLang}`;
 
             const articleBody = document.getElementById('articleBody');
             articleBody.innerHTML = data.body;
@@ -256,10 +282,15 @@
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
             localStorage.setItem('siteLang', currentLang);
+
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', currentLang);
+            window.history.pushState({}, '', newUrl);
+
             renderLanguage();
         }
 
-        renderLanguage();
+        window.addEventListener('DOMContentLoaded', renderLanguage);
     </script>
 </body>
 </html>
