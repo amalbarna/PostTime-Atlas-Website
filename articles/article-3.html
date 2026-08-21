@@ -3,13 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
+    <script>
+        (function() {
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            var dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = dir;
+            window.__initialLang = lang;
+        })();
+    </script>
+
     <title id="docTitle">الفرق بين أوقات الذروة لحسابات B2B والتجارة الإلكترونية | PostTime Atlas</title>
     <meta id="docDesc" name="description" content="مقارنة شاملة بين أوقات الذروة والتفاعل لحسابات الشركات B2B وحسابات التجارة الإلكترونية B2C للحصول على أعلى معدل تحويل.">
+    
+    <!-- SEO Canonical & Hreflang Tags -->
+    <link rel="canonical" href="https://amalbarna.github.io/articles/article-3.html" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="https://amalbarna.github.io/articles/article-3.html" />
+    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/articles/article-3.html?lang=en" />
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+<body id="bodyTag" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
 
     <!-- Header -->
     <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
@@ -46,8 +66,20 @@
                 <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
             </header>
 
+            <!-- Featured Image -->
+            <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100 shadow-inner">
+                <img 
+                    id="articleImg"
+                    src="https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=1200&q=80" 
+                    alt="ساعات المناطق الزمنية والتوقيت العالمي والأعمال" 
+                    class="w-full h-52 sm:h-72 object-cover hover:scale-105 transition duration-500"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='https://picsum.photos/id/1070/1200/600';"
+                >
+            </div>
+
             <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
-                <!-- المحتوى يتم تحميله عبر السكربت -->
+                <!-- المحتوى يتغير ديناميكياً بواسطة JavaScript -->
             </div>
 
             <!-- Call to Action -->
@@ -74,7 +106,15 @@
     </footer>
 
     <script>
-        let currentLang = 'ar';
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
+            const savedLang = localStorage.getItem('siteLang');
+            if (savedLang) return savedLang;
+            const systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            return systemLang.startsWith('ar') ? 'ar' : 'en';
+        }
+
+        let currentLang = getInitialLanguage();
 
         const content = {
             ar: {
@@ -84,6 +124,7 @@
                 badgeCategory: 'تحليل سلوك الجمهور',
                 articleTitle: 'أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)',
                 articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                imgAlt: 'ساعات المناطق الزمنية والتوقيت العالمي والأعمال',
                 ctaText: 'تريد تحديد الوقت المناسب لنشاطك التجاري؟',
                 ctaBtn: 'جرب الحاسبة التفاعلية الان',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
@@ -107,7 +148,7 @@
 
                     <h2 class="text-lg font-bold text-slate-900 pt-2">2. أوقات الذروة للتجارة الإلكترونية و B2C (Business-to-Consumer)</h2>
                     <p>
-                        تعتمد المبيعات المباشرة للمستهلك على الأوقات التي يكون فيها الفرد مسترخياً وجاهزاً للتسوق:
+                        تتمد المبيعات المباشرة للمستهلك على الأوقات التي يكون فيها الفرد مسترخياً وجاهزاً للتسوق:
                     </p>
                     <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
                         <li><strong>أفضل أيام النشر:</strong> أيام الخميس والجمعة والسبت (عطلة نهاية الأسبوع حيث تزيد عمليات الشراء).</li>
@@ -128,6 +169,7 @@
                 badgeCategory: 'Audience Behavior Analysis',
                 articleTitle: 'Peak Posting Hours: B2B vs. E-commerce (B2C)',
                 articleMeta: 'Updated: 2026 | Read Time: 5 mins',
+                imgAlt: 'World Clocks and Global Business Time Zones',
                 ctaText: 'Looking to optimize posting times for your business model?',
                 ctaBtn: 'Try Interactive Calculator Now',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
@@ -169,16 +211,21 @@
 
         function renderLanguage() {
             const data = content[currentLang];
-            
-            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            const dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = dir;
+            document.getElementById('htmlTag').dir = dir;
+            document.getElementById('bodyTag').dir = dir;
+
             document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
-            
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
             document.getElementById('btnBack').innerText = data.btnBack;
             document.getElementById('badgeCategory').innerText = data.badgeCategory;
             document.getElementById('articleTitle').innerText = data.articleTitle;
             document.getElementById('articleMeta').innerText = data.articleMeta;
+            document.getElementById('articleImg').alt = data.imgAlt;
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('footerText').innerText = data.footerText;
@@ -204,10 +251,12 @@
 
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('siteLang', currentLang);
             renderLanguage();
         }
 
-        window.addEventListener('DOMContentLoaded', renderLanguage);
+        // إطلاق وظيفة العرض فوراً عند تحميل النص البرمجي
+        renderLanguage();
     </script>
 </body>
 </html>
