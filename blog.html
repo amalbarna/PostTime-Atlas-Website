@@ -3,19 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
+    <script>
+        (function() {
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            var dir = lang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = lang;
+            document.documentElement.dir = dir;
+            window.__initialLang = lang;
+        })();
+    </script>
+
     <title id="docTitle">المقالات والمدونة | PostTime Atlas</title>
     <meta id="docDesc" name="description" content="اقرأ أحدث المقالات والنصائح حول أوقات النشر المثالية واستراتيجيات نمو المحتوى.">
     
-    <!-- SEO Alternate Languages -->
+    <!-- SEO Canonical & Hreflang Tags -->
+    <link rel="canonical" href="https://amalbarna.github.io/blog.html" id="canonicalUrl">
     <link rel="alternate" hreflang="ar" href="https://amalbarna.github.io/blog.html" />
-    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/blog.html" />
+    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/blog.html?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://amalbarna.github.io/blog.html" />
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+<body id="bodyTag" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
 
     <!-- Header -->
     <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
@@ -55,7 +70,7 @@
 
         <!-- Articles Grid -->
         <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- سيتم توليد الكروت بالصور عبر السكريبت -->
+            <!-- سيتم توليد الكروت بالصور والمحتوى المحدث عبر JavaScript -->
         </div>
 
     </main>
@@ -73,21 +88,21 @@
     </footer>
 
     <script>
-        function detectInitialLanguage() {
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
             const savedLang = localStorage.getItem('siteLang');
             if (savedLang) return savedLang;
-            
-            const browserLang = navigator.language || navigator.userLanguage;
-            return browserLang.startsWith('ar') ? 'ar' : 'en';
+            const systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            return systemLang.startsWith('ar') ? 'ar' : 'en';
         }
 
-        let currentLang = detectInitialLanguage();
+        let currentLang = getInitialLanguage();
 
-        // المقالات الخمسة الحقيقية مع تعديل مسار المجلد إلى articles/
+        // بيانات المقالات مع استخدام الصور الفعلية والبارزة لكل مقال
         const articles = [
             {
                 id: 'articles/article-1.html',
-                image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80',
                 title: { 
                     ar: 'استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك', 
                     en: 'Strategies for Choosing Posting Times on Instagram and TikTok' 
@@ -100,7 +115,7 @@
             },
             {
                 id: 'articles/article-2.html',
-                image: 'https://images.unsplash.com/photo-1508962914676-134849a727f0?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=1200&q=80',
                 title: { 
                     ar: 'كيف تؤثر المناطق الزمنية (Timezones) على وصول المحتوى؟', 
                     en: 'How Do Timezones Impact Your Content Reach?' 
@@ -109,24 +124,24 @@
                     ar: 'فهم اختلاف التوقيت بين الدول وكيفية جدولة المنشورات لتستهدف جمهورك في أوقات ذروة نشاطهم.', 
                     en: 'Understand time zone differences and learn how to schedule posts to target your audience at peak activity hours.' 
                 },
-                readTime: { ar: '4 دقائق قراءة', en: '4 min read' }
+                readTime: { ar: '5 دقائق قراءة', en: '5 min read' }
             },
             {
                 id: 'articles/article-3.html',
-                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
                 title: { 
-                    ar: 'أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)', 
-                    en: 'Peak Times: B2B Business Accounts vs. B2C E-Commerce' 
+                    ar: 'كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية', 
+                    en: 'How to Measure Posting Time Success: Data Analysis & Key Metrics' 
                 },
                 excerpt: { 
-                    ar: 'اختلاف أوقات استجابة الجمهور بين قطاع الأعمال والمستهلكين وكيف تبني جدول نشر مناسب لنوع نشاطك.', 
-                    en: 'Discover how audience response times vary between B2B and B2C, and build a posting schedule tailored to your business.' 
+                    ar: 'المقاييس المهمة لتقييم أداء جدول نشرك وكيفية استخدام التحليلات لتعديل وتحسين استراتيجيتك باستمرار.', 
+                    en: 'Key metrics for evaluating your posting schedule performance and using analytics to continuously refine your strategy.' 
                 },
-                readTime: { ar: '4 دقائق قراءة', en: '4 min read' }
+                readTime: { ar: '5 دقائق قراءة', en: '5 min read' }
             },
             {
                 id: 'articles/article-4.html',
-                image: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80',
                 title: { 
                     ar: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار', 
                     en: 'Aligning Content Types with Your Schedule: Strategy and Frequency' 
@@ -139,14 +154,14 @@
             },
             {
                 id: 'articles/article-5.html',
-                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80',
+                image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
                 title: { 
-                    ar: 'كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية', 
-                    en: 'How to Measure Posting Time Success: Data Analysis and Key Metrics' 
+                    ar: 'أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)', 
+                    en: 'Peak Times: B2B Business Accounts vs. B2C E-Commerce' 
                 },
                 excerpt: { 
-                    ar: 'المقاييس المهمة لتقييم أداء جدول نشرك وكيفية استخدام التحليلات لتعديل وتحسين استراتيجيتك باستمرار.', 
-                    en: 'Key metrics for evaluating your posting schedule performance and using analytics to continuously refine your strategy.' 
+                    ar: 'اختلاف أوقات استجابة الجمهور بين قطاع الأعمال والمستهلكين وكيف تبني جدول نشر مناسب لنوع نشاطك.', 
+                    en: 'Discover how audience response times vary between B2B and B2C, and build a posting schedule tailored to your business.' 
                 },
                 readTime: { ar: '4 دقائق قراءة', en: '4 min read' }
             }
@@ -159,7 +174,7 @@
                 btnBack: 'الرئيسية 🚀',
                 pageTitle: 'المقالات والمدونة',
                 pageSubtitle: 'استكشف أحدث الدلائل والنصائح لتحسين أوقات النشر واستراتيجيات منصات التواصل الاجتماعي.',
-                readMore: 'اقرأ المقال الكامل ←',
+                readMore: 'اقرأ المقال الكامل',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
                 btnPrivacy: 'سياسة الخصوصية',
                 btnTerms: 'شروط الخدمة',
@@ -171,7 +186,7 @@
                 btnBack: 'Home 🚀',
                 pageTitle: 'Articles & Blog',
                 pageSubtitle: 'Explore the latest guides and tips to optimize posting times and social media strategies.',
-                readMore: 'Read Full Article →',
+                readMore: 'Read Full Article',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
                 btnPrivacy: 'Privacy Policy',
                 btnTerms: 'Terms of Service',
@@ -183,6 +198,8 @@
             const grid = document.getElementById('articlesGrid');
             grid.innerHTML = '';
 
+            const arrowIcon = currentLang === 'ar' ? '←' : '→';
+
             articles.forEach(art => {
                 const card = document.createElement('article');
                 card.className = 'bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
@@ -190,7 +207,7 @@
                 card.innerHTML = `
                     <div>
                         <a href="${art.id}" class="block aspect-video overflow-hidden bg-slate-100">
-                            <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy" />
+                            <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-500" loading="eager" />
                         </a>
                         <div class="p-5 space-y-3">
                             <div class="flex justify-between items-center text-xs text-slate-400 font-semibold">
@@ -209,7 +226,7 @@
                     </div>
                     <div class="px-5 pb-5 pt-2">
                         <a href="${art.id}" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 transition inline-flex items-center gap-1">
-                            ${translations[currentLang].readMore}
+                            ${translations[currentLang].readMore} ${arrowIcon}
                         </a>
                     </div>
                 `;
@@ -219,7 +236,13 @@
 
         function renderLanguage() {
             const data = translations[currentLang];
-            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            const dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+
+            document.documentElement.lang = currentLang;
+            document.documentElement.dir = dir;
+            document.getElementById('htmlTag').dir = dir;
+            document.getElementById('bodyTag').dir = dir;
+
             document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
@@ -241,7 +264,7 @@
             renderLanguage();
         }
 
-        window.addEventListener('DOMContentLoaded', renderLanguage);
+        renderLanguage();
     </script>
 </body>
 </html>
