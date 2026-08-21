@@ -70,7 +70,7 @@
 
         <!-- Articles Grid -->
         <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- سيتم توليد الكروت بالصور والمحتوى المطابق تماماً عبر JavaScript -->
+            <!-- يتم تحميل الكروت تلقائياً بقراءة المقالات المصدرية -->
         </div>
 
     </main>
@@ -98,73 +98,13 @@
 
         let currentLang = getInitialLanguage();
 
-        // ربط دقيق وشامل بين ملف كل مقال، عنوانه الأصلي، وصورته الحقيقية
-        const articles = [
-            {
-                id: 'articles/article-1.html',
-                image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80',
-                title: { 
-                    ar: 'استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك', 
-                    en: 'Best Posting Time Strategies for Instagram & TikTok' 
-                },
-                excerpt: { 
-                    ar: 'دليل شامل لاختيار أفضل أوقات النشر على إنستغرام وتيك توك بناءً على سلوك الجمهور وخوارزميات التفاعل لزيادة المشاهدات.', 
-                    en: 'Comprehensive guide to choosing the best posting times on Instagram & TikTok based on audience behavior and algorithm engagement trends.' 
-                },
-                readTime: { ar: '4 دقائق قراءة', en: '4 min read' }
-            },
-            {
-                id: 'articles/article-2.html',
-                image: 'https://picsum.photos/id/1047/1200/600',
-                title: { 
-                    ar: 'كيف تؤثر المناطق الزمنية (Timezones) على وصول المحتوى؟', 
-                    en: 'How Timezones Affect Content Reach' 
-                },
-                excerpt: { 
-                    ar: 'تعرف على كيفية تأثير فرق التوقيت والمناطق الزمنية على وصول منشوراتك ووصولها للجمهور العالمي المستهدف.', 
-                    en: 'Learn how time differences and global timezones impact your post visibility and reach among target international audiences.' 
-                },
-                readTime: { ar: '5 دقائق قراءة', en: '5 min read' }
-            },
-            {
-                id: 'articles/article-3.html',
-                image: 'https://images.unsplash.com/photo-1508873696983-2df515122519?auto=format&fit=crop&w=1200&q=80',
-                title: { 
-                    ar: 'أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)', 
-                    en: 'Peak Posting Hours: B2B vs. E-commerce (B2C)' 
-                },
-                excerpt: { 
-                    ar: 'مقارنة شاملة بين أوقات الذروة والتفاعل لحسابات الشركات B2B وحسابات التجارة الإلكترونية B2C للحصول على أعلى معدل تحويل.', 
-                    en: 'A comprehensive guide comparing peak engagement hours for B2B accounts versus E-commerce B2C brands for maximum conversions.' 
-                },
-                readTime: { ar: '5 دقائق قراءة', en: '5 min read' }
-            },
-            {
-                id: 'articles/article-4.html',
-                image: 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80',
-                title: { 
-                    ar: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار', 
-                    en: 'Aligning Content Types with Posting Schedules: Frequency & Strategy' 
-                },
-                excerpt: { 
-                    ar: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.', 
-                    en: 'A guide on aligning content formats with daily and weekly posting frequencies for maximum consistency and reach.' 
-                },
-                readTime: { ar: '5 دقائق قراءة', en: '5 min read' }
-            },
-            {
-                id: 'articles/article-5.html',
-                image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
-                title: { 
-                    ar: 'كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية', 
-                    en: 'Measuring Post Performance: How to Analyze Posting Time Success' 
-                },
-                excerpt: { 
-                    ar: 'كيف تقيس نجاح أوقات النشر عبر تحليل المقاييس الرئيسية مثل الوصول والتفاعل والتحويل لضبط استراتيجيتك.', 
-                    en: 'Learn how to measure posting time success using key performance metrics like reach, engagement, and conversion data.' 
-                },
-                readTime: { ar: '5 دقائق قراءة', en: '5 min read' }
-            }
+        // مسارات ملفات المقالات (إذا أضفت مقالاً جديداً مستقبلاً أضف مساره هنا فقط)
+        const articleFiles = [
+            'articles/article-1.html',
+            'articles/article-2.html',
+            'articles/article-3.html',
+            'articles/article-4.html',
+            'articles/article-5.html'
         ];
 
         const translations = {
@@ -175,6 +115,7 @@
                 pageTitle: 'المقالات والدلائل',
                 pageSubtitle: 'استكشف أحدث الدلائل والنصائح لتحسين أوقات النشر واستراتيجيات منصات التواصل الاجتماعي.',
                 readMore: 'اقرأ المقال الكامل',
+                loading: 'جاري تحميل المقالات...',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
                 btnPrivacy: 'سياسة الخصوصية',
                 btnTerms: 'شروط الخدمة',
@@ -187,6 +128,7 @@
                 pageTitle: 'Articles & Guides',
                 pageSubtitle: 'Explore the latest guides and tips to optimize posting times and social media strategies.',
                 readMore: 'Read Full Article',
+                loading: 'Loading articles...',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
                 btnPrivacy: 'Privacy Policy',
                 btnTerms: 'Terms of Service',
@@ -194,13 +136,73 @@
             }
         };
 
-        function renderArticles() {
-            const grid = document.getElementById('articlesGrid');
-            grid.innerHTML = '';
+        // دالة جلب بيانات كل مقال تلقائياً من ملفه الخاص
+        async function fetchArticleData(filePath) {
+            try {
+                const response = await fetch(filePath);
+                if (!response.ok) return null;
+                const htmlText = await response.text();
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlText, 'text/html');
 
+                // استخراج صورة المقال الرئيسية
+                const imgElement = doc.getElementById('articleImg');
+                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
+
+                // استخراج محتوى اللغات المتعددة من السكربت الداخلي
+                const scripts = doc.querySelectorAll('script');
+                let articleContent = null;
+
+                scripts.forEach(script => {
+                    if (script.textContent.includes('const content =')) {
+                        const match = script.textContent.match(/const content = ({[\s\S]*?});/);
+                        if (match && match[1]) {
+                            try {
+                                articleContent = eval('(' + match[1] + ')');
+                            } catch (e) {
+                                console.error('Error parsing content from script:', e);
+                            }
+                        }
+                    }
+                });
+
+                if (articleContent) {
+                    return {
+                        id: filePath,
+                        image: imgSrc,
+                        title: {
+                            ar: articleContent.ar?.articleTitle || '',
+                            en: articleContent.en?.articleTitle || ''
+                        },
+                        excerpt: {
+                            ar: articleContent.ar?.docDesc || '',
+                            en: articleContent.en?.docDesc || ''
+                        },
+                        readTime: {
+                            ar: articleContent.ar?.articleMeta ? articleContent.ar.articleMeta.split('|')[1] || '5 دقائق قراءة' : '5 دقائق قراءة',
+                            en: articleContent.en?.articleMeta ? articleContent.en.articleMeta.split('|')[1] || '5 min read' : '5 min read'
+                        }
+                    };
+                }
+            } catch (error) {
+                console.error(`Error loading article file ${filePath}:`, error);
+            }
+            return null;
+        }
+
+        // عرض المقالات ديناميكياً
+        async function renderArticles() {
+            const grid = document.getElementById('articlesGrid');
+            grid.innerHTML = `<p class="text-center col-span-1 md:col-span-2 text-slate-400 text-xs py-8">${translations[currentLang].loading}</p>`;
+
+            const fetchedArticles = await Promise.all(articleFiles.map(file => fetchArticleData(file)));
+            const validArticles = fetchedArticles.filter(art => art !== null);
+
+            grid.innerHTML = '';
             const arrowIcon = currentLang === 'ar' ? '←' : '→';
 
-            articles.forEach(art => {
+            validArticles.forEach(art => {
                 const card = document.createElement('article');
                 card.className = 'bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
                 
