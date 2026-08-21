@@ -36,7 +36,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    <!-- علّق سكربت أدسنس مؤقتًا لحد ما يوافقوا على الحساب - المعرّف الحالي وهمي للتجربة فقط -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
 
     <script type="application/ld+json">
     {
@@ -359,6 +360,17 @@
             'CA': 'America/Toronto', 'IN': 'Asia/Kolkata', 'AU': 'Australia/Sydney', 'MY': 'Asia/Kuala_Lumpur'
         };
 
+        // خريطة أيام العطلة الأسبوعية لكل دولة (بعض الدول جمعة/سبت، وبعضها سبت/أحد)
+        // ملاحظة: الإمارات تحولت رسميًا إلى عطلة سبت/أحد منذ يناير 2022.
+        const FRI_SAT_WEEKEND = ['SA', 'KW', 'QA', 'OM', 'BH', 'EG', 'JO', 'IQ', 'DZ', 'LY', 'SD', 'PS', 'YEM'];
+
+        function isWeekendForCountry(code, localDayShort) {
+            if (FRI_SAT_WEEKEND.includes(code)) {
+                return localDayShort === 'Fri' || localDayShort === 'Sat';
+            }
+            return localDayShort === 'Sat' || localDayShort === 'Sun';
+        }
+
         const i18n = {
             ar: {
                 docTitle: 'PostTime Atlas | أفضل وقت للنشر',
@@ -485,7 +497,7 @@
                     JO: '🇯🇴 Jordan', MA: '🇲🇦 Morocco', DZ: '🇩🇿 Algeria',
                     OM: '🇴🇲 Oman', BH: '🇧🇭 Bahrain', TN: '🇹🇳 Tunisia',
                     LY: '🇱🇾 Libya', SD: '🇸🇩 Sudan', LB: '🇱🇧 Lebanon',
-                    PS: 'Palestine', YEM: 'Yemen',
+                    PS: '🇵🇸 Palestine', YEM: '🇾🇪 Yemen',
                     US_EST: '🇺🇸 USA - East', US_PST: '🇺🇸 USA - West',
                     UK: '🇬🇧 UK', DE: '🇩🇪 Germany', FR: '🇫🇷 France',
                     TR: '🇹🇷 Turkey', CA: '🇨🇦 Canada', IN: '🇮🇳 India',
@@ -600,15 +612,24 @@
             applyLanguageUI();
         }
 
-        function getLocalHour(date, timeZone) {
+        // يرجع الساعة المحلية ككسر عشري (مثال: 14:30 => 14.5) لدعم دقة نصف ساعة في الحسابات
+        function getLocalHourFraction(date, timeZone) {
             const formatter = new Intl.DateTimeFormat('en-US', {
                 timeZone,
                 hour: 'numeric',
+                minute: 'numeric',
                 hour12: false
             });
             const parts = formatter.formatToParts(date);
-            const hr = parts.find(p => p.type === 'hour')?.value;
-            return parseInt(hr, 10) % 24;
+            const hr = parseInt(parts.find(p => p.type === 'hour')?.value, 10) % 24;
+            const min = parseInt(parts.find(p => p.type === 'minute')?.value, 10) || 0;
+            return hr + (min / 60);
+        }
+
+        // الفارق الدائري بين ساعتين (يأخذ في الاعتبار التفاف الساعة 23 إلى 0)
+        function circularHourDiff(a, b) {
+            const diff = Math.abs(a - b);
+            return Math.min(diff, 24 - diff);
         }
 
         function getPriorityWeight(index, total) {
@@ -632,22 +653,52 @@
                 peakEnd = 23;
             }
 
-            if (localHour >= peakStart && localHour <= peakEnd) {
-                return 100;
-            } else if (Math.abs(localHour - peakStart) <= 2 || Math.abs(localHour - peakEnd) <= 2) {
-                return 60;
-            } else if (localHour >= 1 && localHour <= 6) {
-                return 10;
+            // بدلاً من نظام الدرجات الثابتة (100 / 60 / 30 / 10) الذي يجعل ساعات كثيرة متساوية تمامًا
+            // نستخدم منحنى تراجع سلس (Gaussian) حول مركز نافذة الذروة، فكل ساعة تحصل على درجة فريدة
+            // تعكس مدى قربها الفعلي من أفضل وقت، مما يحسّن جودة الترتيب واختيار أفضل 3 نتائج.
+            const peakCenter = (peakStart + peakEnd) / 2;
+            const halfWidth = (peakEnd - peakStart) / 2;
+            const sigma = halfWidth + 1.5;
+
+            const diff = circularHourDiff(localHour, peakCenter);
+            let score = 100 * Math.exp(-0.5 * Math.pow(diff / sigma, 2));
+
+            // تخفيض إضافي لساعات الفجر المتأخرة (1 - 6 صباحًا) حيث ينام معظم الجمهور بصرف النظر عن المنصة
+            if (localHour >= 1 && localHour < 6) {
+                score *= 0.25;
             }
-            return 30;
+
+            return score;
+        }
+
+        // تحسب أقرب تاريخ (بتوقيت UTC) يوافق اليوم المختار من القائمة، بدلاً من استخدام تاريخ اليوم دائمًا
+        function getDateForSelectedDay(dayKey) {
+            const dayIndexMap = { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
+            const targetIndex = dayIndexMap[dayKey];
+            const now = new Date();
+            const currentUTCIndex = now.getUTCDay();
+
+            let diff = targetIndex - currentUTCIndex;
+            if (diff < 0) diff += 7;
+
+            const result = new Date(now);
+            result.setUTCDate(now.getUTCDate() + diff);
+            result.setUTCHours(0, 0, 0, 0);
+            return result;
         }
 
         function findTop3PostingTimes(date, countries, platform, niche) {
             const candidates = [];
+            const stepMinutes = 30;
+            const stepsPerDay = (24 * 60) / stepMinutes; // 48 نقطة فحص بدقة نصف ساعة بدلاً من 24 فقط
 
-            for (let utcHour = 0; utcHour < 24; utcHour++) {
+            for (let step = 0; step < stepsPerDay; step++) {
+                const totalMinutes = step * stepMinutes;
+                const hours = Math.floor(totalMinutes / 60);
+                const minutes = totalMinutes % 60;
+
                 const testDate = new Date(date);
-                testDate.setUTCHours(utcHour, 0, 0, 0);
+                testDate.setUTCHours(hours, minutes, 0, 0);
 
                 let totalScore = 0;
 
@@ -655,26 +706,33 @@
                     const timeZone = TIME_ZONES[code];
                     if (!timeZone) return;
 
-                    const localHour = getLocalHour(testDate, timeZone);
+                    const localHourFraction = getLocalHourFraction(testDate, timeZone);
                     const dayFormatter = new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'short' });
                     const localDay = dayFormatter.format(testDate);
-                    const isWeekend = localDay === 'Fri' || localDay === 'Sat';
+                    const isWeekend = isWeekendForCountry(code, localDay);
 
-                    const score = getTimeScore(localHour, platform, niche, isWeekend);
+                    const score = getTimeScore(localHourFraction, platform, niche, isWeekend);
                     const priority = getPriorityWeight(index, countries.length);
 
                     totalScore += score * priority;
                 });
 
-                candidates.push({ utcHour, score: totalScore });
+                candidates.push({ utcHour: hours, utcMinute: minutes, score: totalScore });
             }
 
             candidates.sort((a, b) => b.score - a.score);
 
+            // نضمن فاصلاً زمنيًا حقيقيًا (ساعتان على الأقل) بين كل خيار مُقترح والآخر
+            // حتى لا تتكرر نفس نافذة الذروة بصياغات متقاربة كأنها ثلاثة خيارات مختلفة
+            const MIN_GAP_HOURS = 2;
             const top3 = [candidates[0]];
             for (let i = 1; i < candidates.length && top3.length < 3; i++) {
                 const candidate = candidates[i];
-                const isTooClose = top3.some(item => Math.abs(item.utcHour - candidate.utcHour) <= 1);
+                const candidateTime = candidate.utcHour + candidate.utcMinute / 60;
+                const isTooClose = top3.some(item => {
+                    const itemTime = item.utcHour + item.utcMinute / 60;
+                    return circularHourDiff(itemTime, candidateTime) < MIN_GAP_HOURS;
+                });
                 if (!isTooClose) {
                     top3.push(candidate);
                 }
@@ -833,12 +891,12 @@
                 return;
             }
 
-            const baseDate = new Date();
+            const baseDate = getDateForSelectedDay(dayKey);
             const top3Candidates = findTop3PostingTimes(baseDate, selectedCountries, currentP, niche);
 
             const top3Formatted = top3Candidates.map(candidate => {
                 const targetUtcDate = new Date(baseDate);
-                targetUtcDate.setUTCHours(candidate.utcHour, 0, 0, 0);
+                targetUtcDate.setUTCHours(candidate.utcHour, candidate.utcMinute || 0, 0, 0);
 
                 return selectedCountries.map((code, idx) => {
                     const tz = TIME_ZONES[code];
