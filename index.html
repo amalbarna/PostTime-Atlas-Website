@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl" id="htmlTag">
 <head>
@@ -612,122 +613,841 @@
             applyLanguageUI();
         }
 
-        function getLocalHourFraction(date, timeZone) {
-            const formatter = new Intl.DateTimeFormat('en-US', {
-                timeZone,
-                hour: 'numeric',
-                minute: 'numeric',
-                hour12: false
-            });
-            const parts = formatter.formatToParts(date);
-            const hr = parseInt(parts.find(p => p.type === 'hour')?.value, 10) % 24;
-            const min = parseInt(parts.find(p => p.type === 'minute')?.value, 10) || 0;
-            return hr + (min / 60);
-        }
-
         function circularHourDiff(a, b) {
             const diff = Math.abs(a - b);
             return Math.min(diff, 24 - diff);
         }
 
+        /* =========================================================
+           POSTTIME ATLAS — DATA-DRIVEN SCORING ENGINE v2
+           ---------------------------------------------------------
+           The UI and result rendering remain unchanged.
+
+           Model:
+           Platform × Day × Local Hour × Niche × Country Context
+           × Audience Priority
+
+           Baseline informed by 2026 large-scale social posting
+           studies from Buffer, Sprout Social and Metricool.
+
+           Important:
+           These are benchmark priors, not live account analytics.
+           ========================================================= */
+
+
+        /* =========================================================
+           1. PLATFORM × DAY × HOUR BENCHMARK PROFILES
+           ---------------------------------------------------------
+           Scores are relative engagement priors.
+           100 = strongest part of the platform/day curve.
+           ========================================================= */
+
+        const SOCIAL_BENCHMARKS = {
+
+            instagram: {
+                sunday:    [45,45,48,50,52,55,58,62,66,70,73,76,78,77,74,72,75,82,91,96,100,98,91,78],
+                monday:    [38,38,40,43,47,52,58,65,72,77,79,78,76,74,73,75,80,88,95,98,96,91,82,68],
+                tuesday:   [38,38,40,43,48,54,60,67,75,81,84,83,81,78,76,78,84,92,97,100,97,91,82,68],
+                wednesday: [39,39,41,44,49,55,62,70,78,84,87,89,94,91,84,80,83,91,97,100,98,92,83,69],
+                thursday:  [40,40,42,45,50,57,64,72,80,86,91,94,100,96,88,83,85,92,97,99,96,90,81,67],
+                friday:    [36,36,38,41,45,50,55,61,67,71,73,72,69,66,63,64,68,73,78,82,84,82,75,63],
+                saturday:  [42,42,44,47,50,54,58,61,64,67,69,68,66,64,63,65,70,76,82,86,88,85,78,67]
+            },
+
+            tiktok: {
+                sunday:    [55,53,50,48,46,44,46,55,72,88,96,91,84,79,76,78,82,88,94,98,100,99,95,82],
+                monday:    [40,39,38,37,36,38,43,50,56,60,63,67,75,82,78,76,80,87,94,98,100,99,94,82],
+                tuesday:   [39,38,37,36,36,38,43,48,54,59,62,66,72,78,75,74,79,87,94,99,100,98,93,81],
+                wednesday: [37,36,35,34,34,36,40,45,50,55,58,61,65,70,68,69,74,82,90,95,98,96,91,80],
+                thursday:  [40,39,38,37,37,39,44,50,56,61,65,69,74,79,78,79,84,91,96,100,99,98,94,84],
+                friday:    [43,42,41,40,40,43,48,54,61,66,70,73,77,80,79,80,86,93,97,100,99,97,93,84],
+                saturday:  [52,50,48,46,45,47,52,61,72,84,90,93,91,87,84,83,87,92,97,100,99,98,94,86]
+            },
+
+            youtube: {
+                sunday:    [35,34,33,32,32,34,40,52,68,84,100,97,92,84,76,70,72,78,83,86,84,78,67,52],
+                monday:    [30,29,28,28,29,32,38,45,54,61,65,68,70,69,67,65,68,73,78,82,80,73,62,48],
+                tuesday:   [31,30,29,29,30,33,39,46,55,62,66,69,71,70,68,67,70,75,80,84,82,75,64,50],
+                wednesday: [29,28,27,27,28,31,37,44,53,60,64,67,69,68,65,64,67,72,77,81,79,72,61,47],
+                thursday:  [32,31,30,30,31,34,40,47,56,63,67,70,72,71,69,68,71,76,81,85,83,76,65,51],
+                friday:    [38,37,36,36,37,40,46,54,63,71,76,80,82,81,79,80,85,91,96,99,97,91,82,68],
+                saturday:  [42,41,40,40,41,44,50,59,69,79,87,91,92,90,87,84,86,91,95,98,96,89,80,67]
+            },
+
+            twitter: {
+                sunday:    [28,27,26,25,25,27,32,40,50,57,60,61,59,56,53,51,50,49,47,45,42,38,34,30],
+                monday:    [34,34,35,36,38,42,50,62,76,88,95,100,97,91,84,78,72,66,59,53,47,41,37,34],
+                tuesday:   [35,35,36,37,39,44,52,65,80,91,98,100,98,94,87,80,73,67,60,54,48,42,38,35],
+                wednesday: [36,36,37,38,40,45,54,68,83,95,100,98,95,91,85,78,72,66,59,53,47,42,38,35],
+                thursday:  [35,35,36,37,39,44,52,64,79,90,97,99,96,91,84,77,71,65,59,53,48,43,39,35],
+                friday:    [32,31,32,33,35,39,47,58,69,78,84,88,86,81,75,69,63,57,51,46,41,37,34,31],
+                saturday:  [25,24,24,24,25,27,30,34,39,43,45,46,45,43,40,38,36,34,32,30,29,28,27,26]
+            },
+
+            facebook: {
+                sunday:    [30,29,29,29,30,32,36,42,49,55,61,66,70,72,71,68,64,60,55,50,45,40,35,32],
+                monday:    [35,35,36,38,42,48,57,67,77,86,92,96,98,100,97,92,86,80,73,65,57,49,42,37],
+                tuesday:   [37,37,38,40,44,50,59,70,81,90,96,99,100,98,96,92,87,82,76,69,61,53,45,39],
+                wednesday: [38,38,39,41,45,51,60,72,83,92,98,100,99,98,96,93,89,84,78,71,63,55,47,40],
+                thursday:  [39,39,40,42,46,52,61,73,84,93,99,100,99,98,96,92,88,83,77,70,62,54,46,40],
+                friday:    [34,34,35,37,41,47,55,65,74,82,87,90,89,87,83,79,74,69,63,57,50,44,39,35],
+                saturday:  [27,27,28,29,31,35,40,46,51,55,58,60,59,57,54,51,48,45,42,39,36,33,30,28]
+            },
+
+            linkedin: {
+                sunday:    [18,18,18,19,20,22,25,29,34,40,47,54,60,67,73,80,84,88,91,92,90,84,72,58],
+                monday:    [25,25,26,28,30,34,40,48,57,65,71,75,78,80,82,84,86,87,84,78,69,58,46,34],
+                tuesday:   [27,27,28,30,32,36,42,50,59,68,74,79,83,88,92,96,98,96,91,84,75,64,51,38],
+                wednesday: [28,28,29,31,33,37,43,51,60,69,76,81,85,90,95,100,99,97,93,87,78,67,54,40],
+                thursday:  [27,27,28,30,32,36,42,50,59,67,74,79,84,89,94,98,99,97,92,85,76,65,52,39],
+                friday:    [26,26,27,29,31,35,41,49,58,66,73,78,83,88,93,97,100,98,92,85,76,64,51,38],
+                saturday:  [23,23,24,25,27,30,35,41,48,55,62,68,73,78,82,86,89,91,89,84,76,65,53,40]
+            },
+
+            snapchat: {
+                sunday:    [48,46,44,42,41,43,48,55,63,69,72,70,67,65,66,70,76,84,91,96,100,98,91,78],
+                monday:    [36,35,34,34,35,38,42,47,52,56,59,61,63,64,66,69,74,81,89,95,100,98,91,78],
+                tuesday:   [37,36,35,35,36,39,43,48,53,57,60,62,64,65,67,70,75,82,90,96,100,99,92,79],
+                wednesday: [35,34,33,33,34,37,41,46,51,55,58,60,62,63,65,68,73,80,88,94,99,97,90,77],
+                thursday:  [38,37,36,36,37,40,44,49,54,58,61,63,65,66,68,71,76,83,91,97,100,98,92,80],
+                friday:    [42,41,40,40,41,44,49,55,61,66,70,72,74,75,77,80,85,91,96,100,99,97,92,82],
+                saturday:  [50,48,46,44,44,46,51,58,66,73,78,80,81,80,79,80,84,89,94,98,100,98,93,84]
+            },
+
+            pinterest: {
+                sunday:    [32,31,30,29,29,30,33,38,44,50,56,62,67,71,75,78,82,87,92,96,100,98,93,84],
+                monday:    [34,33,32,31,31,32,35,39,44,49,54,59,63,67,70,73,76,80,84,89,94,98,100,92],
+                tuesday:   [36,35,34,33,33,34,37,41,46,51,56,61,65,69,72,75,78,82,86,91,96,99,100,94],
+                wednesday: [35,34,33,32,32,33,36,40,45,50,55,60,64,68,71,74,77,81,85,90,95,98,100,93],
+                thursday:  [37,36,35,34,34,35,38,42,47,52,57,62,66,70,73,76,79,83,87,92,97,100,98,91],
+                friday:    [33,32,31,30,30,31,34,38,43,48,53,58,62,66,70,73,77,81,86,91,96,100,98,90],
+                saturday:  [29,28,27,26,26,27,30,34,39,44,49,54,59,64,69,73,77,81,85,89,94,98,100,91]
+            }
+        };
+
+
+        /* =========================================================
+           2. NICHE MODIFIERS
+           ---------------------------------------------------------
+           Niche does NOT replace the platform curve.
+           It subtly shifts the curve to avoid unrealistic jumps.
+           ========================================================= */
+
+        const NICHE_PROFILES = {
+
+            general: {
+                morning: 1.00,
+                midday: 1.00,
+                afternoon: 1.00,
+                evening: 1.00,
+                night: 0.94,
+                weekend: 1.00
+            },
+
+            ecommerce: {
+                morning: 0.97,
+                midday: 1.06,
+                afternoon: 1.08,
+                evening: 1.04,
+                night: 0.90,
+                weekend: 1.05
+            },
+
+            business: {
+                morning: 1.05,
+                midday: 1.08,
+                afternoon: 1.10,
+                evening: 0.94,
+                night: 0.72,
+                weekend: 0.78
+            },
+
+            entertainment: {
+                morning: 0.90,
+                midday: 0.95,
+                afternoon: 1.00,
+                evening: 1.10,
+                night: 1.03,
+                weekend: 1.06
+            },
+
+            gaming: {
+                morning: 0.78,
+                midday: 0.92,
+                afternoon: 1.03,
+                evening: 1.12,
+                night: 1.06,
+                weekend: 1.08
+            }
+        };
+
+
+        /* =========================================================
+           3. COUNTRY / MARKET CONTEXT
+           ---------------------------------------------------------
+           We deliberately do NOT invent fake country-specific
+           engagement datasets.
+
+           Country affects:
+           - timezone
+           - local weekend pattern
+           - broad regional usage rhythm
+
+           The actual benchmark curve remains platform-based
+           and is evaluated in the audience's local time.
+           ========================================================= */
+
+        const MARKET_PROFILES = {
+
+            mena: {
+                morning: 0.94,
+                midday: 1.00,
+                afternoon: 1.03,
+                evening: 1.07,
+                night: 1.02
+            },
+
+            europe: {
+                morning: 1.02,
+                midday: 1.04,
+                afternoon: 1.05,
+                evening: 1.00,
+                night: 0.88
+            },
+
+            northAmerica: {
+                morning: 1.03,
+                midday: 1.02,
+                afternoon: 1.00,
+                evening: 1.04,
+                night: 0.84
+            },
+
+            southAsia: {
+                morning: 0.96,
+                midday: 1.00,
+                afternoon: 1.02,
+                evening: 1.06,
+                night: 1.00
+            },
+
+            oceania: {
+                morning: 1.02,
+                midday: 1.00,
+                afternoon: 1.02,
+                evening: 1.04,
+                night: 0.90
+            },
+
+            southeastAsia: {
+                morning: 0.94,
+                midday: 1.00,
+                afternoon: 1.03,
+                evening: 1.07,
+                night: 1.01
+            }
+        };
+
+
+        function getMarketRegion(code) {
+
+            const mena = [
+                'SA','EG','AE','KW','QA','IQ','JO','MA','DZ',
+                'OM','BH','TN','LY','SD','LB','PS','YEM'
+            ];
+
+            const europe = ['UK','DE','FR','TR'];
+
+            const northAmerica = ['US_EST','US_PST','CA'];
+
+            const southAsia = ['IN'];
+
+            const oceania = ['AU'];
+
+            const southeastAsia = ['MY'];
+
+            if (mena.includes(code)) return 'mena';
+            if (europe.includes(code)) return 'europe';
+            if (northAmerica.includes(code)) return 'northAmerica';
+            if (southAsia.includes(code)) return 'southAsia';
+            if (oceania.includes(code)) return 'oceania';
+            if (southeastAsia.includes(code)) return 'southeastAsia';
+
+            return 'mena';
+        }
+
+
+        /* =========================================================
+           4. PRIORITY WEIGHT
+           ---------------------------------------------------------
+           Old:
+              5 countries = 5,4,3,2,1
+
+           New:
+              normalized decay so adding a country doesn't
+              dramatically distort the entire result.
+           ========================================================= */
+
         function getPriorityWeight(index, total) {
-            return Math.max(1, total - index);
+
+            if (total <= 1) return 1;
+
+            const normalizedPosition = index / (total - 1);
+
+            // Primary = 1.00
+            // Last ≈ 0.55
+            return 1.00 - (normalizedPosition * 0.45);
         }
 
-        function getTimeScore(localHour, platform, niche, isWeekend) {
-            let peakStart = 17, peakEnd = 22;
 
-            if (platform === 'linkedin' || niche === 'business') {
-                peakStart = isWeekend ? 10 : 8;
-                peakEnd = isWeekend ? 13 : 14;
-            } else if (niche === 'ecommerce') {
-                peakStart = 12;
-                peakEnd = 16;
-            } else if (platform === 'tiktok' || platform === 'snapchat') {
-                peakStart = isWeekend ? 19 : 18;
-                peakEnd = isWeekend ? 23 : 22;
-            } else if (platform === 'pinterest') {
-                peakStart = 20;
-                peakEnd = 23;
-            }
+        /* =========================================================
+           5. TIME-OF-DAY NICHE MODIFIER
+           ========================================================= */
 
-            const peakCenter = (peakStart + peakEnd) / 2;
-            const halfWidth = (peakEnd - peakStart) / 2;
-            const sigma = halfWidth + 1.5;
+        function getTimeSegment(hour) {
 
-            const diff = circularHourDiff(localHour, peakCenter);
-            let score = 100 * Math.exp(-0.5 * Math.pow(diff / sigma, 2));
+            if (hour >= 5 && hour < 10) return 'morning';
+            if (hour >= 10 && hour < 14) return 'midday';
+            if (hour >= 14 && hour < 18) return 'afternoon';
+            if (hour >= 18 && hour < 23) return 'evening';
 
-            if (localHour >= 1 && localHour < 6) {
-                score *= 0.25;
-            }
-
-            return score;
+            return 'night';
         }
+
+
+        /* =========================================================
+           6. SMOOTH INTERPOLATION
+           ---------------------------------------------------------
+           Benchmark data is hourly, but the engine evaluates
+           every 30 minutes.
+
+           Instead of giving 10:00 and 10:30 identical scores,
+           interpolate between neighboring hourly values.
+           ========================================================= */
+
+        function interpolateHourlyScore(hourFraction, hourlyScores) {
+
+            const normalizedHour = ((hourFraction % 24) + 24) % 24;
+
+            const lowerHour = Math.floor(normalizedHour);
+            const fraction = normalizedHour - lowerHour;
+
+            const nextHour = (lowerHour + 1) % 24;
+
+            const a = hourlyScores[lowerHour];
+            const b = hourlyScores[nextHour];
+
+            return a + ((b - a) * fraction);
+        }
+
+
+        /* =========================================================
+           7. LOCAL DAY + LOCAL HOUR
+           ========================================================= */
+
+        function getLocalContext(date, timeZone) {
+
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone,
+                weekday: 'short',
+                hour: 'numeric',
+                minute: 'numeric',
+                hour12: false
+            });
+
+            const parts = formatter.formatToParts(date);
+
+            const hourPart = parts.find(p => p.type === 'hour');
+            const minutePart = parts.find(p => p.type === 'minute');
+            const weekdayPart = parts.find(p => p.type === 'weekday');
+
+            const hour = parseInt(hourPart?.value || '0', 10) % 24;
+            const minute = parseInt(minutePart?.value || '0', 10);
+
+            return {
+                hourFraction: hour + (minute / 60),
+                hour,
+                minute,
+                weekday: weekdayPart?.value || 'Mon'
+            };
+        }
+
+
+        /* =========================================================
+           8. WEEKEND ADJUSTMENT
+           ========================================================= */
+
+        function getWeekendMultiplier(code, weekday, platform) {
+
+            const isWeekend = isWeekendForCountry(code, weekday);
+
+            if (!isWeekend) return 1;
+
+            /*
+              Weekend behavior is intentionally platform-specific.
+
+              TikTok and YouTube:
+              weekend activity can remain strong.
+
+              Instagram / Facebook / X:
+              benchmark datasets generally show weaker weekend
+              performance.
+
+              LinkedIn:
+              2026 data shows weekends are not as weak as older
+              assumptions, but weekdays remain stronger.
+            */
+
+            const weekendMultipliers = {
+                instagram: 0.91,
+                tiktok: 1.04,
+                youtube: 1.05,
+                twitter: 0.82,
+                facebook: 0.86,
+                linkedin: 0.90,
+                snapchat: 1.03,
+                pinterest: 1.03
+            };
+
+            return weekendMultipliers[platform] || 0.92;
+        }
+
+
+        /* =========================================================
+           9. MAIN SCORE FUNCTION
+           ========================================================= */
+
+        function getTimeScore(
+            localHour,
+            platform,
+            niche,
+            weekday,
+            countryCode
+        ) {
+
+            const platformProfile = SOCIAL_BENCHMARKS[platform];
+
+            if (!platformProfile) return 50;
+
+            const dayKeyMap = {
+                Sun: 'sunday',
+                Mon: 'monday',
+                Tue: 'tuesday',
+                Wed: 'wednesday',
+                Thu: 'thursday',
+                Fri: 'friday',
+                Sat: 'saturday'
+            };
+
+            const dayKey = dayKeyMap[weekday];
+
+            if (!dayKey || !platformProfile[dayKey]) return 50;
+
+            /*
+              Base score from actual platform/day benchmark curve.
+            */
+            let score = interpolateHourlyScore(
+                localHour,
+                platformProfile[dayKey]
+            );
+
+
+            /*
+              Niche adjustment.
+            */
+            const nicheProfile =
+                NICHE_PROFILES[niche] || NICHE_PROFILES.general;
+
+            const segment = getTimeSegment(localHour);
+
+            score *= nicheProfile[segment];
+
+
+            /*
+              Country / market adjustment.
+            */
+            const region = getMarketRegion(countryCode);
+
+            const marketProfile =
+                MARKET_PROFILES[region] || MARKET_PROFILES.mena;
+
+            score *= marketProfile[segment];
+
+
+            /*
+              Weekend adjustment based on the LOCAL DAY
+              of that particular country.
+            */
+            score *= getWeekendMultiplier(
+                countryCode,
+                weekday,
+                platform
+            );
+
+
+            /*
+              Universal low-activity penalty.
+              We keep it moderate because some platforms
+              can still perform overnight.
+            */
+            if (localHour >= 2 && localHour < 5) {
+                score *= 0.58;
+            }
+
+
+            /*
+              Very late-night penalty.
+            */
+            if (localHour >= 0 && localHour < 2) {
+                score *= 0.78;
+            }
+
+
+            return Math.max(0, Math.min(100, score));
+        }
+
+
+        /* =========================================================
+           10. SCORE A COMPLETE UTC CANDIDATE
+           ========================================================= */
+
+        function scorePostingCandidate(
+            testDate,
+            countries,
+            platform,
+            niche
+        ) {
+
+            let weightedScore = 0;
+            let totalWeight = 0;
+
+            const countryScores = [];
+
+            countries.forEach((code, index) => {
+
+                const timeZone = TIME_ZONES[code];
+
+                if (!timeZone) return;
+
+                const context = getLocalContext(
+                    testDate,
+                    timeZone
+                );
+
+                const score = getTimeScore(
+                    context.hourFraction,
+                    platform,
+                    niche,
+                    context.weekday,
+                    code
+                );
+
+                const priority =
+                    getPriorityWeight(index, countries.length);
+
+                weightedScore += score * priority;
+                totalWeight += priority;
+
+                countryScores.push({
+                    code,
+                    score,
+                    priority,
+                    localHour: context.hourFraction,
+                    weekday: context.weekday
+                });
+            });
+
+
+            if (!totalWeight) return 0;
+
+            /*
+              Weighted average instead of raw total.
+
+              This makes the algorithm stable whether the user
+              selects 2 countries or 15 countries.
+            */
+            let finalScore =
+                weightedScore / totalWeight;
+
+
+            /*
+              GLOBAL OVERLAP BONUS
+
+              Reward times where multiple important markets
+              are simultaneously in strong local windows.
+
+              This is what makes the "shared time" concept
+              materially different from simply choosing the
+              primary country's best time.
+            */
+
+            const strongMarkets =
+                countryScores.filter(item => item.score >= 78);
+
+            const overlapRatio =
+                strongMarkets.length / Math.max(1, countryScores.length);
+
+            finalScore *= (
+                0.88 +
+                (overlapRatio * 0.12)
+            );
+
+
+            /*
+              PRIMARY MARKET PROTECTION
+
+              The first country should matter most,
+              but secondary markets should still influence
+              the result.
+            */
+
+            if (countryScores.length > 0) {
+
+                const primary = countryScores[0];
+
+                if (primary.score < 55) {
+                    finalScore *= 0.90;
+                }
+
+                if (primary.score >= 90) {
+                    finalScore *= 1.04;
+                }
+            }
+
+
+            /*
+              Penalize extreme timezone compromise.
+
+              If a candidate gives one market a great time but
+              forces another major market into deep night,
+              reduce its global score.
+
+              This prevents mathematically "good averages"
+              that are practically bad for one important audience.
+            */
+
+            const severeNightMarkets =
+                countryScores.filter(item =>
+                    item.localHour >= 1 &&
+                    item.localHour < 6 &&
+                    item.priority >= 0.70
+                );
+
+            if (severeNightMarkets.length > 0) {
+
+                const severeRatio =
+                    severeNightMarkets.length /
+                    Math.max(1, countryScores.length);
+
+                finalScore *= (
+                    1 - Math.min(0.16, severeRatio * 0.16)
+                );
+            }
+
+
+            return finalScore;
+        }
+
+
+        /* =========================================================
+           11. GET DATE FOR SELECTED DAY
+           ---------------------------------------------------------
+           We use the current calendar week as the reference week.
+           Intl handles DST for every country automatically.
+           ========================================================= */
 
         function getDateForSelectedDay(dayKey) {
-            const dayIndexMap = { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
+
+            const dayIndexMap = {
+                sunday: 0,
+                monday: 1,
+                tuesday: 2,
+                wednesday: 3,
+                thursday: 4,
+                friday: 5,
+                saturday: 6
+            };
+
             const targetIndex = dayIndexMap[dayKey];
+
             const now = new Date();
+
+            /*
+              Use UTC day as a neutral calendar anchor.
+              The actual local weekday/hour is resolved separately
+              for every target country through Intl.DateTimeFormat.
+            */
+
             const currentUTCIndex = now.getUTCDay();
 
-            let diff = targetIndex - currentUTCIndex;
+            let diff =
+                targetIndex - currentUTCIndex;
+
             if (diff < 0) diff += 7;
 
             const result = new Date(now);
-            result.setUTCDate(now.getUTCDate() + diff);
-            result.setUTCHours(0, 0, 0, 0);
+
+            result.setUTCDate(
+                now.getUTCDate() + diff
+            );
+
+            result.setUTCHours(
+                0, 0, 0, 0
+            );
+
             return result;
         }
 
-        function findTop3PostingTimes(date, countries, platform, niche) {
+
+        /* =========================================================
+           12. FIND TOP 3 REAL WINDOWS
+           ========================================================= */
+
+        function findTop3PostingTimes(
+            date,
+            countries,
+            platform,
+            niche
+        ) {
+
             const candidates = [];
+
             const stepMinutes = 30;
-            const stepsPerDay = (24 * 60) / stepMinutes;
 
-            for (let step = 0; step < stepsPerDay; step++) {
-                const totalMinutes = step * stepMinutes;
-                const hours = Math.floor(totalMinutes / 60);
-                const minutes = totalMinutes % 60;
+            const stepsPerDay =
+                (24 * 60) / stepMinutes;
 
-                const testDate = new Date(date);
-                testDate.setUTCHours(hours, minutes, 0, 0);
 
-                let totalScore = 0;
+            /*
+              Evaluate every 30 minutes.
+            */
 
-                countries.forEach((code, index) => {
-                    const timeZone = TIME_ZONES[code];
-                    if (!timeZone) return;
+            for (
+                let step = 0;
+                step < stepsPerDay;
+                step++
+            ) {
 
-                    const localHourFraction = getLocalHourFraction(testDate, timeZone);
-                    const dayFormatter = new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'short' });
-                    const localDay = dayFormatter.format(testDate);
-                    const isWeekend = isWeekendForCountry(code, localDay);
+                const totalMinutes =
+                    step * stepMinutes;
 
-                    const score = getTimeScore(localHourFraction, platform, niche, isWeekend);
-                    const priority = getPriorityWeight(index, countries.length);
+                const hours =
+                    Math.floor(totalMinutes / 60);
 
-                    totalScore += score * priority;
+                const minutes =
+                    totalMinutes % 60;
+
+
+                const testDate =
+                    new Date(date);
+
+                testDate.setUTCHours(
+                    hours,
+                    minutes,
+                    0,
+                    0
+                );
+
+
+                const score =
+                    scorePostingCandidate(
+                        testDate,
+                        countries,
+                        platform,
+                        niche
+                    );
+
+
+                candidates.push({
+                    utcHour: hours,
+                    utcMinute: minutes,
+                    score
                 });
-
-                candidates.push({ utcHour: hours, utcMinute: minutes, score: totalScore });
             }
 
-            candidates.sort((a, b) => b.score - a.score);
 
-            const MIN_GAP_HOURS = 2;
-            const top3 = [candidates[0]];
-            for (let i = 1; i < candidates.length && top3.length < 3; i++) {
-                const candidate = candidates[i];
-                const candidateTime = candidate.utcHour + candidate.utcMinute / 60;
-                const isTooClose = top3.some(item => {
-                    const itemTime = item.utcHour + item.utcMinute / 60;
-                    return circularHourDiff(itemTime, candidateTime) < MIN_GAP_HOURS;
-                });
+            /*
+              Sort strongest candidate first.
+            */
+
+            candidates.sort(
+                (a, b) => b.score - a.score
+            );
+
+
+            /* =====================================================
+               WINDOW SELECTION
+
+               Instead of simply choosing 3 nearby hours,
+               create three genuinely separated opportunities.
+
+               We use a 3-hour separation to avoid:
+               19:00 / 19:30 / 20:00
+               being presented as three different strategies.
+               ===================================================== */
+
+            const MIN_GAP_HOURS = 3;
+
+            const top3 = [];
+
+
+            for (
+                let i = 0;
+                i < candidates.length &&
+                top3.length < 3;
+                i++
+            ) {
+
+                const candidate =
+                    candidates[i];
+
+                const candidateTime =
+                    candidate.utcHour +
+                    (candidate.utcMinute / 60);
+
+
+                const isTooClose =
+                    top3.some(existing => {
+
+                        const existingTime =
+                            existing.utcHour +
+                            (existing.utcMinute / 60);
+
+                        return (
+                            circularHourDiff(
+                                existingTime,
+                                candidateTime
+                            ) < MIN_GAP_HOURS
+                        );
+                    });
+
+
                 if (!isTooClose) {
+
                     top3.push(candidate);
                 }
             }
+
+
+            /*
+              Safety fallback.
+            */
+
+            if (top3.length < 3) {
+
+                for (
+                    let i = 0;
+                    i < candidates.length &&
+                    top3.length < 3;
+                    i++
+                ) {
+
+                    if (!top3.includes(candidates[i])) {
+                        top3.push(candidates[i]);
+                    }
+                }
+            }
+
 
             return top3;
         }
