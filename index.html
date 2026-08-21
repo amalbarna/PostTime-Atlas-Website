@@ -16,20 +16,21 @@
     <script>
         (function() {
             var urlParams = new URLSearchParams(window.location.search);
-            var urlLang = urlParams.get('lang');
-            var savedLang = localStorage.getItem('siteLang'); // تم توحيد المفتاح لـ siteLang
+            var langParam = urlParams.get('lang');
+            var savedLang = langParam || localStorage.getItem('siteLang');
             
-            if (!urlLang && !savedLang) {
+            if (!savedLang) {
                 var userLang = navigator.language || navigator.userLanguage;
                 savedLang = userLang.startsWith('ar') ? 'ar' : 'en';
             }
             
-            var lang = urlLang || savedLang || 'ar';
-            localStorage.setItem('siteLang', lang);
-            
-            document.documentElement.lang = lang;
-            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-            window.__initialLang = lang;
+            if (langParam) {
+                localStorage.setItem('siteLang', langParam);
+            }
+
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            window.__initialLang = savedLang;
         })();
     </script>
 
@@ -183,7 +184,7 @@
                     </label>
                     
                     <button type="button" onclick="toggleDropdown()" id="dropdownBtn" class="w-full bg-slate-50 border border-slate-300 rounded-xl p-3 text-xs font-bold text-slate-800 flex justify-between items-center hover:bg-slate-100 transition mb-3">
-                        <span id="dropdownPlaceholder">اضغط لاختيار الدول...</span>
+                        <span id="dropdownPlaceholder">اضغط لااختيار الدول...</span>
                         <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
                     </button>
 
@@ -360,8 +361,7 @@
             'CA': 'America/Toronto', 'IN': 'Asia/Kolkata', 'AU': 'Australia/Sydney', 'MY': 'Asia/Kuala_Lumpur'
         };
 
-        // خريطة أيام العطلة الأسبوعية لكل دولة (بعض الدول جمعة/سبت، وبعضها سبت/أحد)
-        // ملاحظة: الإمارات تحولت رسميًا إلى عطلة سبت/أحد منذ يناير 2022.
+        // خريطة أيام العطلة الأسبوعية لكل دولة
         const FRI_SAT_WEEKEND = ['SA', 'KW', 'QA', 'OM', 'BH', 'EG', 'JO', 'IQ', 'DZ', 'LY', 'SD', 'PS', 'YEM'];
 
         function isWeekendForCountry(code, localDayShort) {
@@ -602,7 +602,7 @@
 
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('siteLang', currentLang); // التبديل على المفتاح الموحد
+            localStorage.setItem('siteLang', currentLang);
             
             // تحديث URL
             const newUrl = new URL(window.location);
@@ -612,7 +612,6 @@
             applyLanguageUI();
         }
 
-        // يرجع الساعة المحلية ككسر عشري (مثال: 14:30 => 14.5) لدعم دقة نصف ساعة في الحسابات
         function getLocalHourFraction(date, timeZone) {
             const formatter = new Intl.DateTimeFormat('en-US', {
                 timeZone,
@@ -626,7 +625,6 @@
             return hr + (min / 60);
         }
 
-        // الفارق الدائري بين ساعتين (يأخذ في الاعتبار التفاف الساعة 23 إلى 0)
         function circularHourDiff(a, b) {
             const diff = Math.abs(a - b);
             return Math.min(diff, 24 - diff);
@@ -653,9 +651,6 @@
                 peakEnd = 23;
             }
 
-            // بدلاً من نظام الدرجات الثابتة (100 / 60 / 30 / 10) الذي يجعل ساعات كثيرة متساوية تمامًا
-            // نستخدم منحنى تراجع سلس (Gaussian) حول مركز نافذة الذروة، فكل ساعة تحصل على درجة فريدة
-            // تعكس مدى قربها الفعلي من أفضل وقت، مما يحسّن جودة الترتيب واختيار أفضل 3 نتائج.
             const peakCenter = (peakStart + peakEnd) / 2;
             const halfWidth = (peakEnd - peakStart) / 2;
             const sigma = halfWidth + 1.5;
@@ -663,7 +658,6 @@
             const diff = circularHourDiff(localHour, peakCenter);
             let score = 100 * Math.exp(-0.5 * Math.pow(diff / sigma, 2));
 
-            // تخفيض إضافي لساعات الفجر المتأخرة (1 - 6 صباحًا) حيث ينام معظم الجمهور بصرف النظر عن المنصة
             if (localHour >= 1 && localHour < 6) {
                 score *= 0.25;
             }
@@ -671,7 +665,6 @@
             return score;
         }
 
-        // تحسب أقرب تاريخ (بتوقيت UTC) يوافق اليوم المختار من القائمة، بدلاً من استخدام تاريخ اليوم دائمًا
         function getDateForSelectedDay(dayKey) {
             const dayIndexMap = { sunday: 0, monday: 1, tuesday: 2, wednesday: 3, thursday: 4, friday: 5, saturday: 6 };
             const targetIndex = dayIndexMap[dayKey];
@@ -690,7 +683,7 @@
         function findTop3PostingTimes(date, countries, platform, niche) {
             const candidates = [];
             const stepMinutes = 30;
-            const stepsPerDay = (24 * 60) / stepMinutes; // 48 نقطة فحص بدقة نصف ساعة بدلاً من 24 فقط
+            const stepsPerDay = (24 * 60) / stepMinutes;
 
             for (let step = 0; step < stepsPerDay; step++) {
                 const totalMinutes = step * stepMinutes;
@@ -722,8 +715,6 @@
 
             candidates.sort((a, b) => b.score - a.score);
 
-            // نضمن فاصلاً زمنيًا حقيقيًا (ساعتان على الأقل) بين كل خيار مُقترح والآخر
-            // حتى لا تتكرر نفس نافذة الذروة بصياغات متقاربة كأنها ثلاثة خيارات مختلفة
             const MIN_GAP_HOURS = 2;
             const top3 = [candidates[0]];
             for (let i = 1; i < candidates.length && top3.length < 3; i++) {
@@ -911,7 +902,6 @@
                 });
             });
 
-            // 1. عرض النتيجة الأولى (الخيار الأفضل)
             const primaryResult = top3Formatted[0];
             document.getElementById('rank1Badge').innerText = langData.rank1Badge;
             document.getElementById('timeDescText').innerText = langData.descTemplate(langData.days[dayKey], currentP.toUpperCase());
@@ -930,7 +920,6 @@
             });
             document.getElementById('countryDetails').innerHTML = primaryCardsHtml;
 
-            // 2. عرض النتائج الثانوية (خيارات بديلة ممتازة)
             document.getElementById('secondaryTitle').innerText = langData.secondaryTitle;
             const secondaryContainer = document.getElementById('secondaryContainer');
             secondaryContainer.innerHTML = '';
