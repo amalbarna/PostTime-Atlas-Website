@@ -5,7 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="docTitle">PostTime Atlas | أفضل وقت للنشر على منصات التواصل</title>
     <meta name="description" content="أداة مجانية لحساب أفضل أوقات للنشر والتفاعل على منصات التواصل الاجتماعي حسب الجمهور والدول المستهدفة مع تحديد الأولوية.">
-    <link rel="canonical" href="https://example.com/" id="canonicalUrl">
+    
+    <!-- SEO & Alternative Languages (hreflang) -->
+    <link rel="canonical" href="https://posttimeatlas.com/" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="https://posttimeatlas.com/" />
+    <link rel="alternate" hreflang="en" href="https://posttimeatlas.com/?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://posttimeatlas.com/" />
+
+    <!-- Script to check saved language or browser language before rendering to prevent UI flash -->
+    <script>
+        (function() {
+            var savedLang = localStorage.getItem('appLanguage');
+            if (!savedLang) {
+                var userLang = navigator.language || navigator.userLanguage;
+                savedLang = userLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
@@ -302,7 +321,7 @@
 
     <script>
         let currentP = 'instagram';
-        let currentLang = 'ar';
+        let currentLang = localStorage.getItem('appLanguage') || (navigator.language.startsWith('ar') ? 'ar' : 'en');
         let selectedCountries = ['SA', 'AE'];
 
         const countryGroups = {
@@ -466,6 +485,79 @@
                 badgeText: (count) => `Score Engine | Top 3 Options | ${count} Countries`
             }
         };
+
+        function applyLanguageUI() {
+            const langData = i18n[currentLang];
+
+            document.getElementById('htmlTag').lang = currentLang;
+            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
+            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
+
+            document.getElementById('docTitle').innerText = langData.docTitle;
+            document.getElementById('txtBadgeFree').innerText = langData.badgeFree;
+            document.getElementById('btnArticlesNavText').innerText = langData.btnArticlesNavText;
+            document.getElementById('btnArticlesNav').href = "blog.html";
+            document.getElementById('mainTitle').innerText = langData.mainTitle;
+            document.getElementById('mainDesc').innerText = langData.mainDesc;
+            document.getElementById('lblPlatform').innerText = langData.lblPlatform;
+            document.getElementById('lblDay').innerText = langData.lblDay;
+            document.getElementById('lblCountries').innerText = langData.lblCountries;
+            document.getElementById('lblPriorityHeader').innerText = langData.lblPriorityHeader;
+            document.getElementById('lblNiche').innerText = langData.lblNiche;
+            document.getElementById('lblOptional').innerText = langData.lblOptional;
+            document.getElementById('btnSubmit').innerText = langData.btnSubmit;
+            document.getElementById('dropdownPlaceholder').innerText = langData.dropdownPlaceholder;
+            
+            document.getElementById('footerText').innerText = langData.footerText;
+            document.getElementById('btnPrivacy').innerText = langData.btnPrivacy;
+            document.getElementById('btnTerms').innerText = langData.btnTerms;
+            document.getElementById('btnContact').innerText = langData.btnContact;
+
+            document.getElementById('aboutTitle').innerHTML = `<span>📌</span> ${langData.aboutTitle}`;
+            document.getElementById('aboutDesc').innerText = langData.aboutDesc;
+            
+            const stepsList = document.getElementById('aboutSteps');
+            stepsList.innerHTML = `
+                <li>${langData.aboutStep1}</li>
+                <li>${langData.aboutStep2}</li>
+                <li>${langData.aboutStep3}</li>
+                <li>${langData.aboutStep4}</li>
+            `;
+
+            document.getElementById('disclaimerTitle').innerHTML = `<span>⚠️</span> ${langData.disclaimerTitle}`;
+            document.getElementById('disclaimerText').innerText = langData.disclaimerText;
+
+            document.getElementById('articlesTitle').innerHTML = `<span>📚</span> ${langData.articlesTitle}`;
+            document.getElementById('art1').innerText = langData.art1;
+            document.getElementById('art2').innerText = langData.art2;
+            document.getElementById('art3').innerText = langData.art3;
+            document.getElementById('art4').innerText = langData.art4;
+            document.getElementById('art5').innerText = langData.art5;
+
+            const daySelect = document.getElementById('dayOfWeek');
+            Object.keys(langData.days).forEach(key => {
+                const opt = daySelect.querySelector(`option[value="${key}"]`);
+                if(opt) opt.innerText = langData.days[key];
+            });
+
+            document.getElementById('nicheGeneral').innerText = langData.niches.general;
+            document.getElementById('nicheEcom').innerText = langData.niches.ecommerce;
+            document.getElementById('nicheBiz').innerText = langData.niches.business;
+            document.getElementById('nicheEnt').innerText = langData.niches.entertainment;
+            document.getElementById('nicheGaming').innerText = langData.niches.gaming;
+
+            renderCustomDropdown();
+
+            if (!document.getElementById('resultBox').classList.contains('hidden')) {
+                renderResults();
+            }
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            localStorage.setItem('appLanguage', currentLang);
+            applyLanguageUI();
+        }
 
         function getLocalHour(date, timeZone) {
             const formatter = new Intl.DateTimeFormat('en-US', {
@@ -685,73 +777,6 @@
             document.getElementById('p-' + p).classList.add('active');
         }
 
-        function toggleLanguage() {
-            currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            const langData = i18n[currentLang];
-
-            document.getElementById('htmlTag').dir = currentLang === 'ar' ? 'rtl' : 'ltr';
-            document.getElementById('langBtn').innerText = currentLang === 'ar' ? 'English 🌐' : 'العربية 🌐';
-
-            document.getElementById('docTitle').innerText = langData.docTitle;
-            document.getElementById('txtBadgeFree').innerText = langData.badgeFree;
-            document.getElementById('btnArticlesNavText').innerText = langData.btnArticlesNavText;
-            document.getElementById('btnArticlesNav').href = "blog.html";
-            document.getElementById('mainTitle').innerText = langData.mainTitle;
-            document.getElementById('mainDesc').innerText = langData.mainDesc;
-            document.getElementById('lblPlatform').innerText = langData.lblPlatform;
-            document.getElementById('lblDay').innerText = langData.lblDay;
-            document.getElementById('lblCountries').innerText = langData.lblCountries;
-            document.getElementById('lblPriorityHeader').innerText = langData.lblPriorityHeader;
-            document.getElementById('lblNiche').innerText = langData.lblNiche;
-            document.getElementById('lblOptional').innerText = langData.lblOptional;
-            document.getElementById('btnSubmit').innerText = langData.btnSubmit;
-            document.getElementById('dropdownPlaceholder').innerText = langData.dropdownPlaceholder;
-            
-            document.getElementById('footerText').innerText = langData.footerText;
-            document.getElementById('btnPrivacy').innerText = langData.btnPrivacy;
-            document.getElementById('btnTerms').innerText = langData.btnTerms;
-            document.getElementById('btnContact').innerText = langData.btnContact;
-
-            document.getElementById('aboutTitle').innerHTML = `<span>📌</span> ${langData.aboutTitle}`;
-            document.getElementById('aboutDesc').innerText = langData.aboutDesc;
-            
-            const stepsList = document.getElementById('aboutSteps');
-            stepsList.innerHTML = `
-                <li>${langData.aboutStep1}</li>
-                <li>${langData.aboutStep2}</li>
-                <li>${langData.aboutStep3}</li>
-                <li>${langData.aboutStep4}</li>
-            `;
-
-            document.getElementById('disclaimerTitle').innerHTML = `<span>⚠️</span> ${langData.disclaimerTitle}`;
-            document.getElementById('disclaimerText').innerText = langData.disclaimerText;
-
-            document.getElementById('articlesTitle').innerHTML = `<span>📚</span> ${langData.articlesTitle}`;
-            document.getElementById('art1').innerText = langData.art1;
-            document.getElementById('art2').innerText = langData.art2;
-            document.getElementById('art3').innerText = langData.art3;
-            document.getElementById('art4').innerText = langData.art4;
-            document.getElementById('art5').innerText = langData.art5;
-
-            const daySelect = document.getElementById('dayOfWeek');
-            Object.keys(langData.days).forEach(key => {
-                const opt = daySelect.querySelector(`option[value="${key}"]`);
-                if(opt) opt.innerText = langData.days[key];
-            });
-
-            document.getElementById('nicheGeneral').innerText = langData.niches.general;
-            document.getElementById('nicheEcom').innerText = langData.niches.ecommerce;
-            document.getElementById('nicheBiz').innerText = langData.niches.business;
-            document.getElementById('nicheEnt').innerText = langData.niches.entertainment;
-            document.getElementById('nicheGaming').innerText = langData.niches.gaming;
-
-            renderCustomDropdown();
-
-            if (!document.getElementById('resultBox').classList.contains('hidden')) {
-                renderResults();
-            }
-        }
-
         function calculate(e) {
             if(e) e.preventDefault();
             renderResults();
@@ -822,7 +847,7 @@
                 resList.forEach((item) => {
                     timesListHtml += `
                         <div class="flex justify-between items-center text-xs">
-                            <span class="font-semibold text-slate-700">${item.name} ${item.isPrimary ? '<span class="text-[10px] text-indigo-600 font-extrabold">(الرئيسية)</span>' : ''}:</span>
+                            <span class="font-semibold text-slate-700">${item.name} ${item.isPrimary ? `<span class="text-[10px] text-indigo-600 font-extrabold">(${langData.primaryTag})</span>` : ''}:</span>
                             <span class="font-bold text-slate-900">${item.timeStr}</span>
                         </div>
                     `;
@@ -846,7 +871,7 @@
         }
 
         window.addEventListener('DOMContentLoaded', () => {
-            renderCustomDropdown();
+            applyLanguageUI();
             
             if (window.adsbygoogle) {
                 document.querySelectorAll('.adsbygoogle').forEach(() => {
@@ -859,4 +884,3 @@
     </script>
 </body>
 </html>
-
