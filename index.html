@@ -76,7 +76,6 @@
     <!-- Main Section -->
     <main class="max-w-2xl mx-auto w-full px-4 my-2 flex-grow">
 
-        <!-- زر المقالات الجديد (تم التعديل ليوجه إلى blog.html) -->
         <div class="flex justify-center mb-4">
             <a href="blog.html" id="btnArticlesNav" class="inline-flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 text-xs px-4 py-2 rounded-xl font-bold transition shadow-sm hover:shadow">
                 <span>✒️</span> <span id="btnArticlesNavText">المقالات والمدونة</span>
@@ -206,11 +205,24 @@
 
             <!-- Result Box -->
             <div id="resultBox" class="hidden mt-6 pt-6 border-t border-slate-200">
-                <div class="bg-indigo-50 border border-indigo-200 rounded-2xl p-5">
-                    <span id="badge" class="text-xs bg-indigo-200 text-indigo-800 px-3 py-1 rounded-md font-bold inline-block mb-2"></span>
-                    <div id="timeResult" class="text-2xl font-black text-indigo-950 my-1"></div>
-                    <p id="timeDescText" class="text-xs text-slate-700 font-medium leading-relaxed mt-2"></p>
-                    <div id="countryDetails" class="mt-3 pt-3 border-t border-indigo-100 text-xs text-slate-600 space-y-1"></div>
+                <div id="badge" class="text-xs font-bold text-slate-500 mb-3"></div>
+                
+                <!-- Primary Result (Option 1) -->
+                <div class="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-5 shadow-sm mb-5">
+                    <div class="flex items-center justify-between mb-3">
+                        <span id="rank1Badge" class="text-xs bg-indigo-600 text-white px-3 py-1 rounded-md font-bold inline-block">الخيار الأول (الأفضل)</span>
+                    </div>
+                    
+                    <p id="timeDescText" class="text-xs text-slate-700 font-medium leading-relaxed mb-4"></p>
+                    
+                    <!-- Side-by-side Cards Container -->
+                    <div id="countryDetails" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+                </div>
+
+                <!-- Secondary Options -->
+                <div class="mt-4">
+                    <h4 id="secondaryTitle" class="text-xs font-bold text-slate-600 mb-2.5">أوقات بديلة ممتازة للتفاعل:</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="secondaryContainer"></div>
                 </div>
             </div>
         </div>
@@ -298,10 +310,14 @@
             other: ['US_EST', 'US_PST', 'UK', 'DE', 'FR', 'TR', 'CA', 'IN', 'AU', 'MY']
         };
 
-        const countryOffsets = {
-            'SA': 3, 'EG': 2, 'AE': 4, 'KW': 3, 'QA': 3, 'IQ': 3, 'JO': 3, 'MA': 1, 'DZ': 1, 'OM': 4,
-            'BH': 3, 'TN': 1, 'LY': 2, 'SD': 2, 'LB': 2, 'PS': 2, 'YEM': 3,
-            'US_EST': -5, 'US_PST': -8, 'UK': 0, 'DE': 1, 'FR': 1, 'TR': 3, 'CA': -5, 'IN': 5.5, 'AU': 10, 'MY': 8
+        const TIME_ZONES = {
+            'SA': 'Asia/Riyadh', 'EG': 'Africa/Cairo', 'AE': 'Asia/Dubai', 'KW': 'Asia/Kuwait',
+            'QA': 'Asia/Qatar', 'IQ': 'Asia/Baghdad', 'JO': 'Asia/Amman', 'MA': 'Africa/Casablanca',
+            'DZ': 'Africa/Algiers', 'OM': 'Asia/Muscat', 'BH': 'Asia/Bahrain', 'TN': 'Africa/Tunis',
+            'LY': 'Africa/Tripoli', 'SD': 'Africa/Khartoum', 'LB': 'Asia/Beirut', 'PS': 'Asia/Gaza',
+            'YEM': 'Asia/Aden', 'US_EST': 'America/New_York', 'US_PST': 'America/Los_Angeles',
+            'UK': 'Europe/London', 'DE': 'Europe/Berlin', 'FR': 'Europe/Paris', 'TR': 'Europe/Istanbul',
+            'CA': 'America/Toronto', 'IN': 'Asia/Kolkata', 'AU': 'Australia/Sydney', 'MY': 'Asia/Kuala_Lumpur'
         };
 
         const i18n = {
@@ -340,6 +356,10 @@
                 art3: 'أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)',
                 art4: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
                 art5: 'كيف تقيس نجاح أوقات النشر؟ تحليل البيانات والمقاييس الرئيسية',
+                rank1Badge: 'الخيار الأفضل',
+                secondaryTitle: 'أوقات بديلة ممتازة للتفاعل:',
+                rank2Badge: 'توقيت بديل (1)',
+                rank3Badge: 'توقيت بديل (2)',
                 days: {
                     sunday: 'الأحد', monday: 'الإثنين', tuesday: 'الثلاثاء',
                     wednesday: 'الأربعاء', thursday: 'الخميس', friday: 'الجمعة', saturday: 'السبت'
@@ -349,16 +369,16 @@
                     business: '💼 B2B وأعمال', entertainment: '🎭 ترفيه وصناع محتوى', gaming: '🎮 ألعاب وتكنولوجيا'
                 },
                 countries: {
-                    SA: '🇸🇦 السعودية (GMT+3)', EG: '🇪🇬 مصر (GMT+2)', AE: '🇦🇪 الإمارات (GMT+4)',
-                    KW: '🇰🇼 الكويت (GMT+3)', QA: '🇶🇦 قطر (GMT+3)', IQ: '🇮🇶 العراق (GMT+3)',
-                    JO: '🇯🇴 الأردن (GMT+3)', MA: '🇲🇦 المغرب (GMT+1)', DZ: '🇩🇿 الجزائر (GMT+1)',
-                    OM: '🇴🇲 عمان (GMT+4)', BH: '🇧🇭 البحرين (GMT+3)', TN: '🇹🇳 تونس (GMT+1)',
-                    LY: '🇱🇾 ليبيا (GMT+2)', SD: '🇸🇩 السودان (GMT+2)', LB: '🇱🇧 لبنان (GMT+2)',
-                    PS: '🇵🇸 فلسطين (GMT+2)', YEM: '🇾🇪 اليمن (GMT+3)',
-                    US_EST: '🇺🇸 أمريكا - شرق (GMT-5)', US_PST: '🇺🇸 أمريكا - غرب (GMT-8)',
-                    UK: '🇬🇧 بريطانيا (GMT+0)', DE: '🇩🇪 ألمانيا (GMT+1)', FR: '🇫🇷 فرنسا (GMT+1)',
-                    TR: '🇹🇷 تركيا (GMT+3)', CA: '🇨🇦 كندا (GMT-5)', IN: '🇮🇳 الهند (GMT+5:30)',
-                    AU: '🇦🇺 أستراليا (GMT+10)', MY: '🇲🇾 ماليزيا (GMT+8)'
+                    SA: '🇸🇦 السعودية', EG: '🇪🇬 مصر', AE: '🇦🇪 الإمارات',
+                    KW: '🇰🇼 الكويت', QA: '🇶🇦 قطر', IQ: '🇮🇶 العراق',
+                    JO: '🇯🇴 الأردن', MA: '🇲🇦 المغرب', DZ: '🇩🇿 الجزائر',
+                    OM: '🇴🇲 عمان', BH: '🇧🇭 البحرين', TN: '🇹🇳 تونس',
+                    LY: '🇱🇾 ليبيا', SD: '🇸🇩 السودان', LB: '🇱🇧 لبنان',
+                    PS: '🇵🇸 فلسطين', YEM: '🇾🇪 اليمن',
+                    US_EST: '🇺🇸 أمريكا - شرق', US_PST: '🇺🇸 أمريكا - غرب',
+                    UK: '🇬🇧 بريطانيا', DE: '🇩🇪 ألمانيا', FR: '🇫🇷 فرنسا',
+                    TR: '🇹🇷 تركيا', CA: '🇨🇦 كندا', IN: '🇮🇳 الهند',
+                    AU: '🇦🇺 أستراليا', MY: '🇲🇾 ماليزيا'
                 },
                 countryNamesOnly: {
                     SA: 'السعودية', EG: 'مصر', AE: 'الإمارات', KW: 'الكويت', QA: 'قطر',
@@ -368,11 +388,10 @@
                     UK: 'بريطانيا', DE: 'ألمانيا', FR: 'فرنسا', TR: 'تركيا', CA: 'كندا',
                     IN: 'الهند', AU: 'أستراليا', MY: 'ماليزيا'
                 },
-                am: 'صباحاً', pm: 'مساءً',
                 alertSelect: 'يرجى اختيار دولة واحدة على الأقل',
-                descTemplate: (day, p) => `التوقيت الأنسب للنشر يوم (${day}) عبر منصة ${p} مراعاةً للأولوية المختارة.`,
-                detailsTitle: 'التوقيت المقابل في باقي الدول المستهدفة:',
-                badgeText: (count) => `حساب بالأولويات | ${count} دول`
+                descTemplate: (day, p) => `التوقيت الأنسب للنشر يوم (${day}) عبر منصة ${p} محسبة بناءً على أعلى درجات التفاعل.`,
+                detailsTitle: 'التوقيت المقابل في باقي الدول المستهدفة بنفس اللحظة:',
+                badgeText: (count) => `خوارزمية النقاط | تحليل أفضل 3 نتائج | ${count} دول`
             },
             en: {
                 docTitle: 'PostTime Atlas | Best Time to Post',
@@ -409,6 +428,10 @@
                 art3: 'Peak Hours: B2B vs. E-commerce (B2C) Accounts',
                 art4: 'Aligning Content Types with Posting Schedules: Strategy & Frequency',
                 art5: 'Measuring Posting Success: Analytics & Key Metrics',
+                rank1Badge: 'Best Option',
+                secondaryTitle: 'Great Alternative Times:',
+                rank2Badge: 'Alternative Option 1',
+                rank3Badge: 'Alternative Option 2',
                 days: {
                     sunday: 'Sunday', monday: 'Monday', tuesday: 'Tuesday',
                     wednesday: 'Wednesday', thursday: 'Thursday', friday: 'Friday', saturday: 'Saturday'
@@ -418,16 +441,16 @@
                     business: '💼 B2B & Business', entertainment: '🎭 Entertainment & Creators', gaming: '🎮 Gaming & Tech'
                 },
                 countries: {
-                    SA: '🇸🇦 Saudi Arabia (GMT+3)', EG: '🇪🇬 Egypt (GMT+2)', AE: '🇦🇪 UAE (GMT+4)',
-                    KW: '🇰🇼 Kuwait (GMT+3)', QA: '🇶🇦 Qatar (GMT+3)', IQ: '🇮🇶 Iraq (GMT+3)',
-                    JO: '🇯🇴 Jordan (GMT+3)', MA: '🇲🇦 Morocco (GMT+1)', DZ: '🇩🇿 Algeria (GMT+1)',
-                    OM: '🇴🇲 Oman (GMT+4)', BH: '🇧🇭 Bahrain (GMT+3)', TN: '🇹🇳 Tunisia (GMT+1)',
-                    LY: '🇱🇾 Libya (GMT+2)', SD: '🇸🇩 Sudan (GMT+2)', LB: '🇱🇧 Lebanon (GMT+2)',
-                    PS: '🇵🇸 Palestine (GMT+2)', YEM: '🇾🇪 Yemen (GMT+3)',
-                    US_EST: '🇺🇸 USA - East (GMT-5)', US_PST: '🇺🇸 USA - West (GMT-8)',
-                    UK: '🇬🇧 UK (GMT+0)', DE: '🇩🇪 Germany (GMT+1)', FR: '🇫🇷 France (GMT+1)',
-                    TR: '🇹🇷 Turkey (GMT+3)', CA: '🇨🇦 Canada (GMT-5)', IN: '🇮🇳 India (GMT+5:30)',
-                    AU: '🇦🇺 Australia (GMT+10)', MY: '🇲🇾 Malaysia (GMT+8)'
+                    SA: '🇸🇦 Saudi Arabia', EG: '🇪🇬 Egypt', AE: '🇦🇪 UAE',
+                    KW: '🇰🇼 Kuwait', QA: '🇶🇦 Qatar', IQ: '🇮🇶 Iraq',
+                    JO: '🇯🇴 Jordan', MA: '🇲🇦 Morocco', DZ: '🇩🇿 Algeria',
+                    OM: '🇴🇲 Oman', BH: '🇧🇭 Bahrain', TN: '🇹🇳 Tunisia',
+                    LY: '🇱🇾 Libya', SD: '🇸🇩 Sudan', LB: '🇱🇧 Lebanon',
+                    PS: '🇵🇸 Palestine', YEM: 'Yemen',
+                    US_EST: '🇺🇸 USA - East', US_PST: '🇺🇸 USA - West',
+                    UK: '🇬🇧 UK', DE: '🇩🇪 Germany', FR: '🇫🇷 France',
+                    TR: '🇹🇷 Turkey', CA: '🇨🇦 Canada', IN: '🇮🇳 India',
+                    AU: '🇦🇺 Australia', MY: '🇲🇾 Malaysia'
                 },
                 countryNamesOnly: {
                     SA: 'Saudi Arabia', EG: 'Egypt', AE: 'UAE', KW: 'Kuwait', QA: 'Qatar',
@@ -437,13 +460,111 @@
                     UK: 'UK', DE: 'Germany', FR: 'France', TR: 'Turkey', CA: 'Canada',
                     IN: 'India', AU: 'Australia', MY: 'Malaysia'
                 },
-                am: 'AM', pm: 'PM',
                 alertSelect: 'Please select at least one country',
-                descTemplate: (day, p) => `Optimal posting time on (${day}) for ${p} adjusted for audience priority.`,
-                detailsTitle: 'Corresponding time in other target countries:',
-                badgeText: (count) => `Priority Based | ${count} Countries`
+                descTemplate: (day, p) => `Optimal posting time on (${day}) for ${p} evaluated based on max engagement scoring.`,
+                detailsTitle: 'Corresponding time in other target countries at the same instant:',
+                badgeText: (count) => `Score Engine | Top 3 Options | ${count} Countries`
             }
         };
+
+        function getLocalHour(date, timeZone) {
+            const formatter = new Intl.DateTimeFormat('en-US', {
+                timeZone,
+                hour: 'numeric',
+                hour12: false
+            });
+            const parts = formatter.formatToParts(date);
+            const hr = parts.find(p => p.type === 'hour')?.value;
+            return parseInt(hr, 10) % 24;
+        }
+
+        function getPriorityWeight(index, total) {
+            return Math.max(1, total - index);
+        }
+
+        function getTimeScore(localHour, platform, niche, isWeekend) {
+            let peakStart = 17, peakEnd = 22;
+
+            if (platform === 'linkedin' || niche === 'business') {
+                peakStart = isWeekend ? 10 : 8;
+                peakEnd = isWeekend ? 13 : 14;
+            } else if (niche === 'ecommerce') {
+                peakStart = 12;
+                peakEnd = 16;
+            } else if (platform === 'tiktok' || platform === 'snapchat') {
+                peakStart = isWeekend ? 19 : 18;
+                peakEnd = isWeekend ? 23 : 22;
+            } else if (platform === 'pinterest') {
+                peakStart = 20;
+                peakEnd = 23;
+            }
+
+            if (localHour >= peakStart && localHour <= peakEnd) {
+                return 100;
+            } else if (Math.abs(localHour - peakStart) <= 2 || Math.abs(localHour - peakEnd) <= 2) {
+                return 60;
+            } else if (localHour >= 1 && localHour <= 6) {
+                return 10;
+            }
+            return 30;
+        }
+
+        function findTop3PostingTimes(date, countries, platform, niche) {
+            const candidates = [];
+
+            for (let utcHour = 0; utcHour < 24; utcHour++) {
+                const testDate = new Date(date);
+                testDate.setUTCHours(utcHour, 0, 0, 0);
+
+                let totalScore = 0;
+
+                countries.forEach((code, index) => {
+                    const timeZone = TIME_ZONES[code];
+                    if (!timeZone) return;
+
+                    const localHour = getLocalHour(testDate, timeZone);
+                    const dayFormatter = new Intl.DateTimeFormat('en-US', { timeZone, weekday: 'short' });
+                    const localDay = dayFormatter.format(testDate);
+                    const isWeekend = localDay === 'Fri' || localDay === 'Sat';
+
+                    const score = getTimeScore(localHour, platform, niche, isWeekend);
+                    const priority = getPriorityWeight(index, countries.length);
+
+                    totalScore += score * priority;
+                });
+
+                candidates.push({ utcHour, score: totalScore });
+            }
+
+            candidates.sort((a, b) => b.score - a.score);
+
+            const top3 = [candidates[0]];
+            for (let i = 1; i < candidates.length && top3.length < 3; i++) {
+                const candidate = candidates[i];
+                const isTooClose = top3.some(item => Math.abs(item.utcHour - candidate.utcHour) <= 1);
+                if (!isTooClose) {
+                    top3.push(candidate);
+                }
+            }
+
+            return top3;
+        }
+
+        function formatHourInTimeZone(utcDate, timeZone, lang) {
+            const endDate = new Date(utcDate.getTime() + 2 * 60 * 60 * 1000);
+
+            const formatter = new Intl.DateTimeFormat(lang === 'ar' ? 'ar-SA' : 'en-US', {
+                timeZone,
+                hour: 'numeric',
+                minute: '2-digit',
+                hour12: true
+            });
+
+            const startStr = formatter.format(utcDate);
+            const endStr = formatter.format(endDate);
+
+            return `${startStr} - ${endStr}`;
+        }
 
         function renderCustomDropdown() {
             const langData = i18n[currentLang];
@@ -646,73 +767,76 @@
                 return;
             }
 
-            let localPeakStart = 17; 
-            let localPeakEnd = 22;   
+            const baseDate = new Date();
+            const top3Candidates = findTop3PostingTimes(baseDate, selectedCountries, currentP, niche);
 
-            const isWeekend = (dayKey === 'friday' || dayKey === 'saturday');
+            const top3Formatted = top3Candidates.map(candidate => {
+                const targetUtcDate = new Date(baseDate);
+                targetUtcDate.setUTCHours(candidate.utcHour, 0, 0, 0);
 
-            if (currentP === 'linkedin' || niche === 'business') {
-                localPeakStart = isWeekend ? 10 : 8;
-                localPeakEnd = isWeekend ? 13 : 14;
-            } else if (niche === 'ecommerce') {
-                localPeakStart = 12;
-                localPeakEnd = 16;
-            } else if (currentP === 'tiktok' || currentP === 'snapchat') {
-                localPeakStart = isWeekend ? 19 : 18;
-                localPeakEnd = isWeekend ? 23 : 22;
-            } else if (currentP === 'pinterest') {
-                localPeakStart = 20;
-                localPeakEnd = 23;
-            }
-
-            const primaryCode = selectedCountries[0];
-            const primaryOffset = countryOffsets[primaryCode];
-
-            const primaryUtcStart = localPeakStart - primaryOffset;
-            const primaryUtcEnd = localPeakEnd - primaryOffset;
-
-            const formatHour = (h) => {
-                let normalized = (h % 24 + 24) % 24;
-                let hour = Math.floor(normalized);
-                let minutes = Math.round((normalized - hour) * 60);
-                
-                if (minutes === 60) {
-                    hour = (hour + 1) % 24;
-                    minutes = 0;
-                }
-
-                const period = hour >= 12 ? langData.pm : langData.am;
-                const displayH = hour % 12 === 0 ? 12 : hour % 12;
-                const minStr = minutes > 0 ? `:${minutes < 10 ? '0' : ''}${minutes}` : ':00';
-
-                return `${displayH}${minStr} ${period}`;
-            };
-
-            const resultList = selectedCountries.map(code => {
-                const offset = countryOffsets[code];
-                const localS = primaryUtcStart + offset;
-                const localE = primaryUtcEnd + offset;
-                return {
-                    code: code,
-                    name: langData.countryNamesOnly[code],
-                    timeRange: `${formatHour(localS)} - ${formatHour(localE)}`
-                };
+                return selectedCountries.map((code, idx) => {
+                    const tz = TIME_ZONES[code];
+                    const timeStr = formatHourInTimeZone(targetUtcDate, tz, currentLang);
+                    return {
+                        code: code,
+                        name: langData.countryNamesOnly[code],
+                        fullLabel: langData.countries[code],
+                        timeStr: timeStr,
+                        isPrimary: idx === 0
+                    };
+                });
             });
 
-            document.getElementById('timeResult').innerText = `${resultList[0].timeRange} (${resultList[0].name})`;
+            // 1. عرض النتيجة الأولى (الخيار الأفضل)
+            const primaryResult = top3Formatted[0];
+            document.getElementById('rank1Badge').innerText = langData.rank1Badge;
             document.getElementById('timeDescText').innerText = langData.descTemplate(langData.days[dayKey], currentP.toUpperCase());
 
-            let detailsHtml = '';
-            if (resultList.length > 1) {
-                detailsHtml = `<strong>${langData.detailsTitle}</strong><ul class="list-disc ${currentLang === 'ar' ? 'pr-4' : 'pl-4'} mt-1 space-y-0.5">`;
-                resultList.forEach((item, index) => {
-                    if (index > 0) {
-                        detailsHtml += `<li><strong>${item.name}:</strong> ${item.timeRange}</li>`;
-                    }
+            let primaryCardsHtml = '';
+            primaryResult.forEach((item) => {
+                primaryCardsHtml += `
+                    <div class="bg-white border ${item.isPrimary ? 'border-indigo-400 ring-2 ring-indigo-100' : 'border-slate-200'} rounded-xl p-3.5 flex flex-col justify-between shadow-sm">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-xs font-bold text-slate-800">${item.fullLabel}</span>
+                            ${item.isPrimary ? `<span class="text-[9px] bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-black">${langData.primaryTag}</span>` : ''}
+                        </div>
+                        <div class="text-xl font-black text-slate-900">${item.timeStr}</div>
+                    </div>
+                `;
+            });
+            document.getElementById('countryDetails').innerHTML = primaryCardsHtml;
+
+            // 2. عرض النتائج الثانوية (خيارات بديلة ممتازة)
+            document.getElementById('secondaryTitle').innerText = langData.secondaryTitle;
+            const secondaryContainer = document.getElementById('secondaryContainer');
+            secondaryContainer.innerHTML = '';
+
+            const secondaryBadges = [langData.rank2Badge, langData.rank3Badge];
+
+            for (let i = 1; i < top3Formatted.length; i++) {
+                const resList = top3Formatted[i];
+                const card = document.createElement('div');
+                card.className = 'bg-white border border-slate-200 rounded-xl p-4 shadow-sm hover:border-indigo-200 transition';
+
+                let timesListHtml = '<div class="grid grid-cols-1 gap-2 mt-2 pt-2 border-t border-slate-100">';
+                resList.forEach((item) => {
+                    timesListHtml += `
+                        <div class="flex justify-between items-center text-xs">
+                            <span class="font-semibold text-slate-700">${item.name} ${item.isPrimary ? '<span class="text-[10px] text-indigo-600 font-extrabold">(الرئيسية)</span>' : ''}:</span>
+                            <span class="font-bold text-slate-900">${item.timeStr}</span>
+                        </div>
+                    `;
                 });
-                detailsHtml += '</ul>';
+                timesListHtml += '</div>';
+
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-[10px] bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded font-bold">${secondaryBadges[i - 1]}</span>
+                    </div>
+                    ${timesListHtml}
+                `;
+                secondaryContainer.appendChild(card);
             }
-            document.getElementById('countryDetails').innerHTML = detailsHtml;
 
             document.getElementById('badge').innerText = langData.badgeText(selectedCountries.length);
             document.getElementById('resultBox').classList.remove('hidden');
@@ -735,3 +859,4 @@
     </script>
 </body>
 </html>
+
