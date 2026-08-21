@@ -12,16 +12,24 @@
     <link rel="alternate" hreflang="en" href="https://posttimeatlas.com/?lang=en" />
     <link rel="alternate" hreflang="x-default" href="https://posttimeatlas.com/" />
 
-    <!-- Script to check saved language or browser language before rendering to prevent UI flash -->
+    <!-- Script to check saved language, URL param, or browser language before rendering to prevent UI flash -->
     <script>
         (function() {
-            var savedLang = localStorage.getItem('appLanguage');
-            if (!savedLang) {
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang'); // تم توحيد المفتاح لـ siteLang
+            
+            if (!urlLang && !savedLang) {
                 var userLang = navigator.language || navigator.userLanguage;
                 savedLang = userLang.startsWith('ar') ? 'ar' : 'en';
             }
-            document.documentElement.lang = savedLang;
-            document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            
+            var lang = urlLang || savedLang || 'ar';
+            localStorage.setItem('siteLang', lang);
+            
+            document.documentElement.lang = lang;
+            document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            window.__initialLang = lang;
         })();
     </script>
 
@@ -63,7 +71,7 @@
     <!-- Header -->
     <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
         <div class="max-w-4xl mx-auto flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2.5">
+            <a href="index.html" id="logoLink" class="flex items-center gap-2.5">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
                     <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
@@ -321,7 +329,19 @@
 
     <script>
         let currentP = 'instagram';
-        let currentLang = localStorage.getItem('appLanguage') || (navigator.language.startsWith('ar') ? 'ar' : 'en');
+
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = urlLang || savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            localStorage.setItem('siteLang', lang);
+            return lang;
+        }
+
+        let currentLang = getInitialLanguage();
         let selectedCountries = ['SA', 'AE'];
 
         const countryGroups = {
@@ -465,7 +485,7 @@
                     JO: '🇯🇴 Jordan', MA: '🇲🇦 Morocco', DZ: '🇩🇿 Algeria',
                     OM: '🇴🇲 Oman', BH: '🇧🇭 Bahrain', TN: '🇹🇳 Tunisia',
                     LY: '🇱🇾 Libya', SD: '🇸🇩 Sudan', LB: '🇱🇧 Lebanon',
-                    PS: '🇵🇸 Palestine', YEM: 'Yemen',
+                    PS: 'Palestine', YEM: 'Yemen',
                     US_EST: '🇺🇸 USA - East', US_PST: '🇺🇸 USA - West',
                     UK: '🇬🇧 UK', DE: '🇩🇪 Germany', FR: '🇫🇷 France',
                     TR: '🇹🇷 Turkey', CA: '🇨🇦 Canada', IN: '🇮🇳 India',
@@ -495,8 +515,12 @@
 
             document.getElementById('docTitle').innerText = langData.docTitle;
             document.getElementById('txtBadgeFree').innerText = langData.badgeFree;
+            
+            // تحديث الروابط الداخلية لدعم المعلمة ?lang=...
+            document.getElementById('logoLink').href = `index.html?lang=${currentLang}`;
             document.getElementById('btnArticlesNavText').innerText = langData.btnArticlesNavText;
-            document.getElementById('btnArticlesNav').href = "blog.html";
+            document.getElementById('btnArticlesNav').href = `blog.html?lang=${currentLang}`;
+            
             document.getElementById('mainTitle').innerText = langData.mainTitle;
             document.getElementById('mainDesc').innerText = langData.mainDesc;
             document.getElementById('lblPlatform').innerText = langData.lblPlatform;
@@ -509,9 +533,16 @@
             document.getElementById('dropdownPlaceholder').innerText = langData.dropdownPlaceholder;
             
             document.getElementById('footerText').innerText = langData.footerText;
+            
+            // تحديث روابط الأسفل
             document.getElementById('btnPrivacy').innerText = langData.btnPrivacy;
+            document.getElementById('btnPrivacy').href = `privacy.html?lang=${currentLang}`;
+            
             document.getElementById('btnTerms').innerText = langData.btnTerms;
+            document.getElementById('btnTerms').href = `terms.html?lang=${currentLang}`;
+            
             document.getElementById('btnContact').innerText = langData.btnContact;
+            document.getElementById('btnContact').href = `contact.html?lang=${currentLang}`;
 
             document.getElementById('aboutTitle').innerHTML = `<span>📌</span> ${langData.aboutTitle}`;
             document.getElementById('aboutDesc').innerText = langData.aboutDesc;
@@ -528,11 +559,15 @@
             document.getElementById('disclaimerText').innerText = langData.disclaimerText;
 
             document.getElementById('articlesTitle').innerHTML = `<span>📚</span> ${langData.articlesTitle}`;
-            document.getElementById('art1').innerText = langData.art1;
-            document.getElementById('art2').innerText = langData.art2;
-            document.getElementById('art3').innerText = langData.art3;
-            document.getElementById('art4').innerText = langData.art4;
-            document.getElementById('art5').innerText = langData.art5;
+            
+            // تحديث روابط قائمة المقالات بالداخل
+            for(let i=1; i<=5; i++) {
+                const el = document.getElementById(`art${i}`);
+                if(el) {
+                    el.innerText = langData[`art${i}`];
+                    el.href = `articles/article-${i}.html?lang=${currentLang}`;
+                }
+            }
 
             const daySelect = document.getElementById('dayOfWeek');
             Object.keys(langData.days).forEach(key => {
@@ -555,7 +590,13 @@
 
         function toggleLanguage() {
             currentLang = currentLang === 'ar' ? 'en' : 'ar';
-            localStorage.setItem('appLanguage', currentLang);
+            localStorage.setItem('siteLang', currentLang); // التبديل على المفتاح الموحد
+            
+            // تحديث URL
+            const newUrl = new URL(window.location);
+            newUrl.searchParams.set('lang', currentLang);
+            window.history.pushState({}, '', newUrl);
+
             applyLanguageUI();
         }
 
