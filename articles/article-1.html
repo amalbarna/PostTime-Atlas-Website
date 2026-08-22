@@ -136,6 +136,9 @@
     </footer>
 
     <script>
+        // تحديد رقم المقال الحالي لاستثنائه قطعياً
+        const CURRENT_ARTICLE_NUM = 1;
+
         function getInitialLanguage() {
             if (window.__initialLang) return window.__initialLang;
             var urlParams = new URLSearchParams(window.location.search);
@@ -251,55 +254,54 @@
             }
         };
 
-        // دالة تحضير جلب 3 مقالات عشوائية ومختلفة تلقائياً مع استثناء المقال الحلي ودعم المقالات المستقبلي
+        // دالة تحضير جلب 3 مقالات عشوائية ومختلفة تلقائياً مع استثناء المقال الحالي ودعم المقالات المستقبلية
         async function fetchRelatedArticles() {
-            const currentPath = window.location.pathname;
-            const currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'article-1.html';
             const relatedGrid = document.getElementById('relatedGrid');
+            const currentCat = content.category || 'platforms';
             
             const checks = [];
             // تفقد المقالات حتى 50 مقال لدعم المقالات المستقبلية دون الحاجة لتعديل الكود
             for (let i = 1; i <= 50; i++) {
+                // استثناء المقال الحالي قطعياً بواسطة رقمه الثابت
+                if (i === CURRENT_ARTICLE_NUM) continue;
+
                 const fileName = `article-${i}.html`;
-                
-                // استثناء المقال الحالي فوراً
-                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
-                    checks.push(
-                        fetch(fileName)
-                            .then(async res => {
-                                if (!res.ok) return null;
-                                const text = await res.text();
-                                const parser = new DOMParser();
-                                const doc = parser.parseFromString(text, 'text/html');
+                checks.push(
+                    fetch(fileName)
+                        .then(async res => {
+                            if (!res.ok) return null;
+                            const text = await res.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
 
-                                const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
-                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80';
+                            const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
+                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=1200&q=80';
 
-                                let scriptContent = null;
-                                doc.querySelectorAll('script').forEach(s => {
-                                    if (s.textContent.includes('const content =')) {
-                                        const match = s.textContent.match(/const content = ({[\s\S]*?});/);
-                                        if (match && match[1]) {
-                                            try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
-                                        }
+                            let scriptContent = null;
+                            doc.querySelectorAll('script').forEach(s => {
+                                if (s.textContent.includes('const content =')) {
+                                    const match = s.textContent.match(/const content = ({[\s\S]*?});/);
+                                    if (match && match[1]) {
+                                        try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
                                     }
-                                });
-
-                                if (scriptContent) {
-                                    return {
-                                        fileName,
-                                        image: imgSrc,
-                                        title: {
-                                            ar: scriptContent.ar?.articleTitle || '',
-                                            en: scriptContent.en?.articleTitle || ''
-                                        }
-                                    };
                                 }
-                                return null;
-                            })
-                            .catch(() => null)
-                    );
-                }
+                            });
+
+                            if (scriptContent) {
+                                return {
+                                    fileName,
+                                    category: scriptContent.category || 'platforms',
+                                    image: imgSrc,
+                                    title: {
+                                        ar: scriptContent.ar?.articleTitle || '',
+                                        en: scriptContent.en?.articleTitle || ''
+                                    }
+                                };
+                            }
+                            return null;
+                        })
+                        .catch(() => null)
+                );
             }
 
             const results = await Promise.all(checks);
