@@ -38,7 +38,7 @@
     </script>
 
     <title id="docTitle">خوارزميات التواصل الاجتماعي ودور التوقيت | PostTime Atlas</title>
-    <meta id="docDesc" name="description" content="فهم كيفية عمل خوارزميات المنصات وكيف يؤثر توقيت النشر على اختبار سرعة التفاعل وتوسيع نطاق الوصول العضوي.">
+    <meta id="docDesc" name="description" content="فهم كيفية عمل خوارزميات المنصات وكيف تؤثر سرعة التفاعل والتوقيت على توسيع نطاق الوصول العضوي.">
     
     <!-- SEO Canonical & Hreflang Tags -->
     <link rel="canonical" href="https://amalbarna.github.io/articles/article-6.html" id="canonicalUrl">
@@ -76,7 +76,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow">
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
         <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
             
             <header class="border-b border-slate-100 pb-6">
@@ -111,10 +111,20 @@
             </div>
 
         </article>
+
+        <!-- Related Articles Section (إقرأ أيضاً) -->
+        <section id="relatedSection" class="space-y-4 pt-4">
+            <h3 id="relatedTitle" class="text-lg font-bold text-slate-900 border-r-4 border-indigo-600 pr-3">
+                إقرأ أيضاً
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- يتم تحميل المقالات ذوات الصلة تلقائياً -->
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white mt-12">
         <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
             <div class="flex items-center gap-4 font-semibold text-slate-600">
@@ -126,6 +136,9 @@
     </footer>
 
     <script>
+        // تحديد رقم المقال الحالي لاستثنائه قطعياً
+        const CURRENT_ARTICLE_NUM = 6;
+
         function getInitialLanguage() {
             if (window.__initialLang) return window.__initialLang;
             var urlParams = new URLSearchParams(window.location.search);
@@ -143,13 +156,14 @@
             category: "growth",
             ar: {
                 docTitle: 'خوارزميات التواصل الاجتماعي ودور التوقيت | PostTime Atlas',
-                docDesc: 'فهم كيفية عمل خوارزميات المنصات وكيف يؤثر توقيت النشر على اختبار سرعة التفاعل وتوسيع نطاق الوصول العضوي.',
+                docDesc: 'فهم كيفية عمل خوارزميات المنصات وكيف تؤثر سرعة التفاعل والتوقيت على توسيع نطاق الوصول العضوي.',
                 btnBack: 'العودة للحاسبة 🚀',
                 badgeCategory: 'استراتيجيات ونمو',
                 articleTitle: 'خوارزميات التواصل الاجتماعي ودور التوقيت: كيف تلتقط إشارة النجاح الأولى؟',
                 articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 7 دقائق',
                 ctaText: 'تريد اقتراح وقت تقديري لتواجد جمهورك المستهدف؟',
                 ctaBtn: 'عرض الأوقات المقترحة الآن',
+                relatedTitle: 'إقرأ أيضاً',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
                 btnPrivacy: 'سياسة الخصوصية',
                 btnTerms: 'شروط الخدمة',
@@ -194,6 +208,7 @@
                 articleMeta: 'Updated: 2026 | Read Time: 7 mins',
                 ctaText: 'Need suggested posting timeframes for your target audience?',
                 ctaBtn: 'View Suggested Times',
+                relatedTitle: 'Read More',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
                 btnPrivacy: 'Privacy Policy',
                 btnTerms: 'Terms of Service',
@@ -231,6 +246,87 @@
             }
         };
 
+        async function fetchRelatedArticles() {
+            const relatedGrid = document.getElementById('relatedGrid');
+            const checks = [];
+            
+            for (let i = 1; i <= 50; i++) {
+                // استثناء المقال الحالي قطعياً بواسطة رقمه الثابت
+                if (i === CURRENT_ARTICLE_NUM) continue;
+
+                const fileName = `article-${i}.html`;
+                checks.push(
+                    fetch(fileName)
+                        .then(async res => {
+                            if (!res.ok) return null;
+                            const text = await res.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
+
+                            const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
+                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80';
+
+                            let scriptContent = null;
+                            doc.querySelectorAll('script').forEach(s => {
+                                if (s.textContent.includes('const content =')) {
+                                    const match = s.textContent.match(/const content = ({[\s\S]*?});/);
+                                    if (match && match[1]) {
+                                        try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
+                                    }
+                                }
+                            });
+
+                            if (scriptContent) {
+                                return {
+                                    fileName,
+                                    image: imgSrc,
+                                    title: {
+                                        ar: scriptContent.ar?.articleTitle || '',
+                                        en: scriptContent.en?.articleTitle || ''
+                                    }
+                                };
+                            }
+                            return null;
+                        })
+                        .catch(() => null)
+                );
+            }
+
+            const results = await Promise.all(checks);
+            let availableArticles = results.filter(r => r !== null && r.title.ar !== '');
+
+            if (availableArticles.length === 0) {
+                document.getElementById('relatedSection').style.display = 'none';
+                return;
+            }
+
+            availableArticles.sort(() => 0.5 - Math.random());
+            const selectedArticles = availableArticles.slice(0, 3);
+
+            relatedGrid.innerHTML = '';
+            selectedArticles.forEach(art => {
+                const articleUrl = `${art.fileName}?lang=${currentLang}`;
+                const card = document.createElement('div');
+                card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
+                card.innerHTML = `
+                    <a href="${articleUrl}" class="block aspect-video overflow-hidden bg-slate-100">
+                        <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
+                    </a>
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
+                        <h4 class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
+                            <a href="${articleUrl}" class="hover:text-indigo-600 transition">
+                                ${art.title[currentLang]}
+                            </a>
+                        </h4>
+                        <a href="${articleUrl}" class="text-[11px] font-bold text-indigo-600 hover:underline inline-flex items-center gap-1">
+                            ${currentLang === 'ar' ? 'إقرأ المقال ←' : 'Read Article →'}
+                        </a>
+                    </div>
+                `;
+                relatedGrid.appendChild(card);
+            });
+        }
+
         function renderLanguage() {
             const data = content[currentLang];
             const dir = currentLang === 'ar' ? 'rtl' : 'ltr';
@@ -251,10 +347,15 @@
             document.getElementById('badgeCategory').innerText = data.badgeCategory;
             document.getElementById('articleTitle').innerText = data.articleTitle;
             document.getElementById('articleMeta').innerText = data.articleMeta;
-            
+
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('ctaBtn').href = `../index.html?lang=${currentLang}`;
+
+            const relatedTitleEl = document.getElementById('relatedTitle');
+            if (relatedTitleEl) {
+                relatedTitleEl.innerText = data.relatedTitle;
+            }
 
             document.getElementById('footerText').innerText = data.footerText;
             document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
@@ -279,6 +380,8 @@
                     ul.classList.add('pl-5');
                 }
             });
+
+            fetchRelatedArticles();
         }
 
         function toggleLanguage() {
