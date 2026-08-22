@@ -137,6 +137,9 @@
     </footer>
 
     <script>
+        // تحديد رقم المقال الحالي لاستثنائه قطعياً
+        const CURRENT_ARTICLE_NUM = 4;
+
         function getInitialLanguage() {
             if (window.__initialLang) return window.__initialLang;
             var urlParams = new URLSearchParams(window.location.search);
@@ -250,78 +253,96 @@
             }
         };
 
+        // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً وديناميكياً
         async function fetchRelatedArticles() {
-            const currentPath = window.location.pathname;
-            const currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'article-4.html';
             const relatedGrid = document.getElementById('relatedGrid');
-            
+            if (!relatedGrid) return;
+
             const checks = [];
+            // تفقد المقالات المحتملة (تغطية حتى 50 مقال مستقبلية)
             for (let i = 1; i <= 50; i++) {
+                // استثناء المقال الحالي قطعياً بواسطة رقمه الثابت
+                if (i === CURRENT_ARTICLE_NUM) continue;
+
                 const fileName = `article-${i}.html`;
-                
-                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
-                    checks.push(
-                        fetch(fileName)
-                            .then(async res => {
-                                if (!res.ok) return null;
-                                const text = await res.text();
-                                const parser = new DOMParser();
-                                const doc = parser.parseFromString(text, 'text/html');
+                checks.push(
+                    fetch(fileName)
+                        .then(async res => {
+                            if (!res.ok) return null;
+                            const text = await res.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
 
-                                const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
-                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80';
+                            // استخراج الصورة الرئيسية للمقال
+                            const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
+                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1062/1200/600';
 
-                                let scriptContent = null;
-                                doc.querySelectorAll('script').forEach(s => {
-                                    if (s.textContent.includes('const content =')) {
-                                        const match = s.textContent.match(/const content = ({[\s\S]*?});/);
-                                        if (match && match[1]) {
-                                            try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
+                            // استخراج عنوان المقال المترجم من الكائن داخل السكربت
+                            let scriptContent = null;
+                            doc.querySelectorAll('script').forEach(s => {
+                                if (s.textContent.includes('const content =')) {
+                                    const match = s.textContent.match(/const content = ({[\s\S]*?});/);
+                                    if (match && match[1]) {
+                                        try {
+                                            scriptContent = eval('(' + match[1] + ')');
+                                        } catch (e) {
+                                            console.error('Error parsing script in article:', fileName, e);
                                         }
                                     }
-                                });
-
-                                if (scriptContent) {
-                                    return {
-                                        fileName,
-                                        image: imgSrc,
-                                        title: {
-                                            ar: scriptContent.ar?.articleTitle || '',
-                                            en: scriptContent.en?.articleTitle || ''
-                                        }
-                                    };
                                 }
-                                return null;
-                            })
-                            .catch(() => null)
-                    );
-                }
+                            });
+
+                            if (scriptContent) {
+                                return {
+                                    fileName,
+                                    image: imgSrc,
+                                    title: {
+                                        ar: scriptContent.ar?.articleTitle || doc.title,
+                                        en: scriptContent.en?.articleTitle || doc.title
+                                    }
+                                };
+                            }
+                            return null;
+                        })
+                        .catch(() => null)
+                );
             }
 
+            // تنفيذ جلب البيانات بشكل متوازي لسرعة الأداء
             const results = await Promise.all(checks);
-            let availableArticles = results.filter(r => r !== null && r.title.ar !== '');
-
-            if (availableArticles.length === 0) {
-                document.getElementById('relatedSection').style.display = 'none';
+            
+            // تصفية أي مقالات غير موجودة أو فارغة
+            const allArticles = results.filter(r => r !== null && r.title.ar !== '');
+            
+            if (allArticles.length === 0) {
+                const section = document.getElementById('relatedSection');
+                if (section) section.style.display = 'none';
                 return;
             }
 
-            availableArticles.sort(() => 0.5 - Math.random());
-            const selectedArticles = availableArticles.slice(0, 3);
+            // عشوائية حقيقية لترتيب المقالات
+            const shuffled = allArticles.sort(() => 0.5 - Math.random());
+
+            // اختيار أول 3 مقالات مختلفة عن بعضها البعض وعن الصفحة الحالية
+            const finalThree = shuffled.slice(0, 3);
 
             relatedGrid.innerHTML = '';
-            selectedArticles.forEach(art => {
+            
+            // بناء الـ HTML لكل مقال
+            finalThree.forEach(art => {
                 const articleUrl = `${art.fileName}?lang=${currentLang}`;
+                const titleText = art.title[currentLang] || art.title['ar'] || '';
+                
                 const card = document.createElement('div');
                 card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
                 card.innerHTML = `
                     <a href="${articleUrl}" class="block aspect-video overflow-hidden bg-slate-100">
-                        <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
+                        <img src="${art.image}" alt="${titleText}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
                     </a>
                     <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
                         <h4 class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
                             <a href="${articleUrl}" class="hover:text-indigo-600 transition">
-                                ${art.title[currentLang]}
+                                ${titleText}
                             </a>
                         </h4>
                         <a href="${articleUrl}" class="text-[11px] font-bold text-indigo-600 hover:underline inline-flex items-center gap-1">
@@ -385,6 +406,7 @@
                 }
             });
 
+            // استدعاء دالة جلب وتصفية المقالات ذات الصلة
             fetchRelatedArticles();
         }
 
