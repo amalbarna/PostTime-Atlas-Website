@@ -118,7 +118,7 @@
                 إقرأ أيضاً
             </h3>
             <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
+                <!-- يتم تحميل الكروت الـ 3 التلقائية والعشوائية هنا -->
             </div>
         </section>
     </main>
@@ -251,16 +251,19 @@
             }
         };
 
-        // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً
+        // دالة تحضير جلب 3 مقالات عشوائية ومختلفة تلقائياً مع استثناء المقال الحلي ودعم المقالات المستقبلي
         async function fetchRelatedArticles() {
-            const currentFilePath = window.location.pathname.split('/').pop() || 'article-1.html';
+            const currentPath = window.location.pathname;
+            const currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'article-1.html';
             const relatedGrid = document.getElementById('relatedGrid');
-            const currentCat = content.category || 'platforms';
             
             const checks = [];
-            for (let i = 1; i <= 30; i++) {
+            // تفقد المقالات حتى 50 مقال لدعم المقالات المستقبلية دون الحاجة لتعديل الكود
+            for (let i = 1; i <= 50; i++) {
                 const fileName = `article-${i}.html`;
-                if (fileName !== currentFilePath) {
+                
+                // استثناء المقال الحالي فوراً
+                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
                     checks.push(
                         fetch(fileName)
                             .then(async res => {
@@ -285,7 +288,6 @@
                                 if (scriptContent) {
                                     return {
                                         fileName,
-                                        category: scriptContent.category || 'platforms',
                                         image: imgSrc,
                                         title: {
                                             ar: scriptContent.ar?.articleTitle || '',
@@ -301,27 +303,22 @@
             }
 
             const results = await Promise.all(checks);
-            const allArticles = results.filter(r => r !== null);
-            
-            // فلترة المقالات بنفس التصنيف
-            let matchedArticles = allArticles.filter(art => art.category === currentCat);
-            
-            // إذا لم يكن هناك مقالات كافية من نفس التصنيف، يتم إضافة مقالات أخرى متبقية
-            if (matchedArticles.length < 3) {
-                const otherArticles = allArticles.filter(art => art.category !== currentCat);
-                matchedArticles = matchedArticles.concat(otherArticles);
-            }
+            // إزالة أي نتائج فارغة
+            let availableArticles = results.filter(r => r !== null && r.title.ar !== '');
 
-            // اقتطاع أول 3 مقالات فقط
-            const finalThree = matchedArticles.slice(0, 3);
-
-            if (finalThree.length === 0) {
+            if (availableArticles.length === 0) {
                 document.getElementById('relatedSection').style.display = 'none';
                 return;
             }
 
+            // ترتيب المقالات المتاحة عشوائياً في كل تحديث
+            availableArticles.sort(() => 0.5 - Math.random());
+
+            // اختيار أول 3 مقالات فريدة
+            const selectedArticles = availableArticles.slice(0, 3);
+
             relatedGrid.innerHTML = '';
-            finalThree.forEach(art => {
+            selectedArticles.forEach(art => {
                 const articleUrl = `${art.fileName}?lang=${currentLang}`;
                 const card = document.createElement('div');
                 card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
