@@ -144,7 +144,7 @@
         // دالة توليد مسارات المقالات تلقائياً والبحث في المقالات المتاحة
         async function getAvailableArticleFiles() {
             const files = [];
-            const MAX_ARTICLES_CHECK = 50; // يمكنك رفع رقم أقصى للمقالات هنا
+            const MAX_ARTICLES_CHECK = 50;
             
             const checks = [];
             for (let i = 1; i <= MAX_ARTICLES_CHECK; i++) {
@@ -198,7 +198,7 @@
             }
         };
 
-        // دالة جلب بيانات كل مقال تلقائياً وقراءة تصنيفه
+        // دالة جلب بيانات كل مقال تلقائياً وقراءة تصنيفه وصورته
         async function fetchArticleData(filePath) {
             try {
                 const response = await fetch(filePath);
@@ -208,8 +208,9 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                const imgElement = doc.getElementById('articleImg');
-                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
+                // البحث عن عنصر الصورة بالمعرفين الممكنين لتفادي عدم التطابق
+                const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img');
+                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.pexels.com/photos/5361087/pexels-photo-5361087.jpeg?auto=compress&cs=tinysrgb&w=1200';
 
                 const scripts = doc.querySelectorAll('script');
                 let articleContent = null;
