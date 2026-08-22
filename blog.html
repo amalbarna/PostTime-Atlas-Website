@@ -76,10 +76,10 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-4xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
+    <main class="max-w-4xl mx-auto w-full px-4 my-8 flex-grow space-y-6">
         
         <!-- Header Section -->
-        <section class="text-center space-y-3 py-4">
+        <section class="text-center space-y-3 py-2">
             <h1 id="pageTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
                 المقالات والدلائل
             </h1>
@@ -88,8 +88,27 @@
             </p>
         </section>
 
+        <!-- 5 Category Filters -->
+        <div class="flex flex-wrap justify-center gap-2 py-2">
+            <button onclick="filterArticles('all')" id="catBtnAll" class="category-btn active px-4 py-1.5 rounded-full text-xs font-bold transition bg-indigo-600 text-white shadow-sm" data-category="all">
+                الكل
+            </button>
+            <button onclick="filterArticles('platforms')" id="catBtnPlatforms" class="category-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 hover:text-indigo-600" data-category="platforms">
+                منصات التواصل
+            </button>
+            <button onclick="filterArticles('growth')" id="catBtnGrowth" class="category-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 hover:text-indigo-600" data-category="growth">
+                استراتيجيات ونمو
+            </button>
+            <button onclick="filterArticles('marketing')" id="catBtnMarketing" class="category-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 hover:text-indigo-600" data-category="marketing">
+                التسويق الرقمي
+            </button>
+            <button onclick="filterArticles('creation')" id="catBtnCreation" class="category-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 hover:text-indigo-600" data-category="creation">
+                صناعة المحتوى
+            </button>
+        </div>
+
         <!-- Articles Grid -->
-        <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div id="articlesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
             <!-- يتم تحميل الكروت تلقائياً بقراءة المقالات المصدرية -->
         </div>
 
@@ -120,6 +139,7 @@
         }
 
         let currentLang = getInitialLanguage();
+        let activeCategory = 'all';
 
         // مسارات ملفات المقالات
         const articleFiles = [
@@ -137,6 +157,11 @@
                 btnBack: 'الرئيسية 🚀',
                 pageTitle: 'المقالات والدلائل',
                 pageSubtitle: 'استكشف أحدث الدلائل والنصائح لتحسين أوقات النشر واستراتيجيات منصات التواصل الاجتماعي.',
+                catAll: 'الكل',
+                catPlatforms: 'منصات التواصل',
+                catGrowth: 'استراتيجيات ونمو',
+                catMarketing: 'التسويق الرقمي',
+                catCreation: 'صناعة المحتوى',
                 readMore: 'اقرأ المقال الكامل',
                 loading: 'جاري تحميل المقالات...',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
@@ -150,6 +175,11 @@
                 btnBack: 'Home 🚀',
                 pageTitle: 'Articles & Guides',
                 pageSubtitle: 'Explore the latest guides and tips to optimize posting times and social media strategies.',
+                catAll: 'All',
+                catPlatforms: 'Social Platforms',
+                catGrowth: 'Strategies & Growth',
+                catMarketing: 'Digital Marketing',
+                catCreation: 'Content Creation',
                 readMore: 'Read Full Article',
                 loading: 'Loading articles...',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
@@ -214,6 +244,30 @@
             return null;
         }
 
+        // دالة تصفية المقالات
+        function filterArticles(category) {
+            activeCategory = category;
+            const buttons = document.querySelectorAll('.category-btn');
+            
+            buttons.forEach(btn => {
+                if (btn.getAttribute('data-category') === category) {
+                    btn.className = 'category-btn active px-4 py-1.5 rounded-full text-xs font-bold transition bg-indigo-600 text-white shadow-sm';
+                } else {
+                    btn.className = 'category-btn px-4 py-1.5 rounded-full text-xs font-bold transition bg-white border border-slate-200 text-slate-600 hover:border-indigo-600 hover:text-indigo-600';
+                }
+            });
+
+            const cards = document.querySelectorAll('#articlesGrid article');
+            cards.forEach(card => {
+                const cardCat = card.getAttribute('data-category');
+                if (category === 'all' || cardCat === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
         // عرض المقالات ديناميكياً
         async function renderArticles() {
             const grid = document.getElementById('articlesGrid');
@@ -228,6 +282,21 @@
             validArticles.forEach(art => {
                 const articleUrl = `${art.id}?lang=${currentLang}`;
                 const card = document.createElement('article');
+                
+                // توزيع التصنيفات على المقالات القائمة
+                let categoryAttr = 'platforms';
+                if (art.id.includes('article-2')) {
+                    categoryAttr = 'creation';
+                } else if (art.id.includes('article-3')) {
+                    categoryAttr = 'growth';
+                } else if (art.id.includes('article-4')) {
+                    categoryAttr = 'marketing';
+                } else if (art.id.includes('article-5')) {
+                    categoryAttr = 'growth';
+                }
+
+                card.setAttribute('data-category', categoryAttr);
+
                 card.className = 'bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
                 
                 card.innerHTML = `
@@ -258,6 +327,8 @@
                 `;
                 grid.appendChild(card);
             });
+
+            filterArticles(activeCategory);
         }
 
         function renderLanguage() {
@@ -280,6 +351,13 @@
 
             document.getElementById('pageTitle').innerText = data.pageTitle;
             document.getElementById('pageSubtitle').innerText = data.pageSubtitle;
+
+            // تحديث نصوص أزرار التصنيفات
+            document.getElementById('catBtnAll').innerText = data.catAll;
+            document.getElementById('catBtnPlatforms').innerText = data.catPlatforms;
+            document.getElementById('catBtnGrowth').innerText = data.catGrowth;
+            document.getElementById('catBtnMarketing').innerText = data.catMarketing;
+            document.getElementById('catBtnCreation').innerText = data.catCreation;
 
             document.getElementById('footerText').innerText = data.footerText;
             document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
