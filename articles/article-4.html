@@ -80,7 +80,7 @@
         <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
             
             <header class="border-b border-slate-100 pb-6">
-                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">تخطيط المحتوى</span>
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">صناعة المحتوى</span>
                 <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
                     تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار
                 </h1>
@@ -141,11 +141,12 @@
         let currentLang = getInitialLanguage();
 
         const content = {
+            category: "creation",
             ar: {
                 docTitle: 'أنواع المحتوى وجدول النشر المثالي | PostTime Atlas',
                 docDesc: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.',
                 btnBack: 'العودة للحاسبة 🚀',
-                badgeCategory: 'تخطيط المحتوى',
+                badgeCategory: 'صناعة المحتوى',
                 articleTitle: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
                 articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
                 imgAlt: 'تخطيط تقويم المحتوى والجدولة الزمنية للنشر',
@@ -192,7 +193,7 @@
                 docTitle: 'Content Types & Optimal Posting Schedules | PostTime Atlas',
                 docDesc: 'A guide on aligning content formats with daily and weekly posting frequencies for maximum consistency and reach.',
                 btnBack: 'Back to Calculator 🚀',
-                badgeCategory: 'Content Planning',
+                badgeCategory: 'Content Creation',
                 articleTitle: 'Aligning Content Types with Posting Schedules: Frequency & Strategy',
                 articleMeta: 'Updated: 2026 | Read Time: 5 mins',
                 imgAlt: 'Content Calendar Planning and Schedule Strategy',
@@ -250,7 +251,6 @@
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
 
-            // تحديث الروابط للحفاظ على معلمة اللغة
             document.getElementById('logoLink').href = `../index.html?lang=${currentLang}`;
             document.getElementById('btnBack').innerText = data.btnBack;
             document.getElementById('btnBack').href = `../index.html?lang=${currentLang}`;
