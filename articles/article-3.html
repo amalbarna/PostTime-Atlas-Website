@@ -246,22 +246,25 @@
             }
         };
 
-        // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً
-        // تم تصحيح الكود لاستثناء المقال الحالي من الظهور في المقترحات
+        // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً وديناميكياً
         async function fetchRelatedArticles() {
-            // الحصول على اسم الملف الحالي من رابط الصفحة
+            // الحصول الدقيق على اسم الملف الحالي استناداً للرابط المحلي أو الخارجي
             const currentPath = window.location.pathname;
-            const currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'article-3.html';
+            let currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1);
+            if (!currentFileName || currentFileName === "") {
+                currentFileName = 'article-3.html';
+            }
             
             const relatedGrid = document.getElementById('relatedGrid');
-            
+            if (!relatedGrid) return;
+
             const checks = [];
-            // تفقد أول 30 مقال (يمكن زيادة الرقم إذا لزم الأمر) لضمان العمل الديناميكي
-            for (let i = 1; i <= 30; i++) {
+            // تفقد المقالات المحتملة (تغطية حتى 50 مقال مستقبلية)
+            for (let i = 1; i <= 50; i++) {
                 const fileName = `article-${i}.html`;
                 
-                // --- إصلاح الخطأ: استثناء المقال الحالي من القائمة ---
-                if (fileName !== currentFileName) {
+                // استبعاد المقال الحالي فوراً
+                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
                     checks.push(
                         fetch(fileName)
                             .then(async res => {
@@ -270,21 +273,20 @@
                                 const parser = new DOMParser();
                                 const doc = parser.parseFromString(text, 'text/html');
 
-                                // الحصول على الصورة البارزة للمقال (articleImage هو المعرف القياسي)
+                                // استخراج الصورة الرئيسية للمقال
                                 const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
                                 const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
 
-                                // الحصول على بيانات الترجمة (عنوان المقال) من السكربت الموجود داخل المقال
+                                // استخراج عنوان المقال المترجم من الكائن داخل السكربت
                                 let scriptContent = null;
                                 doc.querySelectorAll('script').forEach(s => {
                                     if (s.textContent.includes('const content =')) {
                                         const match = s.textContent.match(/const content = ({[\s\S]*?});/);
                                         if (match && match[1]) {
                                             try {
-                                                // تقييم الكود بشكل آمن للحصول على الكائن
                                                 scriptContent = eval('(' + match[1] + ')');
                                             } catch (e) {
-                                                console.error('Error parsing related article content:', e);
+                                                console.error('Error parsing script in article:', fileName, e);
                                             }
                                         }
                                     }
@@ -295,8 +297,8 @@
                                         fileName,
                                         image: imgSrc,
                                         title: {
-                                            ar: scriptContent.ar?.articleTitle || '',
-                                            en: scriptContent.en?.articleTitle || ''
+                                            ar: scriptContent.ar?.articleTitle || doc.title,
+                                            en: scriptContent.en?.articleTitle || doc.title
                                         }
                                     };
                                 }
@@ -307,39 +309,41 @@
                 }
             }
 
-            // تنفيذ جميع الطلبات بشكل متوازي
+            // تنفيذ جلب البيانات بشكل متوازي لسرعة الأداء
             const results = await Promise.all(checks);
             
-            // تصفية النتائج لاستبعاد الملفات غير الموجودة أو التي لا تحتوي على بيانات صحيحة
+            // تصفية أي مقالات غير موجودة أو فارغة
             const allArticles = results.filter(r => r !== null);
             
-            // إذا لم يتم العثور على أي مقالات أخرى، إخفاء القسم بالكامل
             if (allArticles.length === 0) {
-                document.getElementById('relatedSection').style.display = 'none';
+                const section = document.getElementById('relatedSection');
+                if (section) section.style.display = 'none';
                 return;
             }
 
-            // ترتيب المقالات بشكل عشوائي للحصول على تنوع في كل مرة
-            allArticles.sort(() => 0.5 - Math.random());
+            // عشوائية حقيقية لترتيب المقالات
+            const shuffled = allArticles.sort(() => 0.5 - Math.random());
 
-            // اقتطاع أول 3 مقالات فقط لعرضها
-            const finalThree = allArticles.slice(0, 3);
+            // اختيار أول 3 مقالات مختلفة عن بعضها البعض وعن الصفحة الحالية
+            const finalThree = shuffled.slice(0, 3);
 
             relatedGrid.innerHTML = '';
             
-            // إنشاء كروت المقالات ذات الصلة وعرضها
+            // بناء الـ HTML لكل مقال
             finalThree.forEach(art => {
                 const articleUrl = `${art.fileName}?lang=${currentLang}`;
+                const titleText = art.title[currentLang] || art.title['ar'] || '';
+                
                 const card = document.createElement('div');
                 card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
                 card.innerHTML = `
                     <a href="${articleUrl}" class="block aspect-video overflow-hidden bg-slate-100">
-                        <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
+                        <img src="${art.image}" alt="${titleText}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
                     </a>
                     <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
                         <h4 class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
                             <a href="${articleUrl}" class="hover:text-indigo-600 transition">
-                                ${art.title[currentLang]}
+                                ${titleText}
                             </a>
                         </h4>
                         <a href="${articleUrl}" class="text-[11px] font-bold text-indigo-600 hover:underline inline-flex items-center gap-1">
@@ -403,7 +407,7 @@
                 }
             });
 
-            // استدعاء دالة جلب المقالات ذات الصلة بعد تحميل الصفحة
+            // استدعاء دالة جلب وتصفية المقالات ذات الصلة
             fetchRelatedArticles();
         }
 
