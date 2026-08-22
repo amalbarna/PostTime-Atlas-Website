@@ -76,7 +76,7 @@
     </header>
 
     <!-- Main Content -->
-    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow">
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
         <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
             
             <header class="border-b border-slate-100 pb-6">
@@ -112,10 +112,20 @@
             </div>
 
         </article>
+
+        <!-- Related Articles Section (إقرأ أيضاً) -->
+        <section id="relatedSection" class="space-y-4 pt-4">
+            <h3 id="relatedTitle" class="text-lg font-bold text-slate-900 border-r-4 border-indigo-600 pr-3">
+                إقرأ أيضاً
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- يتم تحميل الكروت الـ 3 التلقائية والعشوائية هنا -->
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white">
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white mt-12">
         <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
             <div class="flex items-center gap-4 font-semibold text-slate-600">
@@ -152,6 +162,183 @@
                 imgAlt: 'تخطيط تقويم المحتوى والجدولة الزمنية للنشر',
                 ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
                 ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                relatedTitle: 'إقرأ أيضاً',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
+                body: `
+                    <p>
+                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد <strong>نوع المحتوى</strong> الذي تنشره في ذلك الوقت و<strong>كم مرةتعمل، سأقوم بدمج ميزة "إقرأ أيضاً" الذكية والديناميكية في كود المقال الرابع (`article-4.html`). ستعمل هذه الميزة تلقائياً، وتستبعد المقال الحالي، وتعرض 3 مقالات عشوائية ومختلفة، كما أنها مهيأة للعمل مع أي مقالات مستقبلية دون الحاجة لتعديل الكود.
+
+تفضل، هذا هو الكود الكامل:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="[https://www.googletagmanager.com/gtag/js?id=G-578DKRRS7P](https://www.googletagmanager.com/gtag/js?id=G-578DKRRS7P)"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-578DKRRS7P');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
+    <script>
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var langParam = urlParams.get('lang');
+            var savedLang = langParam || localStorage.getItem('siteLang');
+            
+            if (!savedLang) {
+                var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+                savedLang = systemLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            
+            if (langParam) {
+                localStorage.setItem('siteLang', langParam);
+            }
+
+            var dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = dir;
+            window.__initialLang = savedLang;
+        })();
+    </script>
+
+    <title id="docTitle">أنواع المحتوى وجدول النشر المثالي | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.">
+    
+    <!-- SEO Canonical & Hreflang Tags -->
+    <link rel="canonical" href="[https://amalbarna.github.io/articles/article-4.html](https://amalbarna.github.io/articles/article-4.html)" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="[https://amalbarna.github.io/articles/article-4.html](https://amalbarna.github.io/articles/article-4.html)" />
+    <link rel="alternate" hreflang="en" href="[https://amalbarna.github.io/articles/article-4.html?lang=en](https://amalbarna.github.io/articles/article-4.html?lang=en)" />
+    <link rel="alternate" hreflang="x-default" href="[https://amalbarna.github.io/articles/article-4.html](https://amalbarna.github.io/articles/article-4.html)" />
+
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link href="[https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap)" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body id="bodyTag" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="../index.html" id="logoLink" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="../index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    العودة للحاسبة 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">صناعة المحتوى</span>
+                <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار
+                </h1>
+                <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
+            </header>
+
+            <!-- Featured Image -->
+            <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100 shadow-inner">
+                <img 
+                    id="articleImg"
+                    src="[https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80](https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80)" 
+                    alt="تخطيط تقويم المحتوى والجدولة الزمنية للنشر" 
+                    class="w-full h-52 sm:h-72 object-cover hover:scale-105 transition duration-500"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='[https://picsum.photos/id/1062/1200/600](https://picsum.photos/id/1062/1200/600)';"
+                >
+            </div>
+
+            <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
+                <!-- المحتوى يتم تحميله عبر السكربت -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-8 pt-6 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+                <span id="ctaText" class="text-xs font-bold text-indigo-900">جاهز لجدولة جدولك ومزامنة أوقات النشر؟</span>
+                <a href="../index.html" id="ctaBtn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg transition">
+                    جرب الحاسبة التفاعلية الان
+                </a>
+            </div>
+
+        </article>
+
+        <!-- Related Articles Section (إقرأ أيضاً) -->
+        <section id="relatedSection" class="space-y-4 pt-4">
+            <h3 id="relatedTitle" class="text-lg font-bold text-slate-900 border-r-4 border-indigo-600 pr-3">
+                إقرأ أيضاً
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = urlLang || savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            localStorage.setItem('siteLang', lang);
+            return lang;
+        }
+
+        let currentLang = getInitialLanguage();
+
+        const content = {
+            category: "creation",
+            ar: {
+                docTitle: 'أنواع المحتوى وجدول النشر المثالي | PostTime Atlas',
+                docDesc: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.',
+                btnBack: 'العودة للحاسبة 🚀',
+                badgeCategory: 'صناعة المحتوى',
+                articleTitle: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
+                articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                imgAlt: 'تخطيط تقويم المحتوى والجدولة الزمنية للنشر',
+                ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
+                ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                relatedTitle: 'إقرأ أيضاً',
                 footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
                 btnPrivacy: 'سياسة الخصوصية',
                 btnTerms: 'شروط الخدمة',
@@ -199,6 +386,658 @@
                 imgAlt: 'Content Calendar Planning and Schedule Strategy',
                 ctaText: 'Ready to build your publishing schedule across timezones?',
                 ctaBtn: 'Try Interactive Calculator Now',
+                relatedTitle: 'Read Moreتفضل، تم دمج ميزة "إقرأ أيضاً" الذكية في كود المقال الرابع (`article-4.html`). ستعمل هذه الميزة تلقائياً، وتتجنب تكرار المقال الحالي، وتعرض 3 كروت لمقالات عشوائية ومختلفة، وهي مهيأة للتعرف تلقائياً على أي مقالات جديدة قد تُضيفها للمجلد في المستقبل دون أي تعديل إضافي للكود.
+
+إليك الكود الكامل:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-578DKRRS7P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-578DKRRS7P');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
+    <script>
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var langParam = urlParams.get('lang');
+            var savedLang = langParam || localStorage.getItem('siteLang');
+            
+            if (!savedLang) {
+                var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+                savedLang = systemLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            
+            if (langParam) {
+                localStorage.setItem('siteLang', langParam);
+            }
+
+            var dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = dir;
+            window.__initialLang = savedLang;
+        })();
+    </script>
+
+    <title id="docTitle">أنواع المحتوى وجدول النشر المثالي | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.">
+    
+    <!-- SEO Canonical & Hreflang Tags -->
+    <link rel="canonical" href="https://amalbarna.github.io/articles/article-4.html" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="https://amalbarna.github.io/articles/article-4.html" />
+    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/articles/article-4.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://amalbarna.github.io/articles/article-4.html" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body id="bodyTag" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="../index.html" id="logoLink" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="../index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    العودة للحاسبة 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">صناعة المحتوى</span>
+                <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار
+                </h1>
+                <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
+            </header>
+
+            <!-- Featured Image -->
+            <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100 shadow-inner">
+                <img 
+                    id="articleImg"
+                    src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80" 
+                    alt="تخطيط تقويم المحتوى والجدولة الزمنية للنشر" 
+                    class="w-full h-52 sm:h-72 object-cover hover:scale-105 transition duration-500"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='https://picsum.photos/id/1062/1200/600';"
+                >
+            </div>
+
+            <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
+                <!-- المحتوى يتم تحميله عبر السكربت -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-8 pt-6 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+                <span id="ctaText" class="text-xs font-bold text-indigo-900">جاهز لجدولة جدولك ومزامنة أوقات النشر؟</span>
+                <a href="../index.html" id="ctaBtn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg transition">
+                    جرب الحاسبة التفاعلية الان
+                </a>
+            </div>
+
+        </article>
+
+        <!-- Related Articles Section (إقرأ أيضاً) -->
+        <section id="relatedSection" class="space-y-4 pt-4">
+            <h3 id="relatedTitle" class="text-lg font-bold text-slate-900 border-r-4 border-indigo-600 pr-3">
+                إقرأ أيضاً
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = urlLang || savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            localStorage.setItem('siteLang', lang);
+            return lang;
+        }
+
+        let currentLang = getInitialLanguage();
+
+        const content = {
+            category: "creation",
+            ar: {
+                docTitle: 'أنواع المحتوى وجدول النشر المثالي | PostTime Atlas',
+                docDesc: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.',
+                btnBack: 'العودة للحاسبة 🚀',
+                badgeCategory: 'صناعة المحتوى',
+                articleTitle: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
+                articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                imgAlt: 'تخطيط تقويم المحتوى والجدولة الزمنية للنشر',
+                ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
+                ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                relatedTitle: 'إقرأ أيضاً',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
+                body: `
+                    <p>
+                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد <strong>نوع المحتوى</strong> الذي تنشره في ذلك الوقت و<strong>كم مرة</strong> تنشره. تختلف استجابة الخوارزميات والمتابعين بحسب نسق المحتوى، سواء كان فيديوهات قصيرة (Reels / TikTok)، أو منشورات تفاعلية، أو قصصاً يومية (Stories).
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. معدل التكرار الموصى به لكل منصة (Posting Frequency)</h2>
+                    <p>
+                        للحفاظ على نمو الحساب دون إرهاق المتابعين أو الاستنزاف الإبداعي:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>تيك توك (TikTok):</strong> من 1 إلى 3 فيديوهات يومياً لبناء زخم سريع.</li>
+                        <li><strong>إنستغرام (Instagram):</strong> من 3 إلى 5 منشورات أو Reels أسبوعياً، مع نشر قصص (Stories) يومية.</li>
+                        <li><strong>لينكد إن (LinkedIn):</strong> من 3 إلى 5 منشورات أسبوعياً خلال أيام العمل الرسمية.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. ربط نوع المحتوى بأوقات اليوم</h2>
+                    <p>
+                        تختلف الذهنية النفسية للزائر بمرور ساعات اليوم:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>الصباح الباكر:</strong> المحتوى السريع الملهم، الأخبار المختصرة، والجرعات التحفيزية.</li>
+                        <li><strong>فترة الظهيرة:</strong> المحتوى التعليمي القصير، النصائح السريعة، أو العروض المباشرة.</li>
+                        <li><strong>المساء:</strong> الفيديوهات الترفيهية الطويلة، القصص الشخصية، والمحتوى القائم على النقاش والتعليقات.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. قاعدة التنوع (80/20 Rule)</h2>
+                    <p>
+                        لضمان عدم تحول حسابك لإنقاص المتابعين، اجعل 80% من محتواك يقدم قيمة حقيقية (تعليم، ترفيه، حلول مشكلات) و20% فقط مخصصاً للترويج المباشر لخدماتك أو منتجاتك. ثم نسق هذا الجدول عبر حاسبة <strong>PostTime Atlas</strong> لمراعاة أوقات الذروة.
+                    </p>
+                `
+            },
+            en: {
+                docTitle: 'Content Types & Optimal Posting Schedules | PostTime Atlas',
+                docDesc: 'A guide on aligning content formats with daily and weekly posting frequencies for maximum consistency and reach.',
+                btnBack: 'Back to Calculator 🚀',
+                badgeCategory: 'Content Creation',
+                articleTitle: 'Aligning Content Types with Posting Schedules: Frequency & Strategy',
+                articleMeta: 'Updated: 2026 | Read Time: 5 mins',
+                imgAlt: 'Content Calendar Planning and Schedule Strategy',
+                ctaText: 'Ready to build your publishing schedule across timezones?',
+                ctaBtn: 'Try Interactive Calculator Now',
+                relatedTitle: 'Read Moreتم إضافة ميزة "إقرأ أيضاً" الذكية في كود المقال الرابع (`article-4.html`) أدناه. الكود المحدث يعمل الآن تلقائياً، حيث يستبعد المقال الحالي من الاقتراحات، ويعرض 3 كروت لمقالات عشوائية ومختلفة، وهي مهيأة للتعرف تلقائياً على أي مقالات جديدة قد تُضيفها للمجلد في المستقبل دون الحاجة لتعديل الكود مرة أخرى.
+
+إليك الكود المحدث بالكامل جاهزاً للنسخ:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="[https://www.googletagmanager.com/gtag/js?id=G-578DKRRS7P](https://www.googletagmanager.com/gtag/js?id=G-578DKRRS7P)"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-578DKRRS7P');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
+    <script>
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var langParam = urlParams.get('lang');
+            var savedLang = langParam || localStorage.getItem('siteLang');
+            
+            if (!savedLang) {
+                var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+                savedLang = systemLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            
+            if (langParam) {
+                localStorage.setItem('siteLang', langParam);
+            }
+
+            var dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = dir;
+            window.__initialLang = savedLang;
+        })();
+    </script>
+
+    <title id="docTitle">أنواع المحتوى وجدول النشر المثالي | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.">
+    
+    <!-- SEO Canonical & Hreflang Tags -->
+    <link rel="canonical" href="[https://amalbarna.github.io/articles/article-4.html](https://amalbarna.github.io/articles/article-4.html)" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="[https://amalbarna.github.io/articles/article-4.html](https://amalbarna.github.io/articles/article-4.html)" />
+    <link rel="alternate" hreflang="en" href="[https://amalbarna.github.io/articles/article-4.html?lang=en](https://amalbarna.github.io/articles/article-4.html?lang=en)" />
+    <link rel="alternate" hreflang="x-default" href="[https://amalbarna.github.io/articles/article-4.html](https://amalbarna.github.io/articles/article-4.html)" />
+
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link href="[https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap](https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap)" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body id="bodyTag" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="../index.html" id="logoLink" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="../index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    العودة للحاسبة 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">صناعة المحتوى</span>
+                <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار
+                </h1>
+                <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
+            </header>
+
+            <!-- Featured Image -->
+            <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100 shadow-inner">
+                <img 
+                    id="articleImg"
+                    src="[https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80](https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80)" 
+                    alt="تخطيط تقويم المحتوى والجدولة الزمنية للنشر" 
+                    class="w-full h-52 sm:h-72 object-cover hover:scale-105 transition duration-500"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='[https://picsum.photos/id/1062/1200/600](https://picsum.photos/id/1062/1200/600)';"
+                >
+            </div>
+
+            <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
+                <!-- المحتوى يتم تحميله عبر السكربت -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-8 pt-6 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+                <span id="ctaText" class="text-xs font-bold text-indigo-900">جاهز لجدولة جدولك ومزامنة أوقات النشر؟</span>
+                <a href="../index.html" id="ctaBtn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg transition">
+                    جرب الحاسبة التفاعلية الان
+                </a>
+            </div>
+
+        </article>
+
+        <!-- Related Articles Section (إقرأ أيضاً) -->
+        <section id="relatedSection" class="space-y-4 pt-4">
+            <h3 id="relatedTitle" class="text-lg font-bold text-slate-900 border-r-4 border-indigo-600 pr-3">
+                إقرأ أيضاً
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = urlLang || savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            localStorage.setItem('siteLang', lang);
+            return lang;
+        }
+
+        let currentLang = getInitialLanguage();
+
+        const content = {
+            category: "creation",
+            ar: {
+                docTitle: 'أنواع المحتوى وجدول النشر المثالي | PostTime Atlas',
+                docDesc: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.',
+                btnBack: 'العودة للحاسبة 🚀',
+                badgeCategory: 'صناعة المحتوى',
+                articleTitle: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
+                articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                imgAlt: 'تخطيط تقويم المحتوى والجدولة الزمنية للنشر',
+                ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
+                ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                relatedTitle: 'إقرأ أيضاً',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
+                body: `
+                    <p>
+                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد <strong>نوع المحتوى</strong> الذي تنشره في ذلك الوقت و<strong>كم مرة</strong> تنشره. تختلف استجابة الخوارزميات والمتابعين بحسب نسق المحتوى، سواء كان فيديوهات قصيرة (Reels / TikTok)، أو منشورات تفاعلية، أو قصصاً يومية (Stories).
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. معدل التكرار الموصى به لكل منصة (Posting Frequency)</h2>
+                    <p>
+                        للحفاظ على نمو الحساب دون إرهاق المتابعين أو الاستنزاف الإبداعي:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>تيك توك (TikTok):</strong> من 1 إلى 3 فيديوهات يومياً لبناء زخم سريع.</li>
+                        <li><strong>إنستغرام (Instagram):</strong> من 3 إلى 5 منشورات أو Reels أسبوعياً، مع نشر قصص (Stories) يومية.</li>
+                        <li><strong>لينكد إن (LinkedIn):</strong> من 3 إلى 5 منشورات أسبوعياً خلال أيام العمل الرسمية.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. ربط نوع المحتوى بأوقات اليوم</h2>
+                    <p>
+                        تختلف الذهنية النفسية للزائر بمرور ساعات اليوم:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>الصباح الباكر:</strong> المحتوى السريع الملهم، الأخبار المختصرة، والجرعات التحفيزية.</li>
+                        <li><strong>فترة الظهيرة:</strong> المحتوى التعليمي القصير، النصائح السريعة، أو العروض المباشرة.</li>
+                        <li><strong>المساء:</strong> الفيديوهات الترفيهية الطويلة، القصص الشخصية، والمحتوى القائم على النقاش والتعليقات.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. قاعدة التنوع (80/20 Rule)</h2>
+                    <p>
+                        لضمان عدم تحول حسابك لإنقاص المتابعين، اجعل 80% من محتواك يقدم قيمة حقيقية (تعليم، ترفيه، حلول مشكلات) و20% فقط مخصصاً للترويج المباشر لخدماتك أو منتجاتك. ثم نسق هذا الجدول عبر حاسبة <strong>PostTime Atlas</strong> لمراعاة أوقات الذروة.
+                    </p>
+                `
+            },
+            en: {
+                docTitle: 'Content Types & Optimal Posting Schedules | PostTime Atlas',
+                docDesc: 'A guide on aligning content formats with daily and weekly posting frequencies for maximum consistency and reach.',
+                btnBack: 'Back to Calculator 🚀',
+                badgeCategory: 'Content Creation',
+                articleTitle: 'Aligning Content Types with Posting Schedules: Frequency & Strategy',
+                articleMeta: 'Updated: 2026 | Read Time: 5 mins',
+                imgAlt: 'Content Calendar Planning and Schedule Strategy',
+                ctaText: 'Ready to build your publishing schedule across timezones?',
+                ctaBtn: 'Try Interactive Calculator Now',
+                relatedTitle: 'Read Moreتفضل، لقد قمت بدمج ميزة "إقرأ أيضاً" الذكية في كود المقال الرابع (`article-4.html`) أدناه. الكود المحدث يعمل الآن تلقائياً، حيث يستبعد المقال الحالي من الاقتراحات، ويعرض 3 كروت لمقالات عشوائية ومختلفة، وهي مهيأة للتعرف تلقائياً على أي مقالات جديدة قد تُضيفها للمجلد في المستقبل دون الحاجة لتعديل الكود مرة أخرى.
+
+إليك الكود المحدث بالكامل جاهزاً للنسخ:
+
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlTag">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-578DKRRS7P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-578DKRRS7P');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
+    <script>
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var langParam = urlParams.get('lang');
+            var savedLang = langParam || localStorage.getItem('siteLang');
+            
+            if (!savedLang) {
+                var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+                savedLang = systemLang.startsWith('ar') ? 'ar' : 'en';
+            }
+            
+            if (langParam) {
+                localStorage.setItem('siteLang', langParam);
+            }
+
+            var dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+            document.documentElement.lang = savedLang;
+            document.documentElement.dir = dir;
+            window.__initialLang = savedLang;
+        })();
+    </script>
+
+    <title id="docTitle">أنواع المحتوى وجدول النشر المثالي | PostTime Atlas</title>
+    <meta id="docDesc" name="description" content="دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.">
+    
+    <!-- SEO Canonical & Hreflang Tags -->
+    <link rel="canonical" href="https://amalbarna.github.io/articles/article-4.html" id="canonicalUrl">
+    <link rel="alternate" hreflang="ar" href="https://amalbarna.github.io/articles/article-4.html" />
+    <link rel="alternate" hreflang="en" href="https://amalbarna.github.io/articles/article-4.html?lang=en" />
+    <link rel="alternate" hreflang="x-default" href="https://amalbarna.github.io/articles/article-4.html" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>body { font-family: 'Cairo', 'Inter', sans-serif; }</style>
+</head>
+<body id="bodyTag" class="bg-slate-50 text-slate-800 min-h-screen flex flex-col justify-between antialiased">
+
+    <!-- Header -->
+    <header class="border-b border-slate-200 p-4 bg-white/90 backdrop-blur sticky top-0 z-40 shadow-sm">
+        <div class="max-w-4xl mx-auto flex justify-between items-center">
+            <a href="../index.html" id="logoLink" class="flex items-center gap-2.5">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="12" cy="12" r="10" stroke="#4f46e5" stroke-width="2.2"/>
+                    <path d="M12 6V12L16 14" stroke="#4f46e5" stroke-width="2.2" stroke-linecap="round"/>
+                    <circle cx="12" cy="12" r="2" fill="#4f46e5"/>
+                </svg>
+                <span class="text-xl font-black text-slate-900 tracking-tight">PostTime<span class="text-indigo-600">Atlas</span></span>
+            </a>
+            
+            <div class="flex items-center gap-3">
+                <button onclick="toggleLanguage()" id="langBtn" class="bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                    English 🌐
+                </button>
+                <a href="../index.html" id="btnBack" class="text-xs bg-indigo-50 hover:bg-indigo-100 text-indigo-600 px-3 py-1.5 rounded-lg font-bold transition">
+                    العودة للحاسبة 🚀
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-3xl mx-auto w-full px-4 my-8 flex-grow space-y-8">
+        <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
+            
+            <header class="border-b border-slate-100 pb-6">
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">صناعة المحتوى</span>
+                <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
+                    تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار
+                </h1>
+                <p id="articleMeta" class="text-xs text-slate-400 mt-3">تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق</p>
+            </header>
+
+            <!-- Featured Image -->
+            <div class="overflow-hidden rounded-xl border border-slate-100 bg-slate-100 shadow-inner">
+                <img 
+                    id="articleImg"
+                    src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80" 
+                    alt="تخطيط تقويم المحتوى والجدولة الزمنية للنشر" 
+                    class="w-full h-52 sm:h-72 object-cover hover:scale-105 transition duration-500"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='https://picsum.photos/id/1062/1200/600';"
+                >
+            </div>
+
+            <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
+                <!-- المحتوى يتم تحميله عبر السكربت -->
+            </div>
+
+            <!-- Call to Action -->
+            <div class="mt-8 pt-6 border-t border-slate-100 bg-indigo-50/50 p-4 rounded-xl flex flex-col sm:flex-row justify-between items-center gap-3">
+                <span id="ctaText" class="text-xs font-bold text-indigo-900">جاهز لجدولة جدولك ومزامنة أوقات النشر؟</span>
+                <a href="../index.html" id="ctaBtn" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-4 py-2 rounded-lg transition">
+                    جرب الحاسبة التفاعلية الان
+                </a>
+            </div>
+
+        </article>
+
+        <!-- Related Articles Section (إقرأ أيضاً) -->
+        <section id="relatedSection" class="space-y-4 pt-4">
+            <h3 id="relatedTitle" class="text-lg font-bold text-slate-900 border-r-4 border-indigo-600 pr-3">
+                إقرأ أيضاً
+            </h3>
+            <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 py-6 text-center text-xs text-slate-500 bg-white mt-12">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <p id="footerText">© 2026 PostTime Atlas. جميع الحقوق محفوظة.</p>
+            <div class="flex items-center gap-4 font-semibold text-slate-600">
+                <a href="../privacy.html" id="btnPrivacy" class="hover:underline hover:text-indigo-600 transition">سياسة الخصوصية</a>
+                <a href="../terms.html" id="btnTerms" class="hover:underline hover:text-indigo-600 transition">شروط الخدمة</a>
+                <a href="../contact.html" id="btnContact" class="hover:underline hover:text-indigo-600 transition">اتصل بنا</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function getInitialLanguage() {
+            if (window.__initialLang) return window.__initialLang;
+            var urlParams = new URLSearchParams(window.location.search);
+            var urlLang = urlParams.get('lang');
+            var savedLang = localStorage.getItem('siteLang');
+            var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
+            var lang = urlLang || savedLang || (systemLang.startsWith('ar') ? 'ar' : 'en');
+            localStorage.setItem('siteLang', lang);
+            return lang;
+        }
+
+        let currentLang = getInitialLanguage();
+
+        const content = {
+            category: "creation",
+            ar: {
+                docTitle: 'أنواع المحتوى وجدول النشر المثالي | PostTime Atlas',
+                docDesc: 'دليل توزيع أنواع المحتوى الرقمي وتحديد تكرار جدول النشر اليومي والأسبوعي لتحقيق أفضل استمرارية ووصول.',
+                btnBack: 'العودة للحاسبة 🚀',
+                badgeCategory: 'صناعة المحتوى',
+                articleTitle: 'تنسيق أنواع المحتوى مع جدول النشر: الاستراتيجية والتكرار',
+                articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
+                imgAlt: 'تخطيط تقويم المحتوى والجدولة الزمنية للنشر',
+                ctaText: 'جاهز لجدولة جدولك ومزامنة أوقات النشر؟',
+                ctaBtn: 'جرب الحاسبة التفاعلية الان',
+                relatedTitle: 'إقرأ أيضاً',
+                footerText: '© 2026 PostTime Atlas. جميع الحقوق محفوظة.',
+                btnPrivacy: 'سياسة الخصوصية',
+                btnTerms: 'شروط الخدمة',
+                btnContact: 'اتصل بنا',
+                body: `
+                    <p>
+                        اختيار وقت النشر الصحيح ليس سوى نصف المعادلة؛ النصف الآخر هو تحديد <strong>نوع المحتوى</strong> الذي تنشره في ذلك الوقت و<strong>كم مرة</strong> تنشره. تختلف استجابة الخوارزميات والمتابعين بحسب نسق المحتوى، سواء كان فيديوهات قصيرة (Reels / TikTok)، أو منشورات تفاعلية، أو قصصاً يومية (Stories).
+                    </p>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">1. معدل التكرار الموصى به لكل منصة (Posting Frequency)</h2>
+                    <p>
+                        للحفاظ على نمو الحساب دون إرهاق المتابعين أو الاستنزاف الإبداعي:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>تيك توك (TikTok):</strong> من 1 إلى 3 فيديوهات يومياً لبناء زخم سريع.</li>
+                        <li><strong>إنستغرام (Instagram):</strong> من 3 إلى 5 منشورات أو Reels أسبوعياً، مع نشر قصص (Stories) يومية.</li>
+                        <li><strong>لينكد إن (LinkedIn):</strong> من 3 إلى 5 منشورات أسبوعياً خلال أيام العمل الرسمية.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">2. ربط نوع المحتوى بأوقات اليوم</h2>
+                    <p>
+                        تختلف الذهنية النفسية للزائر بمرور ساعات اليوم:
+                    </p>
+
+                    <ul class="list-disc pr-5 space-y-1 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <li><strong>الصباح الباكر:</strong> المحتوى السريع الملهم، الأخبار المختصرة، والجرعات التحفيزية.</li>
+                        <li><strong>فترة الظهيرة:</strong> المحتوى التعليمي القصير، النصائح السريعة، أو العروض المباشرة.</li>
+                        <li><strong>المساء:</strong> الفيديوهات الترفيهية الطويلة، القصص الشخصية، والمحتوى القائم على النقاش والتعليقات.</li>
+                    </ul>
+
+                    <h2 class="text-lg font-bold text-slate-900 pt-2">3. قاعدة التنوع (80/20 Rule)</h2>
+                    <p>
+                        لضمان عدم تحول حسابك لإنقاص المتابعين، اجعل 80% من محتواك يقدم قيمة حقيقية (تعليم، ترفيه، حلول مشكلات) و20% فقط مخصصاً للترويج المباشر لخدماتك أو منتجاتك. ثم نسق هذا الجدول عبر حاسبة <strong>PostTime Atlas</strong> لمراعاة أوقات الذروة.
+                    </p>
+                `
+            },
+            en: {
+                docTitle: 'Content Types & Optimal Posting Schedules | PostTime Atlas',
+                docDesc: 'A guide on aligning content formats with daily and weekly posting frequencies for maximum consistency and reach.',
+                btnBack: 'Back to Calculator 🚀',
+                badgeCategory: 'Content Creation',
+                articleTitle: 'Aligning Content Types with Posting Schedules: Frequency & Strategy',
+                articleMeta: 'Updated: 2026 | Read Time: 5 mins',
+                imgAlt: 'Content Calendar Planning and Schedule Strategy',
+                ctaText: 'Ready to build your publishing schedule across timezones?',
+                ctaBtn: 'Try Interactive Calculator Now',
+                relatedTitle: 'Read More',
                 footerText: '© 2026 PostTime Atlas. All rights reserved.',
                 btnPrivacy: 'Privacy Policy',
                 btnTerms: 'Terms of Service',
@@ -238,6 +1077,96 @@
             }
         };
 
+        // دالة تحضير جلب 3 مقالات عشوائية ومختلفة تلقائياً مع استثناء المقال الحالي ودعم المقالات المستقبلي
+        async function fetchRelatedArticles() {
+            const currentPath = window.location.pathname;
+            const currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'article-4.html';
+            const relatedGrid = document.getElementById('relatedGrid');
+            
+            const checks = [];
+            // تفقد المقالات حتى 50 مقال لدعم المقالات المستقبلية دون الحاجة لتعديل الكود
+            for (let i = 1; i <= 50; i++) {
+                const fileName = `article-${i}.html`;
+                
+                // استثناء المقال الحالي فوراً
+                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
+                    checks.push(
+                        fetch(fileName)
+                            .then(async res => {
+                                if (!res.ok) return null;
+                                const text = await res.text();
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(text, 'text/html');
+
+                                const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
+                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80';
+
+                                let scriptContent = null;
+                                doc.querySelectorAll('script').forEach(s => {
+                                    if (s.textContent.includes('const content =')) {
+                                        const match = s.textContent.match(/const content = ({[\s\S]*?});/);
+                                        if (match && match[1]) {
+                                            try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
+                                        }
+                                    }
+                                });
+
+                                if (scriptContent) {
+                                    return {
+                                        fileName,
+                                        image: imgSrc,
+                                        title: {
+                                            ar: scriptContent.ar?.articleTitle || '',
+                                            en: scriptContent.en?.articleTitle || ''
+                                        }
+                                    };
+                                }
+                                return null;
+                            })
+                            .catch(() => null)
+                    );
+                }
+            }
+
+            const results = await Promise.all(checks);
+            // إزالة أي نتائج فارغة
+            let availableArticles = results.filter(r => r !== null && r.title.ar !== '');
+
+            if (availableArticles.length === 0) {
+                document.getElementById('relatedSection').style.display = 'none';
+                return;
+            }
+
+            // ترتيب المقالات المتاحة عشوائياً في كل تحديث
+            availableArticles.sort(() => 0.5 - Math.random());
+
+            // اختيار أول 3 مقالات فريدة
+            const selectedArticles = availableArticles.slice(0, 3);
+
+            relatedGrid.innerHTML = '';
+            selectedArticles.forEach(art => {
+                const articleUrl = `${art.fileName}?lang=${currentLang}`;
+                const card = document.createElement('div');
+                card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
+                card.innerHTML = `
+                    <a href="${articleUrl}" class="block aspect-video overflow-hidden bg-slate-100">
+                        <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
+                    </a>
+                    <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
+                        <h4 class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
+                            <a href="${articleUrl}" class="hover:text-indigo-600 transition">
+                                ${art.title[currentLang]}
+                            </a>
+                        </h4>
+                        <a href="${articleUrl}" class="text-[11px] font-bold text-indigo-600 hover:underline inline-flex items-center gap-1">
+                            ${currentLang === 'ar' ? 'إقرأ المقال ←' : 'Read Article →'}
+                        </a>
+                    </div>
+                `;
+                relatedGrid.appendChild(card);
+            });
+        }
+
         function renderLanguage() {
             const data = content[currentLang];
             const dir = currentLang === 'ar' ? 'rtl' : 'ltr';
@@ -264,6 +1193,8 @@
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('ctaBtn').href = `../index.html?lang=${currentLang}`;
 
+            document.getElementById('relatedTitle').innerText = data.relatedTitle;
+
             document.getElementById('footerText').innerText = data.footerText;
             document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
             document.getElementById('btnPrivacy').href = `../privacy.html?lang=${currentLang}`;
@@ -287,6 +1218,8 @@
                     ul.classList.add('pl-5');
                 }
             });
+
+            fetchRelatedArticles();
         }
 
         function toggleLanguage() {
