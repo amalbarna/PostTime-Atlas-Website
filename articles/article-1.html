@@ -80,7 +80,7 @@
         <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
             
             <header class="border-b border-slate-100 pb-6">
-                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">استراتيجيات المحتوى</span>
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">منصات التواصل</span>
                 <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
                     استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك
                 </h1>
@@ -140,11 +140,12 @@
         let currentLang = getInitialLanguage();
 
         const content = {
+            category: "platforms",
             ar: {
                 docTitle: 'استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك | PostTime Atlas',
                 docDesc: 'دليل شامل لاختيار أفضل أوقات النشر على إنستغرام وتيك توك بناءً على سلوك الجمهور وخوارزميات التفاعل لزيادة المشاهدات.',
                 btnBack: 'العودة للحاسبة 🚀',
-                badgeCategory: 'استراتيجيات المحتوى',
+                badgeCategory: 'منصات التواصل',
                 articleTitle: 'استراتيجيات اختيار أوقات النشر على إنستغرام وتيك توك',
                 articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 4 دقائق',
                 ctaText: 'هل ترغب بحساب أوقات النشر لدول متعددة؟',
@@ -192,7 +193,7 @@
                 docTitle: 'Best Posting Time Strategies for Instagram & TikTok | PostTime Atlas',
                 docDesc: 'Comprehensive guide to choosing the best posting times on Instagram & TikTok based on audience behavior and algorithm engagement trends.',
                 btnBack: 'Back to Calculator 🚀',
-                badgeCategory: 'Content Strategy',
+                badgeCategory: 'Social Platforms',
                 articleTitle: 'Best Posting Time Strategies for Instagram & TikTok',
                 articleMeta: 'Updated: 2026 | Read Time: 4 mins',
                 ctaText: 'Want to calculate peak times for multi-country audiences?',
@@ -251,7 +252,6 @@
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
             
-            // تحديث الروابط للحفاظ على معلمة اللغة
             document.getElementById('logoLink').href = `../index.html?lang=${currentLang}`;
             document.getElementById('btnBack').innerText = data.btnBack;
             document.getElementById('btnBack').href = `../index.html?lang=${currentLang}`;
