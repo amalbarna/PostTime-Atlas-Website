@@ -119,7 +119,7 @@
                 إقرأ أيضاً
             </h3>
             <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- يتم تحميل الكروت الـ 3 التلقائية والعشوائية هنا -->
+                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
             </div>
         </section>
     </main>
@@ -246,19 +246,22 @@
             }
         };
 
-        // دالة تحضير جلب 3 مقالات عشوائية ومختلفة تلقائياً مع استثناء المقال الحالي ودعم المقالات المستقبلي
+        // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً
+        // تم تصحيح الكود لاستثناء المقال الحالي من الظهور في المقترحات
         async function fetchRelatedArticles() {
+            // الحصول على اسم الملف الحالي من رابط الصفحة
             const currentPath = window.location.pathname;
             const currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1) || 'article-3.html';
+            
             const relatedGrid = document.getElementById('relatedGrid');
             
             const checks = [];
-            // تفقد المقالات حتى 50 مقال لدعم المقالات المستقبلية دون الحاجة لتعديل الكود
-            for (let i = 1; i <= 50; i++) {
+            // تفقد أول 30 مقال (يمكن زيادة الرقم إذا لزم الأمر) لضمان العمل الديناميكي
+            for (let i = 1; i <= 30; i++) {
                 const fileName = `article-${i}.html`;
                 
-                // استثناء المقال الحالي فوراً
-                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
+                // --- إصلاح الخطأ: استثناء المقال الحالي من القائمة ---
+                if (fileName !== currentFileName) {
                     checks.push(
                         fetch(fileName)
                             .then(async res => {
@@ -267,15 +270,22 @@
                                 const parser = new DOMParser();
                                 const doc = parser.parseFromString(text, 'text/html');
 
+                                // الحصول على الصورة البارزة للمقال (articleImage هو المعرف القياسي)
                                 const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
-                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=1200&q=80';
+                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
 
+                                // الحصول على بيانات الترجمة (عنوان المقال) من السكربت الموجود داخل المقال
                                 let scriptContent = null;
                                 doc.querySelectorAll('script').forEach(s => {
                                     if (s.textContent.includes('const content =')) {
                                         const match = s.textContent.match(/const content = ({[\s\S]*?});/);
                                         if (match && match[1]) {
-                                            try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
+                                            try {
+                                                // تقييم الكود بشكل آمن للحصول على الكائن
+                                                scriptContent = eval('(' + match[1] + ')');
+                                            } catch (e) {
+                                                console.error('Error parsing related article content:', e);
+                                            }
                                         }
                                     }
                                 });
@@ -297,23 +307,28 @@
                 }
             }
 
+            // تنفيذ جميع الطلبات بشكل متوازي
             const results = await Promise.all(checks);
-            // إزالة أي نتائج فارغة
-            let availableArticles = results.filter(r => r !== null && r.title.ar !== '');
-
-            if (availableArticles.length === 0) {
+            
+            // تصفية النتائج لاستبعاد الملفات غير الموجودة أو التي لا تحتوي على بيانات صحيحة
+            const allArticles = results.filter(r => r !== null);
+            
+            // إذا لم يتم العثور على أي مقالات أخرى، إخفاء القسم بالكامل
+            if (allArticles.length === 0) {
                 document.getElementById('relatedSection').style.display = 'none';
                 return;
             }
 
-            // ترتيب المقالات المتاحة عشوائياً في كل تحديث
-            availableArticles.sort(() => 0.5 - Math.random());
+            // ترتيب المقالات بشكل عشوائي للحصول على تنوع في كل مرة
+            allArticles.sort(() => 0.5 - Math.random());
 
-            // اختيار أول 3 مقالات فريدة
-            const selectedArticles = availableArticles.slice(0, 3);
+            // اقتطاع أول 3 مقالات فقط لعرضها
+            const finalThree = allArticles.slice(0, 3);
 
             relatedGrid.innerHTML = '';
-            selectedArticles.forEach(art => {
+            
+            // إنشاء كروت المقالات ذات الصلة وعرضها
+            finalThree.forEach(art => {
                 const articleUrl = `${art.fileName}?lang=${currentLang}`;
                 const card = document.createElement('div');
                 card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
@@ -388,6 +403,7 @@
                 }
             });
 
+            // استدعاء دالة جلب المقالات ذات الصلة بعد تحميل الصفحة
             fetchRelatedArticles();
         }
 
