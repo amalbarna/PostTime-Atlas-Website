@@ -141,6 +141,7 @@
         let currentLang = getInitialLanguage();
 
         const content = {
+            category: "analytics",
             ar: {
                 docTitle: 'قياس أداء المنشورات وتحليل التفاعل | PostTime Atlas',
                 docDesc: 'كيف تقيس نجاح أوقات النشر عبر تحليل المقاييس الرئيسية مثل الوصول والتفاعل والتحويل لضبط استراتيجيتك.',
@@ -238,7 +239,6 @@
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
 
-            // تحديث الروابط بالحفاظ على معلمة اللغة
             document.getElementById('logoLink').href = `../index.html?lang=${currentLang}`;
             document.getElementById('btnBack').innerText = data.btnBack;
             document.getElementById('btnBack').href = `../index.html?lang=${currentLang}`;
