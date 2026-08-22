@@ -130,6 +130,9 @@
     </footer>
 
     <script>
+        // تحديد رقم المقال الحالي لاستثنائه قطعياً
+        const CURRENT_ARTICLE_NUM = 7;
+
         function getInitialLanguage() {
             if (window.__initialLang) return window.__initialLang;
             var urlParams = new URLSearchParams(window.location.search);
@@ -325,55 +328,55 @@
 
         // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً
         async function fetchRelatedArticles() {
-            const currentFilePath = window.location.pathname.split('/').pop() || 'article-7.html';
             const relatedGrid = document.getElementById('relatedGrid');
             const currentCat = content.category || 'platforms';
             
             const checks = [];
-            for (let i = 1; i <= 30; i++) {
+            for (let i = 1; i <= 50; i++) {
+                // استثناء المقال الحالي قطعياً بواسطة رقمه الثابت
+                if (i === CURRENT_ARTICLE_NUM) continue;
+
                 const fileName = `article-${i}.html`;
-                if (fileName !== currentFilePath) {
-                    checks.push(
-                        fetch(fileName)
-                            .then(async res => {
-                                if (!res.ok) return null;
-                                const text = await res.text();
-                                const parser = new DOMParser();
-                                const doc = parser.parseFromString(text, 'text/html');
+                checks.push(
+                    fetch(fileName)
+                        .then(async res => {
+                            if (!res.ok) return null;
+                            const text = await res.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
 
-                                const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img');
-                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.pexels.com/photos/5361087/pexels-photo-5361087.jpeg?auto=compress&cs=tinysrgb&w=1200';
+                            const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img');
+                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.pexels.com/photos/5361087/pexels-photo-5361087.jpeg?auto=compress&cs=tinysrgb&w=1200';
 
-                                let scriptContent = null;
-                                doc.querySelectorAll('script').forEach(s => {
-                                    if (s.textContent.includes('const content =')) {
-                                        const match = s.textContent.match(/const content = ({[\s\S]*?});/);
-                                        if (match && match[1]) {
-                                            try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
-                                        }
+                            let scriptContent = null;
+                            doc.querySelectorAll('script').forEach(s => {
+                                if (s.textContent.includes('const content =')) {
+                                    const match = s.textContent.match(/const content = ({[\s\S]*?});/);
+                                    if (match && match[1]) {
+                                        try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
                                     }
-                                });
-
-                                if (scriptContent) {
-                                    return {
-                                        fileName,
-                                        category: scriptContent.category || 'platforms',
-                                        image: imgSrc,
-                                        title: {
-                                            ar: scriptContent.ar?.articleTitle || '',
-                                            en: scriptContent.en?.articleTitle || ''
-                                        }
-                                    };
                                 }
-                                return null;
-                            })
-                            .catch(() => null)
-                    );
-                }
+                            });
+
+                            if (scriptContent) {
+                                return {
+                                    fileName,
+                                    category: scriptContent.category || 'platforms',
+                                    image: imgSrc,
+                                    title: {
+                                        ar: scriptContent.ar?.articleTitle || '',
+                                        en: scriptContent.en?.articleTitle || ''
+                                    }
+                                };
+                            }
+                            return null;
+                        })
+                        .catch(() => null)
+                );
             }
 
             const results = await Promise.all(checks);
-            const allArticles = results.filter(r => r !== null);
+            const allArticles = results.filter(r => r !== null && r.title.ar !== '');
             
             // فلترة المقالات بنفس التصنيف
             let matchedArticles = allArticles.filter(art => art.category === currentCat);
