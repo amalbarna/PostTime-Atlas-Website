@@ -137,6 +137,9 @@
     </footer>
 
     <script>
+        // تحديد رقم المقال الحالي لاستثنائه قطعياً
+        const CURRENT_ARTICLE_NUM = 3;
+
         function getInitialLanguage() {
             if (window.__initialLang) return window.__initialLang;
             var urlParams = new URLSearchParams(window.location.search);
@@ -248,72 +251,64 @@
 
         // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً وديناميكياً
         async function fetchRelatedArticles() {
-            // الحصول الدقيق على اسم الملف الحالي استناداً للرابط المحلي أو الخارجي
-            const currentPath = window.location.pathname;
-            let currentFileName = currentPath.substring(currentPath.lastIndexOf('/') + 1);
-            if (!currentFileName || currentFileName === "") {
-                currentFileName = 'article-3.html';
-            }
-            
             const relatedGrid = document.getElementById('relatedGrid');
             if (!relatedGrid) return;
 
             const checks = [];
             // تفقد المقالات المحتملة (تغطية حتى 50 مقال مستقبلية)
             for (let i = 1; i <= 50; i++) {
+                // استثناء المقال الحالي قطعياً بواسطة رقمه الثابت
+                if (i === CURRENT_ARTICLE_NUM) continue;
+
                 const fileName = `article-${i}.html`;
-                
-                // استبعاد المقال الحالي فوراً
-                if (fileName.toLowerCase() !== currentFileName.toLowerCase()) {
-                    checks.push(
-                        fetch(fileName)
-                            .then(async res => {
-                                if (!res.ok) return null;
-                                const text = await res.text();
-                                const parser = new DOMParser();
-                                const doc = parser.parseFromString(text, 'text/html');
+                checks.push(
+                    fetch(fileName)
+                        .then(async res => {
+                            if (!res.ok) return null;
+                            const text = await res.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(text, 'text/html');
 
-                                // استخراج الصورة الرئيسية للمقال
-                                const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
-                                const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
+                            // استخراج الصورة الرئيسية للمقال
+                            const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
+                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
 
-                                // استخراج عنوان المقال المترجم من الكائن داخل السكربت
-                                let scriptContent = null;
-                                doc.querySelectorAll('script').forEach(s => {
-                                    if (s.textContent.includes('const content =')) {
-                                        const match = s.textContent.match(/const content = ({[\s\S]*?});/);
-                                        if (match && match[1]) {
-                                            try {
-                                                scriptContent = eval('(' + match[1] + ')');
-                                            } catch (e) {
-                                                console.error('Error parsing script in article:', fileName, e);
-                                            }
+                            // استخراج عنوان المقال المترجم من الكائن داخل السكربت
+                            let scriptContent = null;
+                            doc.querySelectorAll('script').forEach(s => {
+                                if (s.textContent.includes('const content =')) {
+                                    const match = s.textContent.match(/const content = ({[\s\S]*?});/);
+                                    if (match && match[1]) {
+                                        try {
+                                            scriptContent = eval('(' + match[1] + ')');
+                                        } catch (e) {
+                                            console.error('Error parsing script in article:', fileName, e);
                                         }
                                     }
-                                });
-
-                                if (scriptContent) {
-                                    return {
-                                        fileName,
-                                        image: imgSrc,
-                                        title: {
-                                            ar: scriptContent.ar?.articleTitle || doc.title,
-                                            en: scriptContent.en?.articleTitle || doc.title
-                                        }
-                                    };
                                 }
-                                return null;
-                            })
-                            .catch(() => null)
-                    );
-                }
+                            });
+
+                            if (scriptContent) {
+                                return {
+                                    fileName,
+                                    image: imgSrc,
+                                    title: {
+                                        ar: scriptContent.ar?.articleTitle || doc.title,
+                                        en: scriptContent.en?.articleTitle || doc.title
+                                    }
+                                };
+                            }
+                            return null;
+                        })
+                        .catch(() => null)
+                );
             }
 
             // تنفيذ جلب البيانات بشكل متوازي لسرعة الأداء
             const results = await Promise.all(checks);
             
             // تصفية أي مقالات غير موجودة أو فارغة
-            const allArticles = results.filter(r => r !== null);
+            const allArticles = results.filter(r => r !== null && r.title.ar !== '');
             
             if (allArticles.length === 0) {
                 const section = document.getElementById('relatedSection');
