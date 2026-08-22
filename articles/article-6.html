@@ -14,7 +14,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- Anti-flicker Script -->
+    <!-- Anti-flicker Script & Language/Direction Initialization -->
     <script>
         (function() {
             var urlParams = new URLSearchParams(window.location.search);
@@ -22,7 +22,7 @@
             var savedLang = langParam || localStorage.getItem('siteLang');
             
             if (!savedLang) {
-                var systemLang = navigator.language || navigator.userLanguage;
+                var systemLang = (navigator.language || navigator.userLanguage || 'ar').toLowerCase();
                 savedLang = systemLang.startsWith('ar') ? 'ar' : 'en';
             }
             
@@ -94,12 +94,13 @@
                     src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80" 
                     alt="تحليل الخوارزميات ورسوم بيانية لسرعة التفاعل" 
                     class="w-full h-52 sm:h-72 object-cover hover:scale-105 transition duration-500"
-                    loading="lazy"
+                    loading="eager"
+                    onerror="this.onerror=null; this.src='https://picsum.photos/id/1060/1200/600';"
                 >
             </div>
 
             <div id="articleBody" class="prose prose-slate max-w-none text-sm leading-relaxed text-slate-700 space-y-4">
-                <!-- المحتوى يتغير ديناميكياً بواسطة JavaScript -->
+                <!-- المحتوى يتم تحميله عبر السكربت -->
             </div>
 
             <!-- Call to Action -->
@@ -118,7 +119,7 @@
                 إقرأ أيضاً
             </h3>
             <div id="relatedGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <!-- يتم تحميل المقالات ذوات الصلة تلقائياً -->
+                <!-- يتم تحميل الكروت الـ 3 تلقائياً -->
             </div>
         </section>
     </main>
@@ -161,6 +162,7 @@
                 badgeCategory: 'استراتيجيات ونمو',
                 articleTitle: 'خوارزميات التواصل الاجتماعي ودور التوقيت: كيف تلتقط إشارة النجاح الأولى؟',
                 articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 7 دقائق',
+                imgAlt: 'تحليل الخوارزميات ورسوم بيانية لسرعة التفاعل',
                 ctaText: 'تريد اقتراح وقت تقديري لتواجد جمهورك المستهدف؟',
                 ctaBtn: 'عرض الأوقات المقترحة الآن',
                 relatedTitle: 'إقرأ أيضاً',
@@ -206,6 +208,7 @@
                 badgeCategory: 'Strategies & Growth',
                 articleTitle: 'Social Media Algorithms & Timing: How to Trigger the First Win Signal',
                 articleMeta: 'Updated: 2026 | Read Time: 7 mins',
+                imgAlt: 'Data Analytics and Post Performance Metrics',
                 ctaText: 'Need suggested posting timeframes for your target audience?',
                 ctaBtn: 'View Suggested Times',
                 relatedTitle: 'Read More',
@@ -246,10 +249,13 @@
             }
         };
 
+        // دالة تحضير المقالات ذات الصلة (Related Articles) تلقائياً وديناميكياً
         async function fetchRelatedArticles() {
             const relatedGrid = document.getElementById('relatedGrid');
+            if (!relatedGrid) return;
+
             const checks = [];
-            
+            // تفقد المقالات المحتملة (تغطية حتى 50 مقال مستقبلية)
             for (let i = 1; i <= 50; i++) {
                 // استثناء المقال الحالي قطعياً بواسطة رقمه الثابت
                 if (i === CURRENT_ARTICLE_NUM) continue;
@@ -263,15 +269,21 @@
                             const parser = new DOMParser();
                             const doc = parser.parseFromString(text, 'text/html');
 
+                            // استخراج الصورة الرئيسية للمقال
                             const imgElement = doc.getElementById('articleImage') || doc.getElementById('articleImg') || doc.querySelector('figure img') || doc.querySelector('main img');
-                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80';
+                            const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1060/1200/600';
 
+                            // استخراج عنوان المقال المترجم من الكائن داخل السكربت
                             let scriptContent = null;
                             doc.querySelectorAll('script').forEach(s => {
                                 if (s.textContent.includes('const content =')) {
                                     const match = s.textContent.match(/const content = ({[\s\S]*?});/);
                                     if (match && match[1]) {
-                                        try { scriptContent = eval('(' + match[1] + ')'); } catch(e){}
+                                        try {
+                                            scriptContent = eval('(' + match[1] + ')');
+                                        } catch (e) {
+                                            console.error('Error parsing script in article:', fileName, e);
+                                        }
                                     }
                                 }
                             });
@@ -281,8 +293,8 @@
                                     fileName,
                                     image: imgSrc,
                                     title: {
-                                        ar: scriptContent.ar?.articleTitle || '',
-                                        en: scriptContent.en?.articleTitle || ''
+                                        ar: scriptContent.ar?.articleTitle || doc.title,
+                                        en: scriptContent.en?.articleTitle || doc.title
                                     }
                                 };
                             }
@@ -292,30 +304,41 @@
                 );
             }
 
+            // تنفيذ جلب البيانات بشكل متوازي لسرعة الأداء
             const results = await Promise.all(checks);
-            let availableArticles = results.filter(r => r !== null && r.title.ar !== '');
-
-            if (availableArticles.length === 0) {
-                document.getElementById('relatedSection').style.display = 'none';
+            
+            // تصفية أي مقالات غير موجودة أو فارغة
+            const allArticles = results.filter(r => r !== null && r.title.ar !== '');
+            
+            if (allArticles.length === 0) {
+                const section = document.getElementById('relatedSection');
+                if (section) section.style.display = 'none';
                 return;
             }
 
-            availableArticles.sort(() => 0.5 - Math.random());
-            const selectedArticles = availableArticles.slice(0, 3);
+            // عشوائية حقيقية لترتيب المقالات
+            const shuffled = allArticles.sort(() => 0.5 - Math.random());
+
+            // اختيار أول 3 مقالات مختلفة عن بعضها البعض وعن الصفحة الحالية
+            const finalThree = shuffled.slice(0, 3);
 
             relatedGrid.innerHTML = '';
-            selectedArticles.forEach(art => {
+            
+            // بناء الـ HTML لكل مقال
+            finalThree.forEach(art => {
                 const articleUrl = `${art.fileName}?lang=${currentLang}`;
+                const titleText = art.title[currentLang] || art.title['ar'] || '';
+                
                 const card = document.createElement('div');
                 card.className = 'bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
                 card.innerHTML = `
                     <a href="${articleUrl}" class="block aspect-video overflow-hidden bg-slate-100">
-                        <img src="${art.image}" alt="${art.title[currentLang]}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
+                        <img src="${art.image}" alt="${titleText}" class="w-full h-full object-cover hover:scale-105 transition duration-300" loading="lazy"/>
                     </a>
                     <div class="p-4 flex-grow flex flex-col justify-between space-y-3">
                         <h4 class="text-xs font-bold text-slate-800 line-clamp-2 leading-snug">
                             <a href="${articleUrl}" class="hover:text-indigo-600 transition">
-                                ${art.title[currentLang]}
+                                ${titleText}
                             </a>
                         </h4>
                         <a href="${articleUrl}" class="text-[11px] font-bold text-indigo-600 hover:underline inline-flex items-center gap-1">
@@ -347,15 +370,13 @@
             document.getElementById('badgeCategory').innerText = data.badgeCategory;
             document.getElementById('articleTitle').innerText = data.articleTitle;
             document.getElementById('articleMeta').innerText = data.articleMeta;
+            document.getElementById('articleImg').alt = data.imgAlt;
 
             document.getElementById('ctaText').innerText = data.ctaText;
             document.getElementById('ctaBtn').innerText = data.ctaBtn;
             document.getElementById('ctaBtn').href = `../index.html?lang=${currentLang}`;
 
-            const relatedTitleEl = document.getElementById('relatedTitle');
-            if (relatedTitleEl) {
-                relatedTitleEl.innerText = data.relatedTitle;
-            }
+            document.getElementById('relatedTitle').innerText = data.relatedTitle;
 
             document.getElementById('footerText').innerText = data.footerText;
             document.getElementById('btnPrivacy').innerText = data.btnPrivacy;
@@ -381,6 +402,7 @@
                 }
             });
 
+            // استدعاء دالة جلب وتصفية المقالات ذات الصلة
             fetchRelatedArticles();
         }
 
