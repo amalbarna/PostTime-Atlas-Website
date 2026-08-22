@@ -80,7 +80,7 @@
         <article class="bg-white border border-slate-200 rounded-2xl p-6 md:p-10 shadow-sm space-y-6">
             
             <header class="border-b border-slate-100 pb-6">
-                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">تحليل سلوك الجمهور</span>
+                <span id="badgeCategory" class="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full font-bold inline-block mb-3">استراتيجيات ونمو</span>
                 <h1 id="articleTitle" class="text-2xl md:text-3xl font-extrabold text-slate-900 leading-tight">
                     أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)
                 </h1>
@@ -141,11 +141,12 @@
         let currentLang = getInitialLanguage();
 
         const content = {
+            category: "strategy",
             ar: {
                 docTitle: 'الفرق بين أوقات الذروة لحسابات B2B والتجارة الإلكترونية | PostTime Atlas',
                 docDesc: 'مقارنة شاملة بين أوقات الذروة والتفاعل لحسابات الشركات B2B وحسابات التجارة الإلكترونية B2C للحصول على أعلى معدل تحويل.',
                 btnBack: 'العودة للحاسبة 🚀',
-                badgeCategory: 'تحليل سلوك الجمهور',
+                badgeCategory: 'استراتيجيات ونمو',
                 articleTitle: 'أوقات الذروة: لحسابات الشركات (B2B) مقابل التجارة الإلكترونية (B2C)',
                 articleMeta: 'تاريخ التحديث: 2026 | وقت القراءة: 5 دقائق',
                 imgAlt: 'ساعات المناطق الزمنية والتوقيت العالمي والأعمال',
@@ -190,7 +191,7 @@
                 docTitle: 'Peak Posting Hours: B2B vs E-commerce (B2C) | PostTime Atlas',
                 docDesc: 'A comprehensive guide comparing peak engagement hours for B2B accounts versus E-commerce B2C brands for maximum conversions.',
                 btnBack: 'Back to Calculator 🚀',
-                badgeCategory: 'Audience Behavior Analysis',
+                badgeCategory: 'Strategy & Growth',
                 articleTitle: 'Peak Posting Hours: B2B vs. E-commerce (B2C)',
                 articleMeta: 'Updated: 2026 | Read Time: 5 mins',
                 imgAlt: 'World Clocks and Global Business Time Zones',
@@ -246,7 +247,6 @@
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
 
-            // تحديث الروابط للحفاظ على معلمة اللغة
             document.getElementById('logoLink').href = `../index.html?lang=${currentLang}`;
             document.getElementById('btnBack').innerText = data.btnBack;
             document.getElementById('btnBack').href = `../index.html?lang=${currentLang}`;
