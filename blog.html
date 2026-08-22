@@ -141,7 +141,7 @@
         let currentLang = getInitialLanguage();
         let activeCategory = 'all';
 
-        // مسارات ملفات المقالات
+        // مسارات ملفات المقالات (عند إضافة مقال جديد فقط أضف مساره هنا)
         const articleFiles = [
             'articles/article-1.html',
             'articles/article-2.html',
@@ -189,7 +189,7 @@
             }
         };
 
-        // دالة جلب بيانات كل مقال تلقائياً من ملفه الخاص
+        // دالة جلب بيانات كل مقال تلقائياً وقراءة تصنيفه
         async function fetchArticleData(filePath) {
             try {
                 const response = await fetch(filePath);
@@ -199,11 +199,9 @@
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(htmlText, 'text/html');
 
-                // استخراج صورة المقال الرئيسية
                 const imgElement = doc.getElementById('articleImg');
                 const imgSrc = imgElement ? imgElement.getAttribute('src') : 'https://picsum.photos/id/1070/1200/600';
 
-                // استخراج محتوى اللغات المتعددة من السكربت الداخلي
                 const scripts = doc.querySelectorAll('script');
                 let articleContent = null;
 
@@ -223,6 +221,8 @@
                 if (articleContent) {
                     return {
                         id: filePath,
+                        // جلب التصنيف المحدد داخل الملف تلقائياً، وإذا لم يوجد يضع 'platforms' افتراضياً
+                        category: articleContent.category || 'platforms', 
                         image: imgSrc,
                         title: {
                             ar: articleContent.ar?.articleTitle || '',
@@ -283,19 +283,8 @@
                 const articleUrl = `${art.id}?lang=${currentLang}`;
                 const card = document.createElement('article');
                 
-                // توزيع التصنيفات على المقالات القائمة
-                let categoryAttr = 'platforms';
-                if (art.id.includes('article-2')) {
-                    categoryAttr = 'creation';
-                } else if (art.id.includes('article-3')) {
-                    categoryAttr = 'growth';
-                } else if (art.id.includes('article-4')) {
-                    categoryAttr = 'marketing';
-                } else if (art.id.includes('article-5')) {
-                    categoryAttr = 'growth';
-                }
-
-                card.setAttribute('data-category', categoryAttr);
+                // تعيين التصنيف تلقائياً من بيانات المقال
+                card.setAttribute('data-category', art.category);
 
                 card.className = 'bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between';
                 
@@ -344,7 +333,6 @@
             document.getElementById('docTitle').innerText = data.docTitle;
             document.getElementById('docDesc').setAttribute('content', data.docDesc);
 
-            // تحديث الروابط للحفاظ على اللغة
             document.getElementById('logoLink').href = `index.html?lang=${currentLang}`;
             document.getElementById('btnBack').innerText = data.btnBack;
             document.getElementById('btnBack').href = `index.html?lang=${currentLang}`;
@@ -352,7 +340,6 @@
             document.getElementById('pageTitle').innerText = data.pageTitle;
             document.getElementById('pageSubtitle').innerText = data.pageSubtitle;
 
-            // تحديث نصوص أزرار التصنيفات
             document.getElementById('catBtnAll').innerText = data.catAll;
             document.getElementById('catBtnPlatforms').innerText = data.catPlatforms;
             document.getElementById('catBtnGrowth').innerText = data.catGrowth;
